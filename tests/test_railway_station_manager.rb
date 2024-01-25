@@ -93,7 +93,7 @@ class TestStationCase < TestCase
     test_empty_station
     test_add_train
     test_send_train
-    test_types_trains
+    test_train_types_stat
   end
 
   def test_name_station
@@ -129,12 +129,12 @@ class TestStationCase < TestCase
     assert_equal [], station.trains
   end
 
-  def test_types_trains
+  def test_train_types_stat
     station = make_station
     train = make_train
     station.add_train(train)
 
-    assert_equal({ passenger: 1 }, station.types_trains)
+    assert_equal({ passenger: 1 }, station.train_types_stat)
   end
 end
 

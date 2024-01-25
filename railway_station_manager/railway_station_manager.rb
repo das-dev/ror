@@ -26,7 +26,7 @@ class Station
     @trains.delete(train)
   end
 
-  def types_trains
+  def train_types_stat
     @trains.each_with_object(Hash.new(0)) do |train, types|
       types[train.type] += 1
     end
