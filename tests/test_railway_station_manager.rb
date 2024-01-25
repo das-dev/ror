@@ -76,6 +76,10 @@ module TestTrainHelper
     @destination_station = Station.new('Sankt-Peterburg-Glavn')
   end
 
+  def reverse_route_train
+    Route.new(destination_station, origin_station)
+  end
+
   def make_train
     Train.new('123', :passenger, 5)
   end
@@ -353,10 +357,9 @@ class TestTrainOnRouteCase < TestCase
     train.assign_route(route)
     train.move_forward
 
-    new_route = Route.new(destination_station, origin_station)
-    train.assign_route(new_route)
+    train.assign_route(reverse_route_train)
 
-    assert_equal new_route, train.route
+    assert_equal reverse_route_train, train.route
   end
 
   def test_current_station
