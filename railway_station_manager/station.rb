@@ -10,27 +10,36 @@ class Station
   end
 
   def add_train(train)
-    return nil if train?(train)
-
-    @trains << train
+    add_train!(train) unless train?(train)
   end
 
   def send_train(train)
-    return nil unless train?(train)
-
-    @trains.delete(train)
+    send_train!(train) if train?(train)
   end
 
   def train_types_stat
-    @trains.each_with_object(Hash.new(0)) do |train, types|
+    trains.each_with_object(Hash.new(0)) do |train, types|
       types[train.type] += 1
     end
   end
 
   private
 
+  def send_train!(train)
+    # Клиентский код не должен менять список поездов
+    # без соблюдения конкретныз условий
+    trains.delete(train)
+  end
+
+  def add_train!(train)
+    # Клиентский код не должен менять список поездов
+    # без соблюдения конкретныз условий
+    trains << train
+  end
+
   def train?(train)
-    @trains.include?(train)
+    # Клиентскому коду пока не требуется этот метод
+    trains.include?(train)
   end
 end
 # rubocop:enable all
