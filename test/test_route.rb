@@ -4,66 +4,61 @@ require 'minitest/autorun'
 require_relative '../railway_station_manager/route'
 
 class TestRoute < Minitest::Test
-  attr_reader :route, :origin_station, :destination_station,
-              :intermediate_station1, :intermediate_station2, :intermediate_station3
+  attr_reader :route, :all_stations, :origin, :destination,
+              :intermediate1, :intermediate2, :intermediate3
 
   def setup
-    @origin_station = Station.new('origin_station')
-    @intermediate_station1 = Station.new('intermediate_station1')
-    @intermediate_station2 = Station.new('intermediate_station2')
-    @intermediate_station3 = Station.new('intermediate_station3')
-    @destination_station = Station.new('destination_station')
+    @origin = Struct.new(:name).new('origin')
+    @intermediate1 = Struct.new(:name).new('intermediate1')
+    @intermediate2 = Struct.new(:name).new('intermediate2')
+    @intermediate3 = Struct.new(:name).new('intermediate3')
+    @destination = Struct.new(:name).new('destination')
 
-    @route = Route.new(origin_station, destination_station)
+    @all_stations = [origin, intermediate1, intermediate2, intermediate3, destination]
+
+    @route = Route.new(@origin, @destination)
   end
 
   def test_initial_route_state
-    assert_equal origin_station, route.origin_station
-    assert_equal destination_station, route.destination_station
-    assert_equal [origin_station, destination_station], route.stations
+    assert_equal origin, route.origin_station
+    assert_equal destination, route.destination_station
+    assert_equal [origin, destination], route.stations
   end
 
   def test_intermediate_station_order
-    route.append_intermediate_station(intermediate_station1)
-    route.append_intermediate_station(intermediate_station2)
-    route.append_intermediate_station(intermediate_station3)
+    route.append_intermediate_station(intermediate1)
+    route.append_intermediate_station(intermediate2)
+    route.append_intermediate_station(intermediate3)
 
     assert_equal all_stations, route.stations
   end
 
-  def test_append_double_station
-    route.append_intermediate_station(intermediate_station1)
-    route.append_intermediate_station(intermediate_station1)
+  def test_append_intermediate_station
+    route.append_intermediate_station(intermediate1)
 
-    assert_equal [origin_station, intermediate_station1, destination_station], route.stations
+    assert_equal [origin, intermediate1, destination], route.stations
+  end
+
+  def test_append_double_station_without_effect
+    route.append_intermediate_station(intermediate1)
+    route.append_intermediate_station(intermediate1)
+
+    assert_equal [origin, intermediate1, destination], route.stations
   end
 
   def test_remove_intermediate_station
-    route.append_intermediate_station(intermediate_station1)
-    route.append_intermediate_station(intermediate_station2)
+    route.append_intermediate_station(intermediate1)
 
-    route.remove_intermediate_station(intermediate_station1)
-    route.remove_intermediate_station(intermediate_station2)
+    route.remove_intermediate_station(intermediate1)
 
-    assert_equal [origin_station, destination_station], route.stations
+    assert_equal [origin, destination], route.stations
   end
 
-  def test_remove_missing_intermediate_station
-    route.remove_intermediate_station(origin_station)
-    route.remove_intermediate_station(intermediate_station1)
+  def remove_intermediate_station_without_effect
+    route.remove_intermediate_station(origin)
+    route.remove_intermediate_station(intermediate1)
+    route.remove_intermediate_station(intermediate1)
 
-    assert_equal [origin_station, destination_station], route.stations
-  end
-
-  private
-
-  def all_stations
-    [
-      origin_station,
-      intermediate_station1,
-      intermediate_station2,
-      intermediate_station3,
-      destination_station
-    ]
+    assert_equal [origin, destination], route.stations
   end
 end
