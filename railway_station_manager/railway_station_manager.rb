@@ -3,6 +3,7 @@
 module Exceptions
   class CarriageChangedWhileMovingError < StandardError; end
   class NoNextStationError < StandardError; end
+  class NoPreviousStationError < StandardError; end
 end
 
 # rubocop:disable Style/Documentation
@@ -94,11 +95,15 @@ class Train
   end
 
   def attach_carriage
-    @carriage_count += 1 if @speed.zero?
+    raise Exceptions::CarriageChangedWhileMovingError if @speed.positive?
+
+    @carriage_count += 1
   end
 
   def detach_carriage
-    @carriage_count -= 1 if @speed.zero? && @carriage_count.positive?
+    raise Exceptions::CarriageChangedWhileMovingError if @speed.positive?
+
+    @carriage_count -= 1 if @carriage_count.positive?
   end
 
   def assign_route(route)
@@ -109,8 +114,10 @@ class Train
 
   def move_forward
     next_station = self.next_station
+    raise Exceptions::NoNextStationError unless next_station
+
     current_station = self.current_station
-    return unless next_station && current_station
+    return unless current_station
 
     current_station.send_train(self)
     next_station.add_train(self)
@@ -118,9 +125,11 @@ class Train
   end
 
   def move_backward
-    current_station = self.current_station
     previous_station = self.previous_station
-    return unless previous_station && current_station
+    raise Exceptions::NoPreviousStationError unless previous_station
+
+    current_station = self.current_station
+    return unless current_station
 
     current_station.send_train(self)
     previous_station.add_train(self)
