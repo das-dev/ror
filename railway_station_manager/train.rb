@@ -1,77 +1,6 @@
 # frozen_string_literal: true
 
-module Exceptions
-  class CarriageChangedWhileMovingError < StandardError; end
-  class NoNextStationError < StandardError; end
-  class NoPreviousStationError < StandardError; end
-end
-
 # rubocop:disable Style/Documentation
-class Station
-  attr_reader :trains, :name
-
-  def initialize(name)
-    @name = name
-    @trains = []
-  end
-
-  def add_train(train)
-    return nil if train?(train)
-
-    @trains << train
-  end
-
-  def send_train(train)
-    return nil unless train?(train)
-
-    @trains.delete(train)
-  end
-
-  def train_types_stat
-    @trains.each_with_object(Hash.new(0)) do |train, types|
-      types[train.type] += 1
-    end
-  end
-
-  private
-
-  def train?(train)
-    @trains.include?(train)
-  end
-end
-
-class Route
-  attr_reader :origin_station, :destination_station
-
-  def initialize(origin_station, destination_station)
-    @origin_station = origin_station
-    @destination_station = destination_station
-    @intermediate_stations = []
-  end
-
-  def append_intermediate_station(station)
-    return nil if intermediate_station?(station)
-
-    @intermediate_stations << station
-  end
-
-  def remove_intermediate_station(station)
-    return nil unless intermediate_station?(station)
-
-    @intermediate_stations.delete(station)
-  end
-
-  def stations
-    [@origin_station, *@intermediate_stations, @destination_station]
-  end
-
-  private
-
-  def intermediate_station?(station)
-    @intermediate_stations.include?(station)
-  end
-end
-
 class Train
   attr_reader :type, :speed, :carriage_count, :route, :number
 
@@ -95,13 +24,13 @@ class Train
   end
 
   def attach_carriage
-    raise Exceptions::CarriageChangedWhileMovingError if @speed.positive?
+    raise CarriageChangedWhileMovingError if @speed.positive?
 
     @carriage_count += 1
   end
 
   def detach_carriage
-    raise Exceptions::CarriageChangedWhileMovingError if @speed.positive?
+    raise CarriageChangedWhileMovingError if @speed.positive?
 
     @carriage_count -= 1 if @carriage_count.positive?
   end
@@ -114,7 +43,7 @@ class Train
 
   def move_forward
     next_station = self.next_station
-    raise Exceptions::NoNextStationError unless next_station
+    raise NoNextStationError unless next_station
 
     current_station = self.current_station
     return unless current_station
@@ -126,7 +55,7 @@ class Train
 
   def move_backward
     previous_station = self.previous_station
-    raise Exceptions::NoPreviousStationError unless previous_station
+    raise NoPreviousStationError unless previous_station
 
     current_station = self.current_station
     return unless current_station
@@ -153,5 +82,9 @@ class Train
 
     @route.stations[@current_station_index + 1]
   end
+
+  class CarriageChangedWhileMovingError < StandardError; end
+  class NoNextStationError < StandardError; end
+  class NoPreviousStationError < StandardError; end
 end
-# rubocop:enable Style/Documentation
+# rubocop:enable all

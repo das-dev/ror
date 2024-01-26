@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'minitest/autorun'
-require_relative '../railway_station_manager/railway_station_manager'
+require_relative '../railway_station_manager/train'
 
 class TestTrainOnRoute < Minitest::Test
   attr_reader :origin_station, :destination_station,
@@ -38,8 +38,14 @@ class TestTrainOnRoute < Minitest::Test
   def test_move_forward_when_last
     train.move_forward
 
-    assert_raises Exceptions::NoNextStationError do
+    assert_raises Train::NoNextStationError do
       train.move_forward
+    end
+  end
+
+  def test_move_backward_when_first
+    assert_raises Train::NoPreviousStationError do
+      train.move_backward
     end
   end
 

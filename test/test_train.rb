@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'minitest/autorun'
-require_relative '../railway_station_manager/railway_station_manager'
+require_relative '../railway_station_manager/train'
 
 class TestTrain < Minitest::Test
   attr_reader :origin_station, :destination_station,
@@ -57,10 +57,10 @@ class TestTrain < Minitest::Test
   def test_carriage_change_while_moving
     train.speed_up(10)
 
-    assert_raises Exceptions::CarriageChangedWhileMovingError do
+    assert_raises Train::CarriageChangedWhileMovingError do
       train.attach_carriage
     end
-    assert_raises Exceptions::CarriageChangedWhileMovingError do
+    assert_raises Train::CarriageChangedWhileMovingError do
       train.detach_carriage
     end
   end

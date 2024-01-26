@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'minitest/autorun'
-require_relative '../railway_station_manager/railway_station_manager'
+require_relative '../railway_station_manager/station'
 
 class TestStation < Minitest::Test
   attr_reader :train, :station
