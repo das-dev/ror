@@ -66,5 +66,4 @@ class TestRoute < Minitest::Test
       destination_station
     ]
   end
-
 end
