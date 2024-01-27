@@ -12,6 +12,17 @@ class Train
     @carriages = []
   end
 
+  def self.make_train(number, type)
+    case type
+    when :passenger
+      PassengerTrain.new(number)
+    when :cargo
+      CargoTrain.new(number)
+    else
+      raise ArgumentError, "Unknown train type: #{type}"
+    end
+  end
+
   def carriage_count
     carriages.size
   end

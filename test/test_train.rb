@@ -10,7 +10,7 @@ class TestTrain < Minitest::Test
     @origin = Struct.new
     @destination = Struct.new
 
-    @passenger_train = PassengerTrain.new('123')
+    @passenger_train = Train.make_train('123', :passenger)
   end
 
   def test_initial_train_state
