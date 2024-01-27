@@ -10,13 +10,13 @@ class TestTrain < Minitest::Test
     @origin = Struct.new
     @destination = Struct.new
 
-    @train = Train.new('123', :passenger, 5)
+    @train = Train.new('123', :passenger)
   end
 
   def test_initial_train_state
     assert_equal '123', train.number
     assert_equal :passenger, train.type
-    assert_equal 5, train.carriage_count
+    assert_equal 0, train.carriage_count
     assert_equal 0, train.speed
     assert_nil train.route
   end
@@ -42,22 +42,28 @@ class TestTrain < Minitest::Test
   end
 
   def test_attach_carriage
-    train.attach_carriage
+    train.attach_carriage(Struct.new)
+    train.attach_carriage(Struct.new)
+    train.attach_carriage(Struct.new)
 
-    assert_equal 6, train.carriage_count
+    assert_equal 3, train.carriage_count
   end
 
   def test_detach_carriage
+    train.attach_carriage(Struct.new)
+    train.attach_carriage(Struct.new)
+    train.attach_carriage(Struct.new)
     train.detach_carriage
 
-    assert_equal 4, train.carriage_count
+    assert_equal 2, train.carriage_count
   end
 
   def test_carriage_change_while_moving
+    train.attach_carriage(Struct.new)
     train.speed_up(10)
 
     assert_raises Train::CarriageChangedWhileMovingError do
-      train.attach_carriage
+      train.attach_carriage(Struct.new)
     end
     assert_raises Train::CarriageChangedWhileMovingError do
       train.detach_carriage

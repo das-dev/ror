@@ -2,15 +2,19 @@
 
 # rubocop:disable Style/Documentation
 class Train
-  attr_reader :type, :speed, :carriage_count, :route, :number
+  attr_reader :type, :speed, :route, :number
 
-  def initialize(number, type, carriage_count)
+  def initialize(number, type)
     @number = number
     @type = type
-    @carriage_count = carriage_count
     @speed = 0
     @route = nil
     @current_station_index = 0
+    @carriages = []
+  end
+
+  def carriage_count
+    @carriages.size
   end
 
   def speed_up(speed)
@@ -23,16 +27,16 @@ class Train
     @speed = new_speed
   end
 
-  def attach_carriage
+  def attach_carriage(carriage)
     raise CarriageChangedWhileMovingError if @speed.positive?
 
-    @carriage_count += 1
+    @carriages << carriage
   end
 
   def detach_carriage
     raise CarriageChangedWhileMovingError if @speed.positive?
 
-    @carriage_count -= 1 if @carriage_count.positive?
+    @carriages.pop
   end
 
   def assign_route(route)
