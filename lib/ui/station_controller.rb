@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative 'model/el/station'
+require_relative '../model/station'
 
 # rubocop:disable Style/Documentation
 class StationController

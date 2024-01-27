@@ -46,7 +46,8 @@ class Navigation
   end
 
   Choices = Struct.new(:choices) do
-    def choice(title, key, id, handler = -> {})
+    def choice(title, key, id, &block)
+      handler = block_given? ? block : -> {}
       choices[id] = Struct.new(:title, :key, :handler).new(title, key, handler)
     end
   end
