@@ -4,12 +4,11 @@ require 'minitest/autorun'
 require_relative '../railway_station_manager/train'
 
 class TestTrain < Minitest::Test
-  attr_reader :origin_station, :destination_station,
-              :reverse_route_train, :train, :route
+  attr_reader :origin, :destination, :reverse_route_train, :train, :route
 
   def setup
-    @origin_station = Station.new('Moskva Oktyabrskaya')
-    @destination_station = Station.new('Sankt-Peterburg-Glavn')
+    @origin = Struct.new
+    @destination = Struct.new
 
     @train = Train.new('123', :passenger, 5)
   end

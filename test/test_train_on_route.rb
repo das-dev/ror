@@ -4,35 +4,36 @@ require 'minitest/autorun'
 require_relative '../railway_station_manager/train'
 
 class TestTrainOnRoute < Minitest::Test
-  attr_reader :origin_station, :destination_station,
-              :reverse_route_train, :train, :route
+  attr_reader :origin, :destination, :reverse_route_train, :train, :route
 
   def setup
-    @origin_station = Station.new('Moskva Oktyabrskaya')
-    @destination_station = Station.new('Sankt-Peterburg-Glavn')
+    @origin = Station.new('origin')
+    @destination = Station.new('destination')
 
-    @reverse_route_train = Route.new(destination_station, origin_station)
+    @route = Route.new(origin, destination)
+    @reverse_route_train = Route.new(destination, origin)
+
     @train = Train.new('123', :passenger, 5)
-    @route = Route.new(origin_station, destination_station)
     @train.assign_route(@route)
   end
 
   def test_assign_route
     assert_equal route, train.route
-    assert_equal origin_station, train.current_station
+    assert_equal origin, train.current_station
   end
 
   def test_move_forward
     train.move_forward
 
-    assert_equal destination_station, train.current_station
+    assert_equal destination, train.current_station
   end
 
   def test_move_backward
     train.move_forward
+
     train.move_backward
 
-    assert_equal origin_station, train.current_station
+    assert_equal origin, train.current_station
   end
 
   def test_move_forward_when_last
@@ -58,17 +59,17 @@ class TestTrainOnRoute < Minitest::Test
   end
 
   def test_current_station
-    assert_equal origin_station, train.current_station
+    assert_equal origin, train.current_station
   end
 
   def test_previous_station
     train.move_forward
 
-    assert_equal origin_station, train.previous_station
+    assert_equal origin, train.previous_station
   end
 
   def test_next_station
-    assert_equal destination_station, train.next_station
+    assert_equal destination, train.next_station
   end
 
   def test_next_station_when_last
