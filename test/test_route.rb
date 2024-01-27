@@ -4,7 +4,7 @@ require 'minitest/autorun'
 require_relative '../railway_station_manager/route'
 
 class TestRoute < Minitest::Test
-  attr_reader :route, :all_stations, :origin, :destination,
+  attr_reader :route, :origin, :destination,
               :intermediate1, :intermediate2, :intermediate3
 
   def setup
@@ -13,8 +13,6 @@ class TestRoute < Minitest::Test
     @intermediate2 = Struct.new(:name).new('intermediate2')
     @intermediate3 = Struct.new(:name).new('intermediate3')
     @destination = Struct.new(:name).new('destination')
-
-    @all_stations = [origin, intermediate1, intermediate2, intermediate3, destination]
 
     @route = Route.new(@origin, @destination)
   end
@@ -60,5 +58,11 @@ class TestRoute < Minitest::Test
     route.remove_intermediate_station(intermediate1)
 
     assert_equal [origin, destination], route.stations
+  end
+
+  private
+
+  def all_stations
+    [origin, intermediate1, intermediate2, intermediate3, destination]
   end
 end
