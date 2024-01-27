@@ -14,78 +14,92 @@ class Train
   end
 
   def carriage_count
-    @carriages.size
+    carriages.size
   end
 
-  def speed_up(speed)
-    @speed += speed
+  def assign_route(new_route)
+    self.route = new_route
+    self.current_station_index = 0
+    current_station.add_train(self)
   end
 
-  def speed_down(speed)
-    new_speed = @speed - speed
-    new_speed = 0 if new_speed.negative?
-    @speed = new_speed
+  def speed_up(speed_diff)
+    self.speed += speed_diff
+  end
+
+  def speed_down(speed_diff)
+    new_speed = speed - speed_diff
+    self.speed = new_speed.negative? ? 0 : new_speed
   end
 
   def attach_carriage(carriage)
-    raise CarriageChangedWhileMovingError if @speed.positive?
+    raise CarriageChangedWhileMovingError if speed.positive?
 
-    @carriages << carriage
+    carriages << carriage
   end
 
   def detach_carriage
-    raise CarriageChangedWhileMovingError if @speed.positive?
+    raise CarriageChangedWhileMovingError if speed.positive?
 
-    @carriages.pop
-  end
-
-  def assign_route(route)
-    @route = route
-    @current_station_index = 0
-    current_station&.add_train(self)
+    carriages.pop
   end
 
   def move_forward
-    next_station = self.next_station
     raise NoNextStationError unless next_station
 
-    current_station = self.current_station
     return unless current_station
 
     current_station.send_train(self)
     next_station.add_train(self)
-    @current_station_index += 1
+    self.current_station_index += 1
   end
 
   def move_backward
-    previous_station = self.previous_station
     raise NoPreviousStationError unless previous_station
 
-    current_station = self.current_station
     return unless current_station
 
     current_station.send_train(self)
     previous_station.add_train(self)
-    @current_station_index -= 1
+    self.current_station_index -= 1
   end
 
   def current_station
-    return nil if @route.nil? || @current_station_index.negative?
-
-    @route.stations[@current_station_index]
+    current_station! unless current_station_index.negative?
   end
 
   def previous_station
-    return nil if @route.nil? || @current_station_index.zero?
-
-    @route.stations[@current_station_index - 1]
+    previous_station! unless current_station_index.zero?
   end
 
   def next_station
-    return nil if @route.nil? || @current_station_index >= @route.stations.size - 1
-
-    @route.stations[@current_station_index + 1]
+    next_station! unless current_station_index >= stations_on_current_route.size - 1
   end
+
+  private
+
+  attr_reader :carriages
+
+  def stations_on_current_route
+    route&.stations || []
+  end
+
+  def next_station!
+    stations_on_current_route[current_station_index + 1]
+  end
+
+  def previous_station!
+    stations_on_current_route[current_station_index - 1]
+  end
+
+  def current_station!
+    stations_on_current_route[current_station_index]
+  end
+
+  protected
+
+  attr_accessor :current_station_index
+  attr_writer :speed, :route
 
   class CarriageChangedWhileMovingError < StandardError; end
   class NoNextStationError < StandardError; end
