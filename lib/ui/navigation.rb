@@ -26,17 +26,17 @@ class Navigation
   end
 
   def make(title, key, &block)
-    choices = Choices.new({})
-    block.call(choices)
+    menu = Menu.new({})
+    block.call(menu)
 
-    transitions[key] = { title:, choices: choices.choices }
+    transitions[key] = { title:, choices: menu.choices }
   end
 
   private
 
   attr_accessor :state, :transitions
 
-  Choices = Struct.new(:choices) do
+  Menu = Struct.new(:choices) do
     def choice(title, key, id, &block)
       handler = block_given? ? block : -> {}
       choices[id] = Struct.new(:title, :key, :handler).new(title, key, handler)
