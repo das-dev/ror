@@ -11,25 +11,31 @@ class Route
   end
 
   def append_intermediate_station(station)
-    return nil if intermediate_station?(station)
-
-    @intermediate_stations << station
+    append_station!(station) unless intermediate_station?(station)
   end
 
   def remove_intermediate_station(station)
-    return nil unless intermediate_station?(station)
-
-    @intermediate_stations.delete(station)
+    remove_station!(station) if intermediate_station?(station)
   end
 
   def stations
-    [@origin_station, *@intermediate_stations, @destination_station]
+    [origin_station, *intermediate_stations, destination_station]
   end
 
   private
 
+  attr_reader :intermediate_stations
+
   def intermediate_station?(station)
-    @intermediate_stations.include?(station)
+    intermediate_stations.include?(station)
+  end
+
+  def append_station!(station)
+    intermediate_stations << station
+  end
+
+  def remove_station!(station)
+    intermediate_stations.delete(station)
   end
 end
 # rubocop:enable all
