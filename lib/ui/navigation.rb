@@ -7,14 +7,18 @@ class Navigation
     @state = :main_menu
   end
 
-  def prompt
-    display
+  def display
+    puts transitions[state][:title]
+    transitions[state][:choices].each do |id, choice|
+      puts "#{id}. #{choice.title}"
+    end
     puts 'Choose an option:'
-    gets.chomp
   end
 
   def process(event)
-    transition(event)
+    new_state = transitions[state][:choices][event]
+    state = new_state.key
+    self.state = new_state.handler.call || state
   end
 
   def exit?
@@ -31,19 +35,6 @@ class Navigation
   private
 
   attr_accessor :state, :transitions
-
-  def display
-    puts transitions[state][:title]
-    transitions[state][:choices].each do |id, choice|
-      puts "#{id}. #{choice.title}"
-    end
-  end
-
-  def transition(event)
-    new_state = transitions[state][:choices][event]
-    state = new_state.key
-    self.state = new_state.handler.call || state
-  end
 
   Choices = Struct.new(:choices) do
     def choice(title, key, id, &block)

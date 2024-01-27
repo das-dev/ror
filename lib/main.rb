@@ -19,6 +19,6 @@ nav.make('Main Menu', :main_menu) do |main_menu|
 end
 
 until nav.exit?
-  event = nav.prompt
-  nav.process(event)
+  nav.display
+  nav.process(gets.chomp)
 end
