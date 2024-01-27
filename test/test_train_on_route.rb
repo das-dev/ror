@@ -13,7 +13,7 @@ class TestTrainOnRoute < Minitest::Test
     @route = Route.new(origin, destination)
     @reverse_route_train = Route.new(destination, origin)
 
-    @train = Train.new('123', :passenger)
+    @train = PassengerTrain.new('123')
     @train.assign_route(@route)
   end
 

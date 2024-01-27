@@ -4,9 +4,8 @@
 class Train
   attr_reader :type, :speed, :route, :number
 
-  def initialize(number, type)
+  def initialize(number)
     @number = number
-    @type = type
     @speed = 0
     @route = nil
     @current_station_index = 0
@@ -33,15 +32,14 @@ class Train
   end
 
   def attach_carriage(carriage)
-    raise CarriageChangedWhileMovingError if speed.positive?
+    return nil if speed.positive? || carriage.type != type
 
     carriages << carriage
+    carriage
   end
 
-  def detach_carriage
-    raise CarriageChangedWhileMovingError if speed.positive?
-
-    carriages.pop
+  def detach_carriage_by_number(carriage_number)
+    detach_carriage_by_number!(carriage_number) unless speed.positive?
   end
 
   def move_forward
@@ -80,6 +78,10 @@ class Train
 
   attr_reader :carriages
 
+  def detach_carriage_by_number!(carriage_number)
+    carriages.delete_if { |carriage| carriage.number == carriage_number }
+  end
+
   def stations_on_current_route
     route&.stations || []
   end
@@ -101,8 +103,21 @@ class Train
   attr_accessor :current_station_index
   attr_writer :speed, :route
 
-  class CarriageChangedWhileMovingError < StandardError; end
   class NoNextStationError < StandardError; end
   class NoPreviousStationError < StandardError; end
+end
+
+class PassengerTrain < Train
+  def initialize(number)
+    @type = :passenger
+    super(number)
+  end
+end
+
+class CargoTrain < Train
+  def initialize(number)
+    @type = :cargo
+    super(number)
+  end
 end
 # rubocop:enable all

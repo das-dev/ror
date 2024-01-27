@@ -4,10 +4,18 @@ require 'minitest/autorun'
 require_relative '../railway_station_manager/carriage'
 
 class TestCarriage < Minitest::Test
-  attr_reader :carriage
+  attr_reader :cargo_carriage, :passenger_carriage
 
-  def test_carriage_type
-    assert_equal :passenger, Carriage.new(:passenger).type
-    assert_equal :cargo, Carriage.new(:cargo).type
+  def setup
+    @passenger_carriage = Carriage.new(:passenger, '123-P')
+    @cargo_carriage = Carriage.new(:cargo, '123-C')
+  end
+
+  def test_carriage_initial_state
+    assert_equal :passenger, passenger_carriage.type
+    assert_equal '123-P', passenger_carriage.number
+
+    assert_equal :cargo, cargo_carriage.type
+    assert_equal '123-C', cargo_carriage.number
   end
 end
