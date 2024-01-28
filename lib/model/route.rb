@@ -22,6 +22,11 @@ class Route
     [origin_station, *intermediate_stations, destination_station]
   end
 
+  def to_s
+    route = stations.map(&:name).join(' -> ')
+    "Route: #{route}"
+  end
+
   private
 
   attr_reader :intermediate_stations

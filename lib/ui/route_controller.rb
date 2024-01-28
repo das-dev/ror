@@ -17,25 +17,29 @@ class RouteController
     route = Route.new(origin, destination)
     @storage.add_to_list(:routes, route)
     puts "Route #{route.origin_station.name} - #{route.destination_station.name} created"
+    route
   end
 
   def list_routes
     puts 'Routes:'
-    p @storage.get(:trains, [])
     @storage.get(:routes, []).each_with_index do |route, index|
-      puts "#{index + 1}. Route from \"#{route.origin_station.name}\" to \"#{route.destination_station.name}\""
-    end
+      puts "#{index + 1}. #{route}"
+    end.empty? && puts('No routes')
   end
 
   def select_route
-    puts 'Select route:'
     list_routes
-    index = gets.chomp.to_i - 1
-    @storage.get(:routes, [])[index]
+    puts 'Enter route number or type \'c\' to create new:'
+    event = gets.chomp
+    route = @storage.get(:routes, [])[event.to_i - 1]
+    route = create_route if route.nil? && event == 'c'
+    route
   end
 
   def add_intermediate_station
     route = select_route
+    return nil if route.nil?
+
     station = @station_controller.create_station
     route.append_intermediate_station(station)
     puts "Station #{station.name} added to route #{route.origin_station.name} - #{route.destination_station.name}"

@@ -34,7 +34,11 @@ nav.make('Main Menu', :main_menu) do |main_menu|
     route_controller.create_route
     :main_menu
   end
-  main_menu.choice('List routes', :list_routes, '6') do
+  main_menu.choice('Add station into a route', :add_intermediate_station, '6') do
+    route_controller.add_intermediate_station
+    :main_menu
+  end
+  main_menu.choice('List routes', :list_routes, '7') do
     route_controller.list_routes
     :main_menu
   end
