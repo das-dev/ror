@@ -123,12 +123,20 @@ class PassengerTrain < Train
     @type = :passenger
     super(number)
   end
+
+  def to_s
+    "Passenger train ##{type}"
+  end
 end
 
 class CargoTrain < Train
   def initialize(number)
     @type = :cargo
     super(number)
+  end
+
+  def to_s
+    "Cargo train ##{number}"
   end
 end
 # rubocop:enable all

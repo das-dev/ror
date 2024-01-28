@@ -11,15 +11,19 @@ class TrainController
   def create_train
     puts 'Enter train number:'
     number = gets.chomp
-    train = Train.new(number)
+    puts 'Choose train type:'
+    puts '1. Passenger'
+    puts '2. Cargo'
+    type = { 1 => :passenger, 2 => :cargo }[gets.chomp.to_i]
+    train = Train.make_train(number, type)
     @storage.add(:trains, train)
-    puts "Train #{train.number} created"
+    puts "#{train} created"
   end
 
   def list_trains
     puts 'Trains:'
     @storage.get(:trains, []).each_with_index do |train, index|
-      puts "#{index + 1}. #{train.number}"
+      puts "#{index + 1}. #{train}"
     end
   end
 end
