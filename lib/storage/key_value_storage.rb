@@ -6,7 +6,7 @@ class KeyValueStorage
     @storage = Hash.new { |hsh, key| hsh[key] = [] }
   end
 
-  def add(key, value)
+  def add_to_list(key, value)
     @storage[key] << value
   end
 

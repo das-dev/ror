@@ -12,7 +12,7 @@ class StationController
     puts 'Enter station name:'
     name = gets.chomp
     station = Station.new(name)
-    @storage.add(:stations, station)
+    @storage.add_to_list(:stations, station)
     puts "Station #{station.name} created"
     station
   end

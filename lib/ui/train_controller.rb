@@ -16,7 +16,7 @@ class TrainController
     puts '2. Cargo'
     type = { 1 => :passenger, 2 => :cargo }[gets.chomp.to_i]
     train = Train.make_train(number, type)
-    @storage.add(:trains, train)
+    @storage.add_to_list(:trains, train)
     puts "#{train} created"
   end
 

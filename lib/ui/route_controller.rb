@@ -15,7 +15,7 @@ class RouteController
     puts 'Let\'s create a destination station'
     destination = @station_controller.create_station
     route = Route.new(origin, destination)
-    @storage.add(:routes, route)
+    @storage.add_to_list(:routes, route)
     puts "Route #{route.origin_station.name} - #{route.destination_station.name} created"
   end
 
