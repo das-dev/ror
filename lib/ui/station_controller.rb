@@ -17,7 +17,7 @@ class StationController
     station
   end
 
-  def list_station
+  def list_stations
     puts 'Stations:'
     @storage.get(:stations, []).each_with_index do |station, index|
       puts "#{index + 1}. #{station.name}"
