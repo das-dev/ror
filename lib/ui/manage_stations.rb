@@ -9,6 +9,9 @@ class ManageStations
 
   def make_menu
     manage_stations
+    create_station
+    list_stations
+    list_trains_on_station
   end
 
   private
@@ -17,31 +20,29 @@ class ManageStations
 
   def manage_stations
     navigation.make('Manage Stations', :manage_stations) do |menu|
-      create_station(menu, '1')
-      list_stations(menu, '2')
-      list_trains_on_station(menu, '3')
+      menu.choice('Create station', :create_station, '1')
+      menu.choice('List stations', :list_stations, '2')
+      menu.choice('List trains on station', :list_trains_on_station, '3')
       menu.choice 'Back to Main Menu', :main_menu, '0'
     end
   end
 
-  def create_station(menu, key)
-    menu.choice('Create station', :create_station, key) do
-      station_controller.create_station
-      :manage_stations
+  def create_station
+    navigation.bind('Create station form', :create_station, station_controller, :manage_stations) do
+      puts 'Enter station name:'
+      { name: gets.chomp }
     end
   end
 
-  def list_stations(menu, key)
-    menu.choice('List stations', :list_stations, key) do
-      station_controller.list_stations
-      :manage_stations
-    end
+  def list_stations
+    navigation.bind('List stations:', :list_stations, station_controller, :manage_stations)
   end
 
-  def list_trains_on_station(menu, key)
-    menu.choice('List trains on station', :list_trains_on_station, key) do
-      station_controller.list_trains_on_station
-      :manage_stations
+  def list_trains_on_station
+    navigation.bind('Select station:', :list_trains_on_station, station_controller, :manage_stations) do
+      puts station_controller.list_stations
+      puts 'Enter # station or press Enter to return to stations menu:'
+      { station_index: gets.chomp.to_i }
     end
   end
 end

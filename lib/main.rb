@@ -28,7 +28,7 @@ class Application
 
     until navigation.exit?
       navigation.display
-      navigation.process(gets.chomp)
+      navigation.process_event
     end
   end
 
