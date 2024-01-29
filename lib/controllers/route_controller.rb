@@ -16,14 +16,14 @@ class RouteController
     destination = @station_controller.create_station
     route = Route.new(origin, destination)
     @storage.add_to_list(:routes, route)
-    puts "Route #{route.origin_station.name} - #{route.destination_station.name} created"
+    puts "#{route.to_s.capitalize} is created"
     route
   end
 
   def list_routes
     puts 'Routes:'
-    @storage.get(:routes, []).each_with_index do |route, index|
-      puts "#{index + 1}. #{route}"
+    @storage.get(:routes, []).each.with_index(1) do |route, index|
+      puts "#{index}. #{route.to_s.capitalize}"
     end.empty? && puts('No routes')
   end
 
@@ -42,7 +42,25 @@ class RouteController
 
     station = @station_controller.create_station
     route.append_intermediate_station(station)
-    puts "Station #{station.name} added to route #{route.origin_station.name} - #{route.destination_station.name}"
+    puts "#{station} is added to #{route}"
+  end
+
+  def remove_intermediate_station
+    route = select_route
+    return nil if route.nil?
+
+    station = @station_controller.select_station
+    route.remove_intermediate_station(station)
+    puts "#{station} is removed from #{route}"
+  end
+
+  def assign_route_to_train
+    train = @train_controller.choose_train
+    route = select_route
+    return nil if route.nil? || train.nil?
+
+    train.assign_route(route)
+    puts "#{train} assigned #{route}"
   end
 end
 # rubocop:enable all

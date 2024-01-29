@@ -2,9 +2,10 @@
 
 # rubocop:disable Style/Documentation
 class Navigation
-  def initialize
+  def initialize(initial_state)
     @transitions = {}
-    @state = :main_menu
+    @state = initial_state
+    @initial_state = Struct.new(:key, :handler).new(initial_state, -> {})
   end
 
   def display
@@ -16,9 +17,9 @@ class Navigation
   end
 
   def process(event)
-    new_state = transitions[state][:choices][event]
-    state = new_state.key
-    self.state = new_state.handler.call || state
+    clear_screen
+    new_state = transitions[state][:choices][event] || initial_state
+    self.state = new_state.handler.call || new_state.key
   end
 
   def exit?
@@ -34,7 +35,11 @@ class Navigation
 
   private
 
-  attr_accessor :state, :transitions
+  attr_accessor :state, :transitions, :initial_state
+
+  def clear_screen
+    system 'clear'
+  end
 
   Menu = Struct.new(:choices) do
     def choice(title, key, id, &block)

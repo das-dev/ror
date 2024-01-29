@@ -24,7 +24,7 @@ class Route
 
   def to_s
     route = stations.map(&:name).join(' -> ')
-    "Route: #{route}"
+    "route: #{route}"
   end
 
   private

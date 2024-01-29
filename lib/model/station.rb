@@ -23,6 +23,10 @@ class Station
     end
   end
 
+  def to_s
+    "station \"#{name}\""
+  end
+
   private
 
   def send_train!(train)

@@ -125,7 +125,7 @@ class PassengerTrain < Train
   end
 
   def to_s
-    "Passenger train ##{type}"
+    "passenger train ##{number}"
   end
 end
 
@@ -136,7 +136,7 @@ class CargoTrain < Train
   end
 
   def to_s
-    "Cargo train ##{number}"
+    "cargo train ##{number}"
   end
 end
 # rubocop:enable all
