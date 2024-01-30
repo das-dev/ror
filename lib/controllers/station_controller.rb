@@ -22,13 +22,21 @@ class StationController
   end
 
   def list_trains_on_station(station_index:)
-    station = @storage.get(:stations, [])[station_index - 1]
-    return nil if station.nil?
+    station = get_station(station_index.to_i)
+
+    return 'Station not found' unless station
 
     trains = station.trains.map.with_index(1) do |train, index|
       "#{index}. #{train.to_s.capitalize}"
     end
-    trains.empty? ? 'No trains' : trains.join('\n')
+    trains.empty? ? 'No trains on station' : trains.join('\n')
+  end
+
+  private
+
+  def get_station(station_index)
+    station = @storage.get(:stations, [])[station_index - 1]
+    station_index.positive? && station
   end
 end
 # rubocop:enable all

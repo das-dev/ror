@@ -23,38 +23,63 @@ class TrainController
   end
 
   def attach_carriage(train_index:, carriage_number:)
-    train = @storage.get(:trains, [])[train_index - 1]
+    train = get_train(train_index.to_i)
+
+    return 'Train not found' unless train
+
     carriage = Carriage.new(train.type, carriage_number)
     train.attach_carriage(carriage)
-
     "Carriage ##{carriage_number} is attached to #{train}"
   end
 
   def detach_carriage(train_index:, carriage_number:)
-    train = @storage.get(:trains, [])[train_index - 1]
-    train.detach_carriage_by_number(carriage_number)
+    train = get_train(train_index.to_i)
 
+    return 'Train not found' unless train
+
+    train.detach_carriage_by_number(carriage_number)
     "Carriage ##{carriage_number} is detached from #{train}"
   end
 
   def assign_route_to_train(route_index:, train_index:)
-    route = @storage.get(:routes, [])[route_index - 1]
-    train = @storage.get(:trains, [])[train_index - 1]
-    train.assign_route(route)
+    route = get_route(route_index.to_i)
+    train = get_train(train_index.to_i)
 
+    return 'Route not found' unless route
+    return 'Train not found' unless train
+
+    train.assign_route(route)
     "#{train.to_s.capitalize} assigned #{route}"
   end
 
   def move_forward(train_index:)
-    train = @storage.get(:trains, [])[train_index - 1]
+    train = get_train(train_index.to_i)
+
+    return 'Train not found' unless train
+
     train.move_forward
     "#{train.to_s.capitalize} moved forward"
   end
 
   def move_backward(train_index:)
-    train = @storage.get(:trains, [])[train_index - 1]
+    train = get_train(train_index.to_i)
+
+    return 'Train not found' unless train
+
     train.move_backward
     "#{train.to_s.capitalize} moved backward"
+  end
+
+  private
+
+  def get_train(train_index)
+    train = @storage.get(:trains, [])[train_index.to_i - 1]
+    train_index.positive? && train
+  end
+
+  def get_route(route_index)
+    route = @storage.get(:routes, [])[route_index.to_i - 1]
+    route_index.positive? && route
   end
 end
 # rubocop:enable all

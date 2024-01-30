@@ -40,8 +40,8 @@ class ManageStations
   def list_trains_on_station
     navigation.bind('Select station:', :list_trains_on_station, :manage_stations) do
       puts navigation.send_action(:list_stations)
-      puts 'Enter # station or press Enter to return to stations menu:'
-      { station_index: gets.chomp.to_i }
+      puts 'Enter station number from list or press Enter:'
+      { station_index: gets.chomp }
     end
   end
 end

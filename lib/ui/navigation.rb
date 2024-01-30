@@ -10,6 +10,7 @@ class Navigation
   end
 
   def display
+    clear_screen
     puts transitions[state][:title]
     handler = transitions[state][:handler] || initial_state.handler
     handler.call
@@ -40,6 +41,8 @@ class Navigation
     transitions[key] = { title:, redirect:, choices: {} }
     transitions[key][:handler] = lambda {
       puts send_action(key, **params.call)
+      puts 'Press Enter to continue...'
+      gets
     }
   end
 

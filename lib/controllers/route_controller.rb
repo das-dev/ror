@@ -22,19 +22,37 @@ class RouteController
   end
 
   def add_intermediate_station(route_index:, station_index:)
-    route = @storage.get(:routes, [])[route_index - 1]
-    station = @storage.get(:stations, [])[station_index - 1]
-    route.append_intermediate_station(station)
+    route = get_route(route_index.to_i)
+    station = get_station(station_index.to_i)
 
+    return 'Route not found' unless route
+    return 'Station not found' unless station
+
+    route.append_intermediate_station(station)
     "#{station.to_s.capitalize} is added to #{route}"
   end
 
   def remove_intermediate_station(route_index:, station_index:)
-    route = @storage.get(:routes, [])[route_index - 1]
-    station = @storage.get(:stations, [])[station_index - 1]
-    route.remove_intermediate_station(station)
+    route = get_route(route_index.to_i)
+    station = get_station(station_index.to_i)
 
+    return 'Route not found' unless route
+    return 'Station not found' unless station
+
+    route.remove_intermediate_station(station)
     "#{station.to_s.capitalize} is removed from #{route}"
+  end
+
+  private
+
+  def get_route(route_index)
+    route = @storage.get(:routes, [])[route_index - 1]
+    route_index.positive? && route
+  end
+
+  def get_station(station_index)
+    station = @storage.get(:stations, [])[station_index - 1]
+    station_index.positive? && station
   end
 end
 # rubocop:enable all
