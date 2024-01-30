@@ -96,6 +96,8 @@ class TrainController
 
   private
 
+  # приватные хелперы
+
   def get_train(train_index)
     train = @storage.get(:trains, [])[train_index.to_i - 1]
     train_index.positive? && train

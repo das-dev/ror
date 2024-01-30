@@ -18,14 +18,17 @@ class RouteTable
 
   private
 
+  # private потому что не часть интерфейса
   attr_reader :station_controller, :route_controller, :train_controller
 
+  # private ибо хелпер
   def resolve_action(action)
     table_station_controller[action] ||
       table_train_controller[action] ||
       table_route_controller[action]
   end
 
+  # private ибо нечего снаружи лезть напрямую в таблицы
   def table_station_controller
     {
       create_station: %i[station_controller create_station],

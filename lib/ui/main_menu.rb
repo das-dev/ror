@@ -14,6 +14,7 @@ class MainMenu
 
   attr_reader :navigation
 
+  # приватные потому что нужен единообразный интерфейс (метод make_menu)
   def main_menu
     navigation.make('Main Menu', :main_menu) do |menu|
       menu.choice 'Manage Stations', :manage_stations, '1'

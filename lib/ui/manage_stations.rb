@@ -15,8 +15,9 @@ class ManageStations
 
   private
 
-  attr_reader :station_controller, :navigation
+  attr_reader :navigation
 
+  # приватные потому что нужен единообразный интерфейс (метод make_menu)
   def manage_stations
     navigation.make('Manage Stations', :manage_stations) do |menu|
       menu.choice('Create station', :create_station, '1')

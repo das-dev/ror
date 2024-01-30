@@ -20,6 +20,7 @@ class ManageTrains
 
   attr_reader :navigation
 
+  # приватные потому что нужен единообразный интерфейс (метод make_menu)
   def manage_trains
     navigation.make('Manage Trains', :manage_trains) do |menu|
       menu.choice('Create train', :create_train, '1')

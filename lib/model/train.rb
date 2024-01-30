@@ -87,30 +87,38 @@ class Train
 
   private
 
+  # приватный т.к. никому не нужен
   attr_reader :carriages
 
+  # приватный т.к. никому для удаления вагонов
+  # должны соблюдаться условия
   def detach_carriage_by_number!(carriage_number)
     carriages.delete_if { |carriage| carriage.number == carriage_number }
   end
 
+  # приватный т.к. никому не нужен снаружи
   def stations_on_current_route
     route&.stations || []
   end
 
+  # приватный т.к. нужны доп проверки для использования
   def next_station!
     stations_on_current_route[current_station_index + 1]
   end
 
+  # приватный т.к. нужны доп проверки для использования
   def previous_station!
     stations_on_current_route[current_station_index - 1]
   end
 
+  # приватный т.к. нужны доп проверки для использования
   def current_station!
     stations_on_current_route[current_station_index]
   end
 
   protected
 
+  # protected потому что нужно вызывать через self
   attr_accessor :current_station_index
   attr_writer :speed, :route
 

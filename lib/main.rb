@@ -40,6 +40,7 @@ class Application
 
   attr_reader :navigation
 
+  # приватный потому что снаружи нужен только run
   def make_menu
     MainMenu.new(navigation).make_menu
     ManageStations.new(navigation).make_menu

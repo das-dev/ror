@@ -16,6 +16,7 @@ class MoveTrains
 
   attr_reader :navigation
 
+  # приватные потому что нужен единообразный интерфейс (метод make_menu)
   def move_trains
     navigation.make('Move Trains', :move_trains) do |menu|
       menu.choice('Move train forward on route', :move_forward, '1')

@@ -35,6 +35,8 @@ class StationController
 
   private
 
+  # приватные хелперы
+
   def get_station(station_index)
     station = @storage.get(:stations, [])[station_index - 1]
     station_index.positive? && station

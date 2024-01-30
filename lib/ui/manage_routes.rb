@@ -16,8 +16,9 @@ class ManageRoutes
 
   private
 
-  attr_reader :route_controller, :navigation
+  attr_reader :navigation
 
+  # приватные потому что нужен единообразный интерфейс (метод make_menu)
   def manage_routes
     navigation.make('Manage Routes', :manage_routes) do |menu|
       menu.choice('Create route', :create_route, '1')

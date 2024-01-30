@@ -57,6 +57,8 @@ class RouteController
 
   private
 
+  # приватные хелперы
+
   def get_route(route_index)
     route = @storage.get(:routes, [])[route_index - 1]
     route_index.positive? && route

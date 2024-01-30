@@ -52,12 +52,15 @@ class Navigation
 
   private
 
+  # private потому что детали реализации
   attr_accessor :router, :state, :transitions, :initial_state
 
+  # снаружи не нужен
   def clear_screen
     system 'clear'
   end
 
+  # внутренние хелперы
   def make_initial_state(state)
     Struct.new(:key, :handler).new(state, -> { default_handler })
   end

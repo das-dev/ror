@@ -29,16 +29,22 @@ class Route
 
   private
 
+  # приватный т.к. никому не нужен
   attr_reader :intermediate_stations
 
+  # приватный т.к. никому не нужен
   def intermediate_station?(station)
     intermediate_stations.include?(station)
   end
 
+  # приватный т.к. для добавления станции в маршрут
+  # нужно соблюдать определенные условия
   def append_station!(station)
     intermediate_stations << station
   end
 
+  # приватный т.к. для ужаления станции из маршрута
+  # нужно соблюдать определенные условия
   def remove_station!(station)
     intermediate_stations.delete(station)
   end
