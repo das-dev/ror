@@ -4,9 +4,8 @@ require_relative '../model/route'
 
 # rubocop:disable Style/Documentation
 class RouteController
-  def initialize(storage, station_controller)
+  def initialize(storage)
     @storage = storage
-    @station_controller = station_controller
   end
 
   def create_route(origin: nil, destination: nil)

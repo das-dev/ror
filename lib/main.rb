@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require_relative 'route_table'
+
 require_relative 'ui/navigation'
 require_relative 'ui/main_menu'
 require_relative 'ui/manage_stations'
@@ -16,11 +18,12 @@ require_relative 'storage/key_value_storage'
 class Application
   def initialize
     storage = KeyValueStorage.new
-    @station_controller = StationController.new(storage)
-    @train_controller = TrainController.new(storage)
-    @route_controller = RouteController.new(storage, @station_controller)
+    station_controller = StationController.new(storage)
+    train_controller = TrainController.new(storage)
+    route_controller = RouteController.new(storage)
+    router = RouteTable.new(station_controller, route_controller, train_controller)
 
-    @navigation = Navigation.new(:main_menu)
+    @navigation = Navigation.new(router, :main_menu)
   end
 
   def run
@@ -34,13 +37,13 @@ class Application
 
   private
 
-  attr_reader :station_controller, :train_controller, :route_controller, :navigation
+  attr_reader :navigation
 
   def make_menu
     MainMenu.new(navigation).make_menu
-    ManageStations.new(navigation, station_controller).make_menu
-    ManageTrains.new(navigation, train_controller).make_menu
-    ManageRoutes.new(navigation, route_controller).make_menu
+    ManageStations.new(navigation).make_menu
+    ManageTrains.new(navigation).make_menu
+    ManageRoutes.new(navigation).make_menu
   end
 end
 # rubocop:enable all

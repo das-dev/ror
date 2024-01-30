@@ -2,8 +2,9 @@
 
 # rubocop:disable Style/Documentation
 class Navigation
-  def initialize(initial_state)
+  def initialize(router, initial_state)
     @transitions = {}
+    @router = router
     @state = initial_state
     @initial_state = make_initial_state(initial_state)
   end
@@ -32,19 +33,23 @@ class Navigation
     transitions[key] = { title:, choices: menu.choices }
   end
 
-  def bind(title, key, controller, redirect_to, &block)
+  def bind(title, key, redirect_to, &block)
     redirect = Struct.new(:key).new(redirect_to)
     params = block_given? ? block : -> { {} }
 
     transitions[key] = { title:, redirect:, choices: {} }
     transitions[key][:handler] = lambda {
-      puts controller.send(key, **params.call)
+      puts send_action(key, **params.call)
     }
+  end
+
+  def send_action(action, **params)
+    router.send_action(action, **params)
   end
 
   private
 
-  attr_accessor :state, :transitions, :initial_state
+  attr_accessor :router, :state, :transitions, :initial_state
 
   def clear_screen
     system 'clear'

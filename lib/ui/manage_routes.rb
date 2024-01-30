@@ -2,8 +2,7 @@
 
 # rubocop:disable Style/Documentation
 class ManageRoutes
-  def initialize(navigation, route_controller)
-    @route_controller = route_controller
+  def initialize(navigation)
     @navigation = navigation
   end
 
@@ -30,28 +29,28 @@ class ManageRoutes
   end
 
   def list_routes
-    navigation.bind('List routes:', :list_routes, route_controller, :manage_routes)
+    navigation.bind('List routes:', :list_routes, :manage_routes)
   end
 
   def create_route
-    navigation.bind('Create route form', :create_route, route_controller, :manage_routes) do
+    navigation.bind('Create route form', :create_route, :manage_routes) do
       puts 'Enter an origin station name:'
-      origin = station_controller.create_station(gets.chomp)
+      origin = navigation.send_action(:create_station, name: gets.chomp)
 
       puts 'Enter a destination station name:'
-      destination = station_controller.create_station(gets.chomp)
+      destination = navigation.send_action(:create_station, name: gets.chomp)
 
       { origin:, destination: }
     end
   end
 
   def add_intermediate_station
-    navigation.bind('Add station into a route', :add_intermediate_station, route_controller, :manage_routes) do
-      puts route_controller.list_routes
+    navigation.bind('Add station into a route', :add_intermediate_station, :manage_routes) do
+      puts navigation.send_action(:list_routes)
       puts 'Enter route number:'
       route_index = gets.chomp
 
-      puts station_controller.list_stations
+      puts navigation.send_action(:list_stations)
       puts 'Enter station number:'
       station_index = gets.chomp
 
@@ -60,12 +59,12 @@ class ManageRoutes
   end
 
   def remove_intermediate_station
-    navigation.bind('Remove station from a route', :remove_intermediate_station, route_controller, :manage_routes) do
-      puts route_controller.list_routes
+    navigation.bind('Remove station from a route', :remove_intermediate_station, :manage_routes) do
+      puts navigation.send_action(:list_routes)
       puts 'Enter route number:'
       route_index = gets.chomp
 
-      puts station_controller.list_stations
+      puts navigation.send_action(:list_stations)
       puts 'Enter station number:'
       station_index = gets.chomp
 

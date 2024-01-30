@@ -2,8 +2,7 @@
 
 # rubocop:disable Style/Documentation
 class ManageStations
-  def initialize(navigation, station_controller)
-    @station_controller = station_controller
+  def initialize(navigation)
     @navigation = navigation
   end
 
@@ -28,19 +27,19 @@ class ManageStations
   end
 
   def create_station
-    navigation.bind('Create station form', :create_station, station_controller, :manage_stations) do
+    navigation.bind('Create station form', :create_station, :manage_stations) do
       puts 'Enter station name:'
       { name: gets.chomp }
     end
   end
 
   def list_stations
-    navigation.bind('List stations:', :list_stations, station_controller, :manage_stations)
+    navigation.bind('List stations:', :list_stations, :manage_stations)
   end
 
   def list_trains_on_station
-    navigation.bind('Select station:', :list_trains_on_station, station_controller, :manage_stations) do
-      puts station_controller.list_stations
+    navigation.bind('Select station:', :list_trains_on_station, :manage_stations) do
+      puts navigation.send_action(:list_stations)
       puts 'Enter # station or press Enter to return to stations menu:'
       { station_index: gets.chomp.to_i }
     end

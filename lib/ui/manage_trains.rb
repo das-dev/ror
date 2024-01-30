@@ -2,11 +2,8 @@
 
 # rubocop:disable Style/Documentation
 class ManageTrains
-
-  def initialize(navigation, train_controller, route_controller)
+  def initialize(navigation)
     @navigation = navigation
-    @train_controller = train_controller
-    @route_controller = route_controller
   end
 
   def make_menu
@@ -46,7 +43,7 @@ class ManageTrains
   end
 
   def create_train
-    navigation.bind('Create train form', :create_train, train_controller, :manage_trains) do
+    navigation.bind('Create train form', :create_train, :manage_trains) do
       puts 'Enter train number:'
       number = gets.chomp
       puts 'Choose train type:'
@@ -58,12 +55,12 @@ class ManageTrains
   end
 
   def list_trains
-    navigation.bind('List trains:', :list_trains, train_controller, :manage_trains)
+    navigation.bind('List trains:', :list_trains, :manage_trains)
   end
 
   def attach_carriage
-    navigation.bind('Attach carriage to train', :attach_carriage, train_controller, :manage_trains) do
-      puts train_controller.list_trains
+    navigation.bind('Attach carriage to train', :attach_carriage, :manage_trains) do
+      puts navigation.send_action(:list_trains)
       puts 'Choose train:'
       train_index = gets.chomp.to_i
       puts 'Enter carriage number:'
@@ -73,8 +70,8 @@ class ManageTrains
   end
 
   def detach_carriage
-    navigation.bind('Detach carriage to train', :detach_carriage, train_controller, :manage_trains) do
-      puts train_controller.list_trains
+    navigation.bind('Detach carriage to train', :detach_carriage, :manage_trains) do
+      puts navigation.send_action(:list_trains)
       puts 'Choose train:'
       train_index = gets.chomp.to_i
       puts 'Enter carriage number:'
@@ -84,12 +81,12 @@ class ManageTrains
   end
 
   def assign_route
-    navigation.bind('Set route to train', :assign_route, train_controller, :manage_routes) do
-      puts route_controller.list_routes
+    navigation.bind('Set route to train', :assign_route, :manage_routes) do
+      puts navigation.send_action(:list_routes)
       puts 'Enter route number:'
       route_index = gets.chomp
 
-      puts train_controller.list_trains
+      puts navigation.send_action(:list_trains)
       puts 'Enter train number:'
       train_index = gets.chomp
 
@@ -98,8 +95,8 @@ class ManageTrains
   end
 
   def move_forward
-    navigation.bind('Move train forward on route', :move_forward, train_controller, :manage_trains) do
-      puts train_controller.list_trains
+    navigation.bind('Move train forward on route', :move_forward, :manage_trains) do
+      puts navigation.send_action(:list_trains)
       puts 'Choose train:'
       train_index = gets.chomp.to_i
       { train_index: }
@@ -107,8 +104,8 @@ class ManageTrains
   end
 
   def move_backward
-    navigation.bind('Move train backward on route', :move_backward, train_controller, :manage_trains) do
-      puts train_controller.list_trains
+    navigation.bind('Move train backward on route', :move_backward, :manage_trains) do
+      puts navigation.send_action(:list_trains)
       puts 'Choose train:'
       train_index = gets.chomp.to_i
       { train_index: }
