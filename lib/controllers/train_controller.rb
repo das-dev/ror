@@ -19,7 +19,7 @@ class TrainController
     trains = @storage.get(:trains, []).map.with_index(1) do |train, index|
       "#{index}. #{train.to_s.capitalize}"
     end
-    trains.empty? ? 'No trains' : trains.join('\n')
+    trains.empty? ? 'No trains' : trains.join("\n")
   end
 
   def attach_carriage(train_index:, carriage_number:)
