@@ -22,9 +22,10 @@ class ManageRoutes
     navigation.make('Manage Routes', :manage_routes) do |menu|
       menu.choice('Create route', :create_route, '1')
       menu.choice('List routes', :list_routes, '2')
-      menu.choice('Add station into a route', :add_intermediate_station, '3')
-      menu.choice('Remove station from a route', :remove_intermediate_station, '4')
-      menu.choice 'Back to Main Menu', :main_menu, '0'
+      menu.choice('Add station into a route', :add_station, '3')
+      menu.choice('Remove station from a route', :remove_station, '4')
+      menu.choice('Back to Main Menu', :main_menu, '0')
+      menu.choice('Quit', :exit, 'q')
     end
   end
 
@@ -34,18 +35,20 @@ class ManageRoutes
 
   def create_route
     navigation.bind('Create route form', :create_route, :manage_routes) do
-      puts 'Enter an origin station name:'
-      origin = navigation.send_action(:create_station, name: gets.chomp)
+      puts navigation.send_action(:list_stations)
+      puts 'Choose an origin station or press Enter:'
+      origin_index = gets.chomp
 
-      puts 'Enter a destination station name:'
-      destination = navigation.send_action(:create_station, name: gets.chomp)
+      puts navigation.send_action(:list_stations)
+      puts 'Choose a destination station or press Enter:'
+      destination_index = gets.chomp
 
-      { origin:, destination: }
+      { origin_index:, destination_index: }
     end
   end
 
   def add_intermediate_station
-    navigation.bind('Add station into a route', :add_intermediate_station, :manage_routes) do
+    navigation.bind('Add station into a route', :add_station, :manage_routes) do
       puts navigation.send_action(:list_routes)
       puts 'Enter route number:'
       route_index = gets.chomp
@@ -59,7 +62,7 @@ class ManageRoutes
   end
 
   def remove_intermediate_station
-    navigation.bind('Remove station from a route', :remove_intermediate_station, :manage_routes) do
+    navigation.bind('Remove station from a route', :remove_station, :manage_routes) do
       puts navigation.send_action(:list_routes)
       puts 'Enter route number:'
       route_index = gets.chomp

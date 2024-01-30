@@ -39,6 +39,7 @@ class RouteTable
       create_train: %i[train_controller create_train],
       list_trains: %i[train_controller list_trains],
       add_carriage: %i[train_controller attach_carriage],
+      show_train: %i[train_controller show_train],
       remove_carriage: %i[train_controller detach_carriage],
       set_route: %i[train_controller assign_route_to_train],
       move_forward: %i[train_controller move_forward],

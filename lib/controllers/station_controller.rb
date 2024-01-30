@@ -9,6 +9,8 @@ class StationController
   end
 
   def create_station(name:)
+    return 'Station is not created: name is empty' if name.empty?
+
     station = Station.new(name)
     @storage.add_to_list(:stations, station)
     "#{station.to_s.capitalize} is created"
@@ -23,7 +25,6 @@ class StationController
 
   def list_trains_on_station(station_index:)
     station = get_station(station_index.to_i)
-
     return 'Station not found' unless station
 
     trains = station.trains.map.with_index(1) do |train, index|

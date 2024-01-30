@@ -56,7 +56,7 @@ class Train
   def move_forward
     raise NoNextStationError unless next_station
 
-    return unless current_station
+    return nil unless current_station
 
     current_station.send_train(self)
     next_station.add_train(self)
@@ -66,7 +66,7 @@ class Train
   def move_backward
     raise NoPreviousStationError unless previous_station
 
-    return unless current_station
+    return nil unless current_station
 
     current_station.send_train(self)
     previous_station.add_train(self)

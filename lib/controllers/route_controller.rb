@@ -8,7 +8,15 @@ class RouteController
     @storage = storage
   end
 
-  def create_route(origin: nil, destination: nil)
+  def create_route(origin_index:, destination_index:)
+    origin = get_station(origin_index.to_i)
+    return 'Origin station not found' unless origin
+
+    destination = get_station(destination_index.to_i)
+    return 'Destination station not found' unless destination
+
+    return 'Origin and destination stations are the same' if origin == destination
+
     route = Route.new(origin, destination)
     @storage.add_to_list(:routes, route)
     "#{route.to_s.capitalize} is created"
@@ -23,10 +31,11 @@ class RouteController
 
   def add_intermediate_station(route_index:, station_index:)
     route = get_route(route_index.to_i)
-    station = get_station(station_index.to_i)
-
     return 'Route not found' unless route
+
+    station = get_station(station_index.to_i)
     return 'Station not found' unless station
+    return 'Station is already in the route' if route.stations.include?(station)
 
     route.append_intermediate_station(station)
     "#{station.to_s.capitalize} is added to #{route}"
@@ -34,10 +43,13 @@ class RouteController
 
   def remove_intermediate_station(route_index:, station_index:)
     route = get_route(route_index.to_i)
-    station = get_station(station_index.to_i)
-
     return 'Route not found' unless route
+
+    station = get_station(station_index.to_i)
     return 'Station not found' unless station
+    return 'Station is not in the route' unless route.stations.include?(station)
+    return 'Cannot remove an origin station' if route.origin_station == station
+    return 'Cannot remove a destination station' if route.destination_station == station
 
     route.remove_intermediate_station(station)
     "#{station.to_s.capitalize} is removed from #{route}"

@@ -7,6 +7,7 @@ require_relative 'ui/main_menu'
 require_relative 'ui/manage_stations'
 require_relative 'ui/manage_trains'
 require_relative 'ui/manage_routes'
+require_relative 'ui/move_trains'
 
 require_relative 'controllers/station_controller'
 require_relative 'controllers/train_controller'
@@ -44,6 +45,7 @@ class Application
     ManageStations.new(navigation).make_menu
     ManageTrains.new(navigation).make_menu
     ManageRoutes.new(navigation).make_menu
+    MoveTrains.new(navigation).make_menu
   end
 end
 # rubocop:enable all

@@ -8,5 +8,9 @@ class Carriage
     @number = number
     @type = type
   end
+
+  def to_s
+    "##{number}"
+  end
 end
 # rubocop enable all

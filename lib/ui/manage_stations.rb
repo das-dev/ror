@@ -22,7 +22,8 @@ class ManageStations
       menu.choice('Create station', :create_station, '1')
       menu.choice('List stations', :list_stations, '2')
       menu.choice('List trains on station', :list_trains_on_station, '3')
-      menu.choice 'Back to Main Menu', :main_menu, '0'
+      menu.choice('Back to Main Menu', :main_menu, '0')
+      menu.choice('Quit', :exit, 'q')
     end
   end
 
