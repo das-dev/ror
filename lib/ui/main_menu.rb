@@ -8,6 +8,7 @@ class MainMenu
 
   def make_menu
     main_menu
+    about
   end
 
   private
@@ -21,8 +22,13 @@ class MainMenu
       menu.choice 'Manage Trains', :manage_trains, '2'
       menu.choice 'Manage Routes', :manage_routes, '3'
       menu.choice 'Move Trains', :move_trains, '4'
+      menu.choice 'About app', :about, 'a'
       menu.choice 'Quit', :exit, 'q'
     end
+  end
+
+  def about
+    navigation.bind('About app', :about, :main_menu)
   end
 end
 # rubocop:enable all

@@ -12,6 +12,7 @@ require_relative 'ui/move_trains'
 require_relative 'controllers/station_controller'
 require_relative 'controllers/train_controller'
 require_relative 'controllers/route_controller'
+require_relative 'controllers/application_controller'
 
 require_relative 'storage/key_value_storage'
 
@@ -22,7 +23,8 @@ class Application
     station_controller = StationController.new(storage)
     train_controller = TrainController.new(storage)
     route_controller = RouteController.new(storage)
-    router = RouteTable.new(station_controller, route_controller, train_controller)
+    application_controller = ApplicationController.new(storage)
+    router = RouteTable.new(station_controller, route_controller, train_controller, application_controller)
 
     @navigation = Navigation.new(router, :main_menu)
   end

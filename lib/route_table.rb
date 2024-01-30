@@ -2,10 +2,11 @@
 
 # rubocop:disable Style/Documentation
 class RouteTable
-  def initialize(station_controller, route_controller, train_controller)
+  def initialize(station_controller, route_controller, train_controller, application_controller)
     @station_controller = station_controller
     @route_controller = route_controller
     @train_controller = train_controller
+    @application_controller = application_controller
   end
 
   def send_action(action, **params)
@@ -19,13 +20,14 @@ class RouteTable
   private
 
   # private потому что не часть интерфейса
-  attr_reader :station_controller, :route_controller, :train_controller
+  attr_reader :station_controller, :route_controller, :train_controller, :application_controller
 
   # private ибо хелпер
   def resolve_action(action)
     table_station_controller[action] ||
       table_train_controller[action] ||
-      table_route_controller[action]
+      table_route_controller[action] ||
+      table_app_controller[action]
   end
 
   # private ибо нечего снаружи лезть напрямую в таблицы
@@ -33,7 +35,7 @@ class RouteTable
     {
       create_station: %i[station_controller create_station],
       list_stations: %i[station_controller list_stations],
-      list_trains_on_station: %i[station_controller list_trains_on_station],
+      list_trains_on_station: %i[station_controller list_trains_on_station]
     }
   end
 
@@ -46,7 +48,7 @@ class RouteTable
       remove_carriage: %i[train_controller detach_carriage],
       set_route: %i[train_controller assign_route_to_train],
       move_forward: %i[train_controller move_forward],
-      move_backward: %i[train_controller move_backward],
+      move_backward: %i[train_controller move_backward]
     }
   end
 
@@ -55,7 +57,13 @@ class RouteTable
       create_route: %i[route_controller create_route],
       list_routes: %i[route_controller list_routes],
       add_station: %i[route_controller add_intermediate_station],
-      remove_station: %i[route_controller remove_intermediate_station],
+      remove_station: %i[route_controller remove_intermediate_station]
+    }
+  end
+
+  def table_app_controller
+    {
+      about: %i[application_controller about]
     }
   end
 end
