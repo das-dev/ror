@@ -9,6 +9,7 @@ class Navigation
   end
 
   def display
+    puts transitions[state][:title]
     handler = transitions[state][:handler] || initial_state.handler
     handler.call
   end
@@ -54,7 +55,6 @@ class Navigation
   end
 
   def default_handler
-    puts transitions[state][:title]
     transitions[state][:choices].each do |id, choice|
       puts "#{id}. #{choice.title}"
     end

@@ -9,6 +9,10 @@ class ManageRoutes
 
   def make_menu
     manage_routes
+    create_route
+    list_routes
+    add_intermediate_station
+    remove_intermediate_station
   end
 
   private
@@ -17,47 +21,55 @@ class ManageRoutes
 
   def manage_routes
     navigation.make('Manage Routes', :manage_routes) do |menu|
-      create_route(menu, '1')
-      add_intermediate_station(menu, '2')
-      remove_intermediate_station(menu, '3')
-      list_routes(menu, '4')
-      assign_route_to_train(menu, '5')
+      menu.choice('Create route', :create_route, '1')
+      menu.choice('List routes', :list_routes, '2')
+      menu.choice('Add station into a route', :add_intermediate_station, '3')
+      menu.choice('Remove station from a route', :remove_intermediate_station, '4')
       menu.choice 'Back to Main Menu', :main_menu, '0'
     end
   end
 
-  def create_route(menu, key)
-    menu.choice('Create route', :create_route, key) do
-      route_controller.create_route
-      :manage_routes
+  def list_routes
+    navigation.bind('List routes:', :list_routes, route_controller, :manage_routes)
+  end
+
+  def create_route
+    navigation.bind('Create route form', :create_route, route_controller, :manage_routes) do
+      puts 'Enter an origin station name:'
+      origin = station_controller.create_station(gets.chomp)
+
+      puts 'Enter a destination station name:'
+      destination = station_controller.create_station(gets.chomp)
+
+      { origin:, destination: }
     end
   end
 
-  def add_intermediate_station(menu, key)
-    menu.choice('Add station into a route', :add_intermediate_station, key) do
-      route_controller.add_intermediate_station
-      :manage_routes
+  def add_intermediate_station
+    navigation.bind('Add station into a route', :add_intermediate_station, route_controller, :manage_routes) do
+      puts route_controller.list_routes
+      puts 'Enter route number:'
+      route_index = gets.chomp
+
+      puts station_controller.list_stations
+      puts 'Enter station number:'
+      station_index = gets.chomp
+
+      { route_index:, station_index: }
     end
   end
 
-  def remove_intermediate_station(menu, key)
-    menu.choice('Remove station into a route', :remove_intermediate_station, key) do
-      route_controller.remove_intermediate_station
-      :manage_routes
-    end
-  end
+  def remove_intermediate_station
+    navigation.bind('Remove station from a route', :remove_intermediate_station, route_controller, :manage_routes) do
+      puts route_controller.list_routes
+      puts 'Enter route number:'
+      route_index = gets.chomp
 
-  def list_routes(menu, key)
-    menu.choice('List routes', :list_routes, key) do
-      route_controller.list_routes
-      :manage_routes
-    end
-  end
+      puts station_controller.list_stations
+      puts 'Enter station number:'
+      station_index = gets.chomp
 
-  def assign_route_to_train(menu, key)
-    menu.choice('Set route to train', :set_route_to_train, key) do
-      route_controller.assign_route_to_train
-      :manage_routes
+      { route_index:, station_index: }
     end
   end
 end

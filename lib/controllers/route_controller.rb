@@ -9,58 +9,33 @@ class RouteController
     @station_controller = station_controller
   end
 
-  def create_route
-    puts 'Let\'s create an origin station'
-    origin = @station_controller.create_station
-    puts 'Let\'s create a destination station'
-    destination = @station_controller.create_station
+  def create_route(origin: nil, destination: nil)
     route = Route.new(origin, destination)
     @storage.add_to_list(:routes, route)
-    puts "#{route.to_s.capitalize} is created"
-    route
+    "#{route.to_s.capitalize} is created"
   end
 
   def list_routes
-    puts 'Routes:'
-    @storage.get(:routes, []).each.with_index(1) do |route, index|
-      puts "#{index}. #{route.to_s.capitalize}"
-    end.empty? && puts('No routes')
+    routes = @storage.get(:routes, []).map.with_index(1) do |route, index|
+      "#{index}. #{route.to_s.capitalize}"
+    end
+    routes.empty? ? 'No routes' : routes.join('\n')
   end
 
-  def select_route
-    list_routes
-    puts 'Enter route number or type \'c\' to create new:'
-    event = gets.chomp
-    route = @storage.get(:routes, [])[event.to_i - 1]
-    route = create_route if route.nil? && event == 'c'
-    route
-  end
-
-  def add_intermediate_station
-    route = select_route
-    return nil if route.nil?
-
-    station = @station_controller.create_station
+  def add_intermediate_station(route_index:, station_index:)
+    route = @storage.get(:routes, [])[route_index - 1]
+    station = @storage.get(:stations, [])[station_index - 1]
     route.append_intermediate_station(station)
-    puts "#{station} is added to #{route}"
+
+    "#{station.to_s.capitalize} is added to #{route}"
   end
 
-  def remove_intermediate_station
-    route = select_route
-    return nil if route.nil?
-
-    station = @station_controller.select_station
+  def remove_intermediate_station(route_index:, station_index:)
+    route = @storage.get(:routes, [])[route_index - 1]
+    station = @storage.get(:stations, [])[station_index - 1]
     route.remove_intermediate_station(station)
-    puts "#{station} is removed from #{route}"
-  end
 
-  def assign_route_to_train
-    train = @train_controller.choose_train
-    route = select_route
-    return nil if route.nil? || train.nil?
-
-    train.assign_route(route)
-    puts "#{train} assigned #{route}"
+    "#{station.to_s.capitalize} is removed from #{route}"
   end
 end
 # rubocop:enable all

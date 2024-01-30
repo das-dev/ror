@@ -9,58 +9,52 @@ class TrainController
     @storage = storage
   end
 
-  def create_train
-    puts 'Enter train number:'
-    number = gets.chomp
-    puts 'Choose train type:'
-    puts '1. Passenger'
-    puts '2. Cargo'
-    type = { 1 => :passenger, 2 => :cargo }[gets.chomp.to_i]
+  def create_train(number:, type:)
     train = Train.make_train(number, type)
     @storage.add_to_list(:trains, train)
-    puts "#{train.to_s.capitalize} is created"
+    "#{train.to_s.capitalize} is created"
   end
 
   def list_trains
-    puts 'Trains:'
-    @storage.get(:trains, []).each.with_index(1) do |train, index|
-      puts "#{index}. #{train.to_s.capitalize}"
-    end.empty? && puts('No trains')
+    trains = @storage.get(:trains, []).map.with_index(1) do |train, index|
+      "#{index}. #{train.to_s.capitalize}"
+    end
+    trains.empty? ? 'No trains' : trains.join('\n')
   end
 
-  def choose_train
-    list_trains
-    puts 'Choose train:'
-    @storage.get(:trains, [])[gets.chomp.to_i - 1]
-  end
-
-  def attach_carriage_to_train
-    train = choose_train
-    puts 'Enter carriage number:'
-    carriage_number = gets.chomp
+  def attach_carriage(train_index:, carriage_number:)
+    train = @storage.get(:trains, [])[train_index - 1]
     carriage = Carriage.new(train.type, carriage_number)
     train.attach_carriage(carriage)
-    puts "Carriage ##{carriage_number} is attached to #{train}"
+
+    "Carriage ##{carriage_number} is attached to #{train}"
   end
 
-  def detach_carriage_from_train
-    train = choose_train
-    puts 'Enter carriage number:'
-    carriage_number = gets.chomp
+  def detach_carriage(train_index:, carriage_number:)
+    train = @storage.get(:trains, [])[train_index - 1]
     train.detach_carriage_by_number(carriage_number)
-    puts "Carriage ##{carriage_number} is detached from #{train}"
+
+    "Carriage ##{carriage_number} is detached from #{train}"
   end
 
-  def move_train_backward_on_route
-    train = choose_train
-    train.move_backward
-    puts "#{train.to_s.capitalize} moved backward"
+  def assign_route_to_train(route_index:, train_index:)
+    route = @storage.get(:routes, [])[route_index - 1]
+    train = @storage.get(:trains, [])[train_index - 1]
+    train.assign_route(route)
+
+    "#{train.to_s.capitalize} assigned #{route}"
   end
 
-  def move_train_forward_on_route
-    train = choose_train
+  def move_forward(train_index:)
+    train = @storage.get(:trains, [])[train_index - 1]
     train.move_forward
-    puts "#{train.to_s.capitalize} moved forward"
+    "#{train.to_s.capitalize} moved forward"
+  end
+
+  def move_backward(train_index:)
+    train = @storage.get(:trains, [])[train_index - 1]
+    train.move_backward
+    "#{train.to_s.capitalize} moved backward"
   end
 end
 # rubocop:enable all
