@@ -38,11 +38,15 @@ class ManageTrains
     navigation.bind('Create train form', :create_train, :manage_trains) do
       puts 'Enter train number:'
       number = gets.chomp
+
       puts 'Choose train type:'
       puts '1. Passenger'
       puts '2. Cargo'
       type = { 1 => :passenger, 2 => :cargo }[gets.chomp.to_i]
-      { number:, type: }
+
+      puts 'Enter manufacturer name:'
+      manufacturer_name = gets.chomp
+      { number:, type:, manufacturer_name: }
     end
   end
 

@@ -3,8 +3,6 @@
 require 'base64'
 require 'zlib'
 
-require_relative '../model/station'
-
 # rubocop:disable Style/Documentation
 class ApplicationController
   def initialize(storage)

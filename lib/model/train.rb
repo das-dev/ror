@@ -1,8 +1,12 @@
 # frozen_string_literal: true
 
+require_relative 'manufacturer_info'
+
 # rubocop:disable Style/Documentation
 class Train
   attr_reader :type, :speed, :route, :number
+
+  include ManufacturerInfo
 
   def initialize(number)
     @number = number

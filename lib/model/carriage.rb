@@ -1,8 +1,12 @@
 # frozen_string_literal: true
 
+require_relative 'manufacturer_info'
+
 # rubocop disable Style/Documentation
 class Carriage
   attr_reader :type, :number
+
+  include ManufacturerInfo
 
   def initialize(type, number)
     @number = number

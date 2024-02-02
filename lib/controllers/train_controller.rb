@@ -9,8 +9,9 @@ class TrainController
     @storage = storage
   end
 
-  def create_train(number:, type:)
+  def create_train(number:, type:, manufacturer_name:)
     train = Train.make_train(number, type)
+    train.manufacturer_name = manufacturer_name
     @storage.add_to_list(:trains, train)
     "#{train.to_s.capitalize} is created"
   end
@@ -26,7 +27,9 @@ class TrainController
     train = get_train(train_index.to_i)
     return 'Train not found' unless train
 
-    route_info = train.route ? "is on #{train.route}" : 'is at the factory'
+    on_route = "is on #{train.route}"
+    on_factory = "is at the factory #{train.manufacturer_name}"
+    route_info = train.route ? on_route : on_factory
     station_info = train.route ? "at #{train.current_station}\n" : ''
     carriages_info = "with #{train.carriage_count} carriages"
 
