@@ -27,15 +27,7 @@ class TrainController
     train = get_train(train_index.to_i)
     return 'Train not found' unless train
 
-    on_route = "is on #{train.route}"
-    on_factory = "is at the factory #{train.manufacturer_name}"
-    route_info = train.route ? on_route : on_factory
-    station_info = train.route ? "at #{train.current_station}\n" : ''
-    carriages_info = "with #{train.carriage_count} carriages"
-
-    "#{train.to_s.capitalize} #{route_info}\n" \
-      "#{station_info}" \
-      "#{carriages_info}"
+    train_info(train)
   end
 
   def attach_carriage(train_index:, carriage_number:)
@@ -67,6 +59,13 @@ class TrainController
 
     train.assign_route(route)
     "#{train.to_s.capitalize} assigned #{route}"
+  end
+
+  def find_train_by_number(number:)
+    train = Train.find(number)
+    return 'Train not found' unless train
+
+    train_info(train)
   end
 
   def move_forward(train_index:)
@@ -109,6 +108,18 @@ class TrainController
   def get_route(route_index)
     route = @storage.get(:routes, [])[route_index.to_i - 1]
     route_index.positive? && route
+  end
+
+  def train_info(train)
+    on_route = "is on #{train.route}"
+    on_factory = "is at the factory #{train.manufacturer_name}"
+    route_info = train.route ? on_route : on_factory
+    station_info = train.route ? "at #{train.current_station}\n" : ''
+    carriages_info = "with #{train.carriage_count} carriages"
+
+    "#{train.to_s.capitalize} #{route_info}\n" \
+      "#{station_info}" \
+      "#{carriages_info}"
   end
 end
 # rubocop:enable all

@@ -14,6 +14,7 @@ class ManageTrains
     attach_carriage
     detach_carriage
     assign_route
+    find_train
   end
 
   private
@@ -30,6 +31,7 @@ class ManageTrains
       menu.choice('Detach carriage to train', :remove_carriage, '5')
       menu.choice('Set route to train', :set_route, '6')
       menu.choice('Back to Main Menu', :main_menu, '0')
+      menu.choice('Find train by number', :find_train, 'f')
       menu.choice('Quit', :exit, 'q')
     end
   end
@@ -96,6 +98,14 @@ class ManageTrains
       route_index = gets.chomp
 
       { route_index:, train_index: }
+    end
+  end
+
+  def find_train
+    navigation.bind('Find train by number', :find_train, :manage_trains) do
+      puts 'Enter train number:'
+      number = gets.chomp
+      { number: }
     end
   end
 end
