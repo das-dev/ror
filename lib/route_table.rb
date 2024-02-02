@@ -47,7 +47,7 @@ class RouteTable
       show_train: %i[train_controller show_train],
       remove_carriage: %i[train_controller detach_carriage],
       set_route: %i[train_controller assign_route_to_train],
-      find_train: %i[train_controller find_train],
+      find_train: %i[train_controller find_train_by_number],
       move_forward: %i[train_controller move_forward],
       move_backward: %i[train_controller move_backward]
     }
@@ -64,7 +64,8 @@ class RouteTable
 
   def table_app_controller
     {
-      about: %i[application_controller about]
+      about: %i[application_controller about],
+      stat: %i[application_controller stat],
     }
   end
 end

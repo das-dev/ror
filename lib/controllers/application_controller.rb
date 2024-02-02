@@ -3,10 +3,21 @@
 require 'base64'
 require 'zlib'
 
+require_relative '../model/station'
+require_relative '../model/train'
+require_relative '../model/route'
+
 # rubocop:disable Style/Documentation
 class ApplicationController
   def initialize(storage)
     @storage = storage
+  end
+
+  def stat
+    "Stations: #{Station.instances}\n" \
+      "Cargo trains: #{CargoTrain.instances}\n" \
+      "Passenger trains: #{PassengerTrain.instances}\n" \
+      "Routes: #{Route.instances}"
   end
 
   def about

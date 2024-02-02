@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative 'manufacturer_info'
+require_relative '../helpers/manufacturer_info'
 
 # rubocop disable Style/Documentation
 class Carriage

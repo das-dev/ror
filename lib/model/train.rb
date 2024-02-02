@@ -1,12 +1,14 @@
 # frozen_string_literal: true
 
-require_relative 'manufacturer_info'
+require_relative '../helpers/manufacturer_info'
+require_relative '../helpers/instance_counter'
 
 # rubocop:disable Style/Documentation
 class Train
   attr_reader :type, :speed, :route, :number
 
   include ManufacturerInfo
+  include InstanceCounter
 
   @@all = []
 
@@ -20,7 +22,8 @@ class Train
     @route = nil
     @current_station_index = 0
     @carriages = []
-    self.class.all << self
+    @@all << self
+    register_instance
   end
 
   def self.make_train(number, type)

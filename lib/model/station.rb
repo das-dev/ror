@@ -1,8 +1,12 @@
 # frozen_string_literal: true
 
+require_relative '../helpers/instance_counter'
+
 # rubocop:disable Style/Documentation
 class Station
   attr_reader :trains, :name
+
+  include InstanceCounter
 
   def self.all
     @all ||= []
@@ -12,6 +16,7 @@ class Station
     @name = name
     @trains = []
     self.class.all << self
+    register_instance
   end
 
   def add_train(train)
