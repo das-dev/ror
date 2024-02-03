@@ -20,7 +20,7 @@ require_relative 'storage/key_value_storage'
 class Application
   def initialize
     storage = KeyValueStorage.new
-    station_controller = StationController.new
+    station_controller = StationController.new(storage)
     train_controller = TrainController.new(storage)
     route_controller = RouteController.new(storage)
     application_controller = ApplicationController.new(storage)

@@ -10,20 +10,12 @@ class Train
   include ManufacturerInfo
   include InstanceCounter
 
-  @@all = []
-
-  def self.find(number)
-    @@all.find { |train| train.number == number }
-  end
-
   def initialize(number)
     @number = number
     @speed = 0
     @route = nil
     @current_station_index = 0
     @carriages = []
-    @@all << self
-    register_instance
   end
 
   def self.make_train(number, type)

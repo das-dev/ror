@@ -4,15 +4,20 @@ require_relative '../model/station'
 
 # rubocop:disable Style/Documentation
 class StationController
+  def initialize(storage)
+    @storage = storage
+  end
+
   def create_station(name:)
     return 'Station is not created: name is empty' if name.empty?
 
     station = Station.new(name)
+    @storage.add_to_list(:stations, station)
     "#{station.to_s.capitalize} is created"
   end
 
   def list_stations
-    stations = Station.all.map.with_index(1) do |station, index|
+    stations = @storage.get(:stations, []).map.with_index(1) do |station, index|
       "#{index}. #{station.to_s.capitalize}"
     end
     stations.empty? ? 'No stations' : stations.join("\n")
@@ -33,7 +38,7 @@ class StationController
   # приватные хелперы
 
   def get_station(station_index)
-    station = Station.all[station_index - 1]
+    station = @storage.get(:stations, [])[station_index - 1]
     station_index.positive? && station
   end
 end

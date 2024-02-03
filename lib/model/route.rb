@@ -12,7 +12,6 @@ class Route
     @origin_station = origin_station
     @destination_station = destination_station
     @intermediate_stations = []
-    register_instance
   end
 
   def append_intermediate_station(station)

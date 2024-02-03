@@ -7,15 +7,23 @@ module InstanceCounter
   end
 
   module ClassMethods
-    attr_writer :instances
+    def new(*args, **kwargs, &block)
+      obj = super
+      register_instance
+      obj
+    end
 
     def instances
       @instances ||= 0
     end
-  end
 
-  def register_instance
-    self.class.instances += 1
+    private
+
+    attr_writer :instances
+
+    def register_instance
+      self.instances += 1
+    end
   end
 end
 # rubocop:enable all

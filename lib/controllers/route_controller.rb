@@ -65,7 +65,7 @@ class RouteController
   end
 
   def get_station(station_index)
-    station = Station.all[station_index - 1]
+    station = @storage.get(:stations, [])[station_index - 1]
     station_index.positive? && station
   end
 end

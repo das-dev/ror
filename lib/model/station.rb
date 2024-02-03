@@ -8,15 +8,9 @@ class Station
 
   include InstanceCounter
 
-  def self.all
-    @all ||= []
-  end
-
   def initialize(name)
     @name = name
     @trains = []
-    self.class.all << self
-    register_instance
   end
 
   def add_train(train)

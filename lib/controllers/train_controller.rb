@@ -62,7 +62,9 @@ class TrainController
   end
 
   def find_train_by_number(number:)
-    train = Train.find(number)
+    train = @storage.get(:trains, []).find do |t|
+      t.number == number
+    end
     return 'Train not found' unless train
 
     train_info(train)
