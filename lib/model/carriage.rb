@@ -10,6 +10,7 @@ class Carriage
 
   include ManufacturerInfo
   include InstanceCounter
+  include Validation
 
   NUMBER_FORMAT = /^[a-zA-Z0-9-]+$/
 
@@ -20,6 +21,7 @@ class Carriage
   end
 
   def validate!
+    raise ValidationError, 'Number can not be empty' if number.empty?
     raise ValidationError, 'Invalid number format' if number !~ NUMBER_FORMAT
   end
 

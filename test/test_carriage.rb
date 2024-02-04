@@ -18,4 +18,16 @@ class TestCarriage < Minitest::Test
     assert_equal :cargo, cargo_carriage.type
     assert_equal '123-C', cargo_carriage.number
   end
+
+  def test_valid_number_format
+    assert_equal true, Carriage.new(:passenger, '123P').valid?
+  end
+
+  def test_invalid_number_format
+    assert_raises(ValidationError) { Carriage.new(:cargo, '123_P') }
+  end
+
+  def test_empty_number
+    assert_raises(ValidationError) { Carriage.new(:cargo, '') }
+  end
 end

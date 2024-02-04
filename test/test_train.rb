@@ -10,15 +10,46 @@ class TestTrain < Minitest::Test
     @origin = Struct.new
     @destination = Struct.new
 
-    @passenger_train = Train.make_train('123', :passenger)
+    @passenger_train = Train.make_train('123-11', :passenger)
   end
 
   def test_initial_train_state
-    assert_equal '123', passenger_train.number
+    assert_equal '123-11', passenger_train.number
     assert_equal :passenger, passenger_train.type
     assert_equal 0, passenger_train.carriage_count
     assert_equal 0, passenger_train.speed
     assert_nil passenger_train.route
+  end
+
+  def test_train_number_validation_with_only_digits_passed
+    assert_equal true, Train.make_train('123-11', :passenger).valid?
+    assert_equal true, Train.make_train('12311', :passenger).valid?
+  end
+
+  def test_train_number_validation_with_only_letters_passed
+    assert_equal true, Train.make_train('abc-ab', :passenger).valid?
+    assert_equal true, Train.make_train('abcab', :passenger).valid?
+  end
+
+  def test_train_number_validation_with_mixed_chars_passed
+    assert_equal true, Train.make_train('abc-12', :passenger).valid?
+    assert_equal true, Train.make_train('123-ab', :passenger).valid?
+    assert_equal true, Train.make_train('1ab2a', :passenger).valid?
+  end
+
+  def test_train_number_validation_with_empty_number_failed
+    assert_raises(ValidationError) { Train.make_train('', :passenger) }
+  end
+
+  def test_train_number_validation_wrong_length_failed
+    assert_raises(ValidationError) { Train.make_train('12', :passenger) }
+    assert_raises(ValidationError) { Train.make_train('123-111', :passenger) }
+    assert_raises(ValidationError) { Train.make_train('1ab2ab', :passenger) }
+  end
+
+  def test_train_number_validation_wrong_chars_failed
+    assert_raises(ValidationError) { Train.make_train('123/111', :passenger) }
+    assert_raises(ValidationError) { Train.make_train('1аб2а', :passenger) }
   end
 
   def test_speed_up

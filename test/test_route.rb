@@ -23,6 +23,10 @@ class TestRoute < Minitest::Test
     assert_equal [origin, destination], route.stations
   end
 
+  def test_same_stations_error
+    assert_raises(ValidationError) { Route.new(origin, origin) }
+  end
+
   def test_intermediate_station_order
     route.append_intermediate_station(intermediate1)
     route.append_intermediate_station(intermediate2)

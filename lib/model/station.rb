@@ -23,7 +23,6 @@ class Station
     raise ValidationError, 'Station name can not be empty' if name.empty?
     raise ValidationError, 'Station name should be at least 3 symbols' if name.length < 3
     raise ValidationError, 'Station has invalid format' if name !~ NAME_FORMAT
-
   end
 
   def add_train(train)

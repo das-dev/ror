@@ -10,6 +10,14 @@ class TestStation < Minitest::Test
     @station = Station.new('Station')
   end
 
+  def test_station_name_validation_with_empty_number_failed
+    assert_raises(ValidationError) { Station.new('') }
+  end
+
+  def test_station_name_validation_wrong_length_failed
+    assert_raises(ValidationError) { Station.new('AB') }
+  end
+
   def test_name_station
     assert_equal 'Station', station.name
   end
