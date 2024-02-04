@@ -31,7 +31,6 @@ class ManageTrains
       menu.choice('Detach carriage to train', :remove_carriage, '5')
       menu.choice('Set route to train', :set_route, '6')
       menu.choice('Back to Main Menu', :main_menu, '0')
-      menu.choice('Find train by number', :find_train, 'f')
       menu.choice('Quit', :exit, 'q')
     end
   end
