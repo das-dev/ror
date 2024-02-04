@@ -62,12 +62,13 @@ class Navigation
 
   def try_to_send_action(key, form, attempts_left = 0)
     puts send_action(key, **form.call)
-    puts 'Press Enter to continue...'
-    gets
   rescue ControllerError => e
     clear_screen
     puts e.message
     retry unless (attempts_left -= 1).negative?
+  ensure
+    puts 'Press Enter to continue...'
+    gets
   end
 
   # внутренние хелперы

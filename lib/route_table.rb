@@ -10,11 +10,10 @@ class RouteTable
   end
 
   def send_action(action, **params)
-    path = resolve_action(action)
-    return 'Unknown action' if path.nil?
+    handler = resolve_action(action)
+    return 'Unknown action' if handler.nil?
 
-    controller, handler = path
-    send(controller).send(handler, **params)
+    handler.call(**params)
   end
 
   private
@@ -24,48 +23,54 @@ class RouteTable
 
   # private ибо хелпер
   def resolve_action(action)
-    table_station_controller[action] ||
-      table_train_controller[action] ||
-      table_route_controller[action] ||
+    table_station_management_controller[action] ||
+      table_train_management_controller[action] ||
+      table_train_movement_controller[action]   ||
+      table_route_management_controller[action] ||
       table_app_controller[action]
   end
 
   # private ибо нечего снаружи лезть напрямую в таблицы
-  def table_station_controller
+  def table_station_management_controller
     {
-      create_station: %i[station_controller create_station],
-      list_stations: %i[station_controller list_stations],
-      list_trains_on_station: %i[station_controller list_trains_on_station]
+      create_station: station_controller.method(:create_station),
+      list_stations: station_controller.method(:list_stations),
+      list_trains_on_station: station_controller.method(:list_trains_on_station)
     }
   end
 
-  def table_train_controller
+  def table_train_management_controller
     {
-      create_train: %i[train_controller create_train],
-      list_trains: %i[train_controller list_trains],
-      add_carriage: %i[train_controller attach_carriage],
-      show_train: %i[train_controller show_train],
-      remove_carriage: %i[train_controller detach_carriage],
-      set_route: %i[train_controller assign_route_to_train],
-      find_train: %i[train_controller find_train_by_number],
-      move_forward: %i[train_controller move_forward],
-      move_backward: %i[train_controller move_backward]
+      create_train: train_controller.method(:create_train),
+      list_trains: train_controller.method(:list_trains),
+      add_carriage: train_controller.method(:attach_carriage),
+      show_train: train_controller.method(:show_train),
+      remove_carriage: train_controller.method(:detach_carriage),
+      set_route: train_controller.method(:assign_route_to_train),
+      find_train: train_controller.method(:find_train_by_number)
     }
   end
 
-  def table_route_controller
+  def table_train_movement_controller
     {
-      create_route: %i[route_controller create_route],
-      list_routes: %i[route_controller list_routes],
-      add_station: %i[route_controller add_intermediate_station],
-      remove_station: %i[route_controller remove_intermediate_station]
+      move_forward: train_controller.method(:move_forward),
+      move_backward: train_controller.method(:move_backward)
+    }
+  end
+
+  def table_route_management_controller
+    {
+      create_route: route_controller.method(:create_route),
+      list_routes: route_controller.method(:list_routes),
+      add_station: route_controller.method(:add_intermediate_station),
+      remove_station: route_controller.method(:remove_intermediate_station)
     }
   end
 
   def table_app_controller
     {
-      about: %i[application_controller about],
-      stat: %i[application_controller stat]
+      about: application_controller.method(:about),
+      stat: application_controller.method(:stat)
     }
   end
 end
