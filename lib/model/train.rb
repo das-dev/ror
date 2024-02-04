@@ -2,6 +2,7 @@
 
 require_relative '../helpers/manufacturer_info'
 require_relative '../helpers/instance_counter'
+require_relative '../helpers/validation'
 
 # rubocop:disable Style/Documentation
 class Train
@@ -9,6 +10,9 @@ class Train
 
   include ManufacturerInfo
   include InstanceCounter
+  include Validation
+
+  NUMBER_FORMAT = /^[\da-zA-Z]{3}-?[\da-zA-Z]{2}$/
 
   def initialize(number)
     @number = number
@@ -16,6 +20,13 @@ class Train
     @route = nil
     @current_station_index = 0
     @carriages = []
+    validate!
+  end
+
+  def validate!
+    raise ValidationError, 'Number can not be empty' if number.empty?
+    raise ValidationError, 'Number should be at least 3 symbols' if number.to_s.length < 3
+    raise ValidationError, 'Number has invalid format' if number !~ NUMBER_FORMAT
   end
 
   def self.make_train(number, type)

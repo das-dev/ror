@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require_relative '../model/station'
+require_relative 'exceptions'
 
 # rubocop:disable Style/Documentation
 class StationController
@@ -9,9 +10,7 @@ class StationController
   end
 
   def create_station(name:)
-    return 'Station is not created: name is empty' if name.empty?
-
-    station = Station.new(name)
+    station = try_to_create_station(name)
     @storage.add_to_list(:stations, station)
     "#{station.to_s.capitalize} is created"
   end
@@ -25,8 +24,6 @@ class StationController
 
   def list_trains_on_station(station_index:)
     station = get_station(station_index.to_i)
-    return 'Station not found' unless station
-
     trains = station.trains.map.with_index(1) do |train, index|
       "#{index}. #{train.to_s.capitalize}"
     end
@@ -37,9 +34,17 @@ class StationController
 
   # приватные хелперы
 
+  def try_to_create_station(name)
+    Station.new(name)
+  rescue RuntimeError => e
+    raise ControllerError, "Station is not created: #{e.message}"
+  end
+
   def get_station(station_index)
     station = @storage.get(:stations, [])[station_index - 1]
-    station_index.positive? && station
+    raise ControllerError, "Station ##{station_index} not found" unless station && station_index.positive?
+
+    station
   end
 end
 # rubocop:enable all

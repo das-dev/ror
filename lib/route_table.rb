@@ -65,7 +65,7 @@ class RouteTable
   def table_app_controller
     {
       about: %i[application_controller about],
-      stat: %i[application_controller stat],
+      stat: %i[application_controller stat]
     }
   end
 end

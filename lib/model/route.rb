@@ -1,17 +1,26 @@
 # frozen_string_literal: true
 
 require_relative '../helpers/instance_counter'
+require_relative '../helpers/validation'
+require_relative 'exceptions'
 
 # rubocop:disable Style/Documentation
 class Route
   attr_reader :origin_station, :destination_station
 
   include InstanceCounter
+  include Validation
 
   def initialize(origin_station, destination_station)
     @origin_station = origin_station
     @destination_station = destination_station
     @intermediate_stations = []
+    validate!
+  end
+
+  def validate!
+    same_stations_error = 'Origin and destination stations should be different'
+    raise ValidationError, same_stations_error if origin_station == destination_station
   end
 
   def append_intermediate_station(station)

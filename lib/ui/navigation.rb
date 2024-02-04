@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require_relative '../controllers/exceptions'
+
 # rubocop:disable Style/Documentation
 class Navigation
   def initialize(router, initial_state)
@@ -48,6 +50,8 @@ class Navigation
 
   def send_action(action, **params)
     router.send_action(action, **params)
+  rescue ControllerError => e
+    e.message
   end
 
   private
