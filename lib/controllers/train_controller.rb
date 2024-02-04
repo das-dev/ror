@@ -31,7 +31,7 @@ class TrainController
 
   def attach_carriage(train_index:, carriage_number:)
     train = get_train(train_index.to_i)
-    carriage = try_to_create_carriage(train, carriage_number)
+    carriage = try_to_create_carriage(train.type, carriage_number)
     raise ControllerError, 'Carriage not attached' unless train.attach_carriage(carriage)
 
     "Carriage ##{carriage_number} is attached to #{train}"
@@ -91,19 +91,18 @@ class TrainController
 
   def try_to_create_carriage(type, carriage_number)
     Carriage.new(type, carriage_number)
-  rescue RuntimeError => e
+  rescue ValidationError => e
     raise ControllerError, "Carriage is not created: #{e.message}"
   end
 
   def try_to_create_train(number, type)
     Train.make_train(number, type)
-  rescue ArgumentError, RuntimeError => e
+  rescue ArgumentError, ValidationError => e
     raise ControllerError, "Train is not created: #{e.message}"
   end
 
   def get_train(train_index)
-    train = @storage.get(:trains, [])[train_index.to_i - 1]
-    train_index.positive? && train
+    train = @storage.get(:trains, [])[train_index - 1]
     raise ControllerError, "Train ##{train_index} not found" unless train && train_index.positive?
 
     train
@@ -114,6 +113,8 @@ class TrainController
       t.number == number
     end
     raise ControllerError, 'Train not found' unless train
+
+    train
   end
 
   def get_route(route_index)

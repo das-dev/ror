@@ -15,7 +15,7 @@ class Navigation
     clear_screen
     puts transitions[state][:title]
     handler = transitions[state][:handler] || initial_state.handler
-    call_handler!(handler)
+    handler.call
   end
 
   def process_event
@@ -38,14 +38,12 @@ class Navigation
 
   def bind(title, key, redirect_to, attempts: 0, &block)
     redirect = Struct.new(:key).new(redirect_to)
-    params = block_given? ? block : -> { {} }
+    form = block_given? ? block : -> { {} }
 
     transitions[key] = { title:, redirect:, attempts:, choices: {} }
-    transitions[key][:handler] = lambda {
-      puts send_action(key, **params.call)
-      puts 'Press Enter to continue...'
-      gets
-    }
+    transitions[key][:handler] = lambda do
+      try_to_send_action(key, form, attempts)
+    end
   end
 
   def send_action(action, **params)
@@ -62,15 +60,14 @@ class Navigation
     system 'clear'
   end
 
-  def call_handler!(handler)
-    attempts_left = transitions[state][:attempts]
-    begin
-      handler.call
-    rescue ControllerError => e
-      clear_screen
-      puts e.message
-      retry unless (attempts_left -= 1).negative?
-    end
+  def try_to_send_action(key, form, attempts_left = 0)
+    puts send_action(key, **form.call)
+    puts 'Press Enter to continue...'
+    gets
+  rescue ControllerError => e
+    clear_screen
+    puts e.message
+    retry unless (attempts_left -= 1).negative?
   end
 
   # внутренние хелперы

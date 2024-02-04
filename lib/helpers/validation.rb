@@ -5,7 +5,7 @@ module Validation
   def valid?
     validate!
     true
-  rescue StandardError
+  rescue ValidationError
     false
   end
 

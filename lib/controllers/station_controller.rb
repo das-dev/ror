@@ -36,7 +36,7 @@ class StationController
 
   def try_to_create_station(name)
     Station.new(name)
-  rescue RuntimeError => e
+  rescue ValidationError => e
     raise ControllerError, "Station is not created: #{e.message}"
   end
 

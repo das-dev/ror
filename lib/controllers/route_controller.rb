@@ -53,7 +53,7 @@ class RouteController
 
   def try_to_create_route(origin, destination)
     Route.new(origin, destination)
-  rescue RuntimeError => e
+  rescue ValidationError => e
     raise ControllerError, "Route is not created: #{e.message}"
   end
 
