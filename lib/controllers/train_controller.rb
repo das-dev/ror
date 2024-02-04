@@ -97,7 +97,7 @@ class TrainController
 
   def try_to_create_train(number, type)
     Train.make_train(number, type)
-  rescue RuntimeError => e
+  rescue ArgumentError, RuntimeError => e
     raise ControllerError, "Train is not created: #{e.message}"
   end
 

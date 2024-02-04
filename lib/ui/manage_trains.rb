@@ -37,7 +37,7 @@ class ManageTrains
   end
 
   def create_train
-    navigation.bind('Create train form', :create_train, :manage_trains) do
+    navigation.bind('Create train form', :create_train, :manage_trains, attempts: 3) do
       puts 'Enter train number:'
       number = gets.chomp
 

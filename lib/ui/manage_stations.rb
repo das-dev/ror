@@ -29,7 +29,7 @@ class ManageStations
   end
 
   def create_station
-    navigation.bind('Create station form', :create_station, :manage_stations) do
+    navigation.bind('Create station form', :create_station, :manage_stations, attempts: 3) do
       puts 'Enter station name:'
       { name: gets.chomp }
     end
