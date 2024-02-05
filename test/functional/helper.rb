@@ -37,7 +37,9 @@ class TestHelper
     $stdin = STDIN
     $stdout = STDOUT
   end
+end
 
+module Scenarios
   def scenario_create_station(station_name:)
     ['0', '1', '1', station_name, ''].each do |input|
       @input.puts(input)
@@ -46,6 +48,31 @@ class TestHelper
 
   def scenario_list_station
     ['0', '1', '2', ''].each do |input|
+      @input.puts(input)
+    end
+  end
+
+  def scenario_create_train(train_number:, type:, manufacturer:)
+    train_type = { passenger: '1', cargo: '2' }[type]
+    ['0', '2', '1', train_number, train_type, manufacturer, ''].each do |input|
+      @input.puts(input)
+    end
+  end
+
+  def scenario_list_train
+    ['0', '2', '2', ''].each do |input|
+      @input.puts(input)
+    end
+  end
+
+  def scenario_show_train
+    ['0', '2', '3', '1', ''].each do |input|
+      @input.puts(input)
+    end
+  end
+
+  def scenario_add_carriage(carriage_number:)
+    ['0', '2', '4', '1', carriage_number, ''].each do |input|
       @input.puts(input)
     end
   end

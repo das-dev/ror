@@ -5,16 +5,20 @@ require 'minitest/mock'
 require_relative '../../lib/main'
 require_relative 'helper'
 
-class GeneralUseCasesTest < Minitest::Test
+class GeneralScenariosTest < Minitest::Test
+  include Scenarios
+
   def setup
     @helper = TestHelper.new
+    @input = @helper.input
+    @output = @helper.output
   end
 
   def test_main_menu
-    @helper.scenario_quit
+    scenario_quit
 
     @helper.run_app
 
-    assert_equal TestHelper::MAIN_MENU, @helper.output.string
+    assert_equal TestHelper::MAIN_MENU, @output.string
   end
 end

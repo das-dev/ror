@@ -2,6 +2,7 @@
 
 require_relative '../helpers/manufacturer_info'
 require_relative '../helpers/instance_counter'
+require_relative '../helpers/validation'
 require_relative 'exceptions'
 
 # rubocop disable Style/Documentation
