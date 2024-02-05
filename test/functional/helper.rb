@@ -1,11 +1,10 @@
 # frozen_string_literal: true
 
 require 'stringio'
-require 'minitest/autorun'
-require 'minitest/mock'
-require_relative '../../lib/main'
 
-class UseCasesTest < Minitest::Test
+class TestHelper
+  attr_reader :input, :output
+
   MAIN_MENU = <<~MAIN_MENU
     Main Menu
     1. Manage Stations
@@ -18,51 +17,13 @@ class UseCasesTest < Minitest::Test
     Choose an option:
   MAIN_MENU
 
-  def setup
+  def initialize
     @input = StringIO.new
     $stdin = @input
 
     @output = StringIO.new
     $stdout = @output
   end
-
-  def test_main_menu
-    scenario_quit
-
-    run_app
-
-    assert_equal MAIN_MENU, @output.string
-  end
-
-  def test_create_station
-    scenario_create_station(station_name: 'Origin')
-    scenario_create_station(station_name: 'Destination')
-    scenario_list_station
-    scenario_quit
-
-    run_app
-
-    assert_match(/\nStation "origin" is created/, @output.string)
-    assert_match(/\n1. Station "origin"/, @output.string)
-
-    assert_match(/\nStation "destination" is created/, @output.string)
-    assert_match(/\n2. Station "destination"/, @output.string)
-  end
-
-  def test_create_route
-    scenario_create_station(station_name: 'Origin')
-    scenario_create_station(station_name: 'Destination')
-    scenario_create_route
-    scenario_routes_list
-    scenario_quit
-
-    run_app
-
-    assert_match(/\nRoute: origin -> destination is created/, @output.string)
-    assert_match(/\n1. Route: origin -> destination/, @output.string)
-  end
-
-  private
 
   def run_app
     app = Application.new

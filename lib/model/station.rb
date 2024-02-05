@@ -11,7 +11,7 @@ class Station
   include InstanceCounter
   include Validation
 
-  NAME_FORMAT = /^[a-zA-z0-9-]+$/
+  NAME_FORMAT = /^[a-zA-Z0-9-]+$/
 
   def initialize(name)
     @name = name
