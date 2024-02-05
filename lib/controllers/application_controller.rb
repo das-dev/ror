@@ -14,10 +14,15 @@ class ApplicationController
   end
 
   def stat
-    "Stations: #{Station.instances}\n" \
-      "Cargo trains: #{CargoTrain.instances}\n" \
-      "Passenger trains: #{PassengerTrain.instances}\n" \
-      "Routes: #{Route.instances}"
+    station_count = @storage.get(:stations, []).size
+    cargo_train_count = @storage.get(:trains, []).select { |train| train.type == :cargo }.size
+    passenger_train_count = @storage.get(:trains, []).select { |train| train.type == :passenger }.size
+    route_count = @storage.get(:routes, []).size
+
+    "Stations: #{station_count}\n" \
+      "Cargo trains: #{cargo_train_count}\n" \
+      "Passenger trains: #{passenger_train_count}\n" \
+      "Routes: #{route_count}"
   end
 
   def about

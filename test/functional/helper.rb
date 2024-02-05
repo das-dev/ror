@@ -17,6 +17,14 @@ class TestHelper
     Choose an option:
   MAIN_MENU
 
+  STAT_VIEW = <<~STAT_VIEW
+    Stat
+    Stations: %s
+    Cargo trains: %s
+    Passenger trains: %s
+    Routes: %s
+  STAT_VIEW
+
   def initialize
     @input = StringIO.new
     $stdin = @input
@@ -40,57 +48,63 @@ class TestHelper
 end
 
 module Scenarios
+  def scenario_stat
+    ['0', 's', ''].each do |input|
+      @helper.input.puts(input)
+    end
+  end
+
   def scenario_create_station(station_name:)
     ['0', '1', '1', station_name, ''].each do |input|
-      @input.puts(input)
+      @helper.input.puts(input)
     end
   end
 
   def scenario_list_station
     ['0', '1', '2', ''].each do |input|
-      @input.puts(input)
+      @helper.input.puts(input)
     end
   end
 
   def scenario_create_train(train_number:, type:, manufacturer:)
     train_type = { passenger: '1', cargo: '2' }[type]
     ['0', '2', '1', train_number, train_type, manufacturer, ''].each do |input|
-      @input.puts(input)
+      @helper.input.puts(input)
     end
   end
 
   def scenario_list_train
     ['0', '2', '2', ''].each do |input|
-      @input.puts(input)
+      @helper.input.puts(input)
     end
   end
 
   def scenario_show_train
     ['0', '2', '3', '1', ''].each do |input|
-      @input.puts(input)
+      @helper.input.puts(input)
     end
   end
 
   def scenario_add_carriage(carriage_number:)
     ['0', '2', '4', '1', carriage_number, ''].each do |input|
-      @input.puts(input)
+      @helper.input.puts(input)
     end
   end
 
   def scenario_create_route
     ['0', '3', '1', '1', '2', ''].each do |input|
-      @input.puts(input)
+      @helper.input.puts(input)
     end
   end
 
   def scenario_routes_list
     ['0', '3', '2', ''].each do |input|
-      @input.puts(input)
+      @helper.input.puts(input)
     end
   end
 
   def scenario_quit
-    @input.puts 'q'
-    @input.rewind
+    @helper.input.puts 'q'
+    @helper.input.rewind
   end
 end

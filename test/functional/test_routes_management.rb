@@ -10,8 +10,6 @@ class RoutesManagementTest < Minitest::Test
 
   def setup
     @helper = TestHelper.new
-    @input = @helper.input
-    @output = @helper.output
   end
 
   def test_create_route
@@ -23,7 +21,7 @@ class RoutesManagementTest < Minitest::Test
 
     @helper.run_app
 
-    assert_match(/Route: origin -> destination is created\n/, @output.string)
-    assert_match(/1. Route: origin -> destination\n/, @output.string)
+    assert_match(/Route: origin -> destination is created\n/, @helper.output.string)
+    assert_match(/1. Route: origin -> destination\n/, @helper.output.string)
   end
 end

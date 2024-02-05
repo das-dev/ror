@@ -10,8 +10,6 @@ class TrainsManagementTest < Minitest::Test
 
   def setup
     @helper = TestHelper.new
-    @input = @helper.input
-    @output = @helper.output
   end
 
   def test_create_train
@@ -21,8 +19,8 @@ class TrainsManagementTest < Minitest::Test
 
     @helper.run_app
 
-    assert_match(/Passenger train #001-01 is created\n/, @output.string)
-    assert_match(/1. Passenger train #001-01\n/, @output.string)
+    assert_match(/Passenger train #001-01 is created\n/, @helper.output.string)
+    assert_match(/1. Passenger train #001-01\n/, @helper.output.string)
   end
 
   def test_show_train
@@ -33,7 +31,7 @@ class TrainsManagementTest < Minitest::Test
     @helper.run_app
 
     expected = /Passenger train #001-01 is at the factory GoldenWagon\nwith 0 carriages\n/
-    assert_match(expected, @output.string)
+    assert_match(expected, @helper.output.string)
   end
 
   def test_add_carriage
@@ -45,8 +43,8 @@ class TrainsManagementTest < Minitest::Test
     @helper.run_app
 
     expected = /Passenger train #001-01 is at the factory GoldenWagon\nwith 1 carriages\n/
-    assert_match(expected, @output.string)
+    assert_match(expected, @helper.output.string)
 
-    assert_match(/Carriage #100 is attached to passenger train #001-01\n/, @output.string)
+    assert_match(/Carriage #100 is attached to passenger train #001-01\n/, @helper.output.string)
   end
 end

@@ -10,8 +10,6 @@ class StationsManagementTest < Minitest::Test
 
   def setup
     @helper = TestHelper.new
-    @input = @helper.input
-    @output = @helper.output
   end
 
   def test_create_station
@@ -22,10 +20,10 @@ class StationsManagementTest < Minitest::Test
 
     @helper.run_app
 
-    assert_match(/Station "origin" is created\n/, @output.string)
-    assert_match(/1. Station "origin"\n/, @output.string)
+    assert_match(/Station "origin" is created\n/, @helper.output.string)
+    assert_match(/1. Station "origin"\n/, @helper.output.string)
 
-    assert_match(/Station "destination" is created\n/, @output.string)
-    assert_match(/2. Station "destination"\n/, @output.string)
+    assert_match(/Station "destination" is created\n/, @helper.output.string)
+    assert_match(/2. Station "destination"\n/, @helper.output.string)
   end
 end

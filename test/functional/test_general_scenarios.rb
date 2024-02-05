@@ -10,8 +10,6 @@ class GeneralScenariosTest < Minitest::Test
 
   def setup
     @helper = TestHelper.new
-    @input = @helper.input
-    @output = @helper.output
   end
 
   def test_main_menu
@@ -19,6 +17,21 @@ class GeneralScenariosTest < Minitest::Test
 
     @helper.run_app
 
-    assert_equal TestHelper::MAIN_MENU, @output.string
+    assert_equal TestHelper::MAIN_MENU, @helper.output.string
+  end
+
+  def test_stat
+    scenario_create_station(station_name: 'Station1')
+    scenario_create_station(station_name: 'Station2')
+    scenario_create_train(train_number: '001-00', type: :passenger, manufacturer: 'Manufacturer1')
+    scenario_create_train(train_number: '002-00', type: :cargo, manufacturer: 'Manufacturer1')
+    scenario_create_route
+    scenario_stat
+    scenario_quit
+
+    @helper.run_app
+
+    pattern = format(TestHelper::STAT_VIEW, 2, 1, 1, 1)
+    assert_match(/#{pattern}/, @helper.output.string)
   end
 end
