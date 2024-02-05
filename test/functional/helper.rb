@@ -22,6 +22,8 @@ class TestHelper
     Stations: %s
     Cargo trains: %s
     Passenger trains: %s
+    Cargo carriages: %s
+    Passenger carriages: %s
     Routes: %s
   STAT_VIEW
 

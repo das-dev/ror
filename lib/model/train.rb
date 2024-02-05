@@ -29,7 +29,7 @@ class Train
     raise ValidationError, 'Number has invalid format' if number !~ NUMBER_FORMAT
   end
 
-  def self.make_train(number, type)
+  def self.make_train(type, number)
     case type
     when :passenger
       PassengerTrain.new(number)

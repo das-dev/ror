@@ -32,6 +32,7 @@ class TrainController
   def attach_carriage(train_index:, carriage_number:)
     train = get_train(train_index.to_i)
     carriage = try_to_create_carriage(train.type, carriage_number)
+    @storage.add_to_list(:carriages, carriage)
     raise ControllerError, 'Carriage not attached' unless train.attach_carriage(carriage)
 
     "Carriage ##{carriage_number} is attached to #{train}"
@@ -90,13 +91,13 @@ class TrainController
   # приватные хелперы
 
   def try_to_create_carriage(type, carriage_number)
-    Carriage.new(type, carriage_number)
+    Carriage.make_carriage(type, number: carriage_number)
   rescue ValidationError => e
     raise ControllerError, "Carriage is not created: #{e.message}"
   end
 
   def try_to_create_train(number, type)
-    Train.make_train(number, type)
+    Train.make_train(type, number)
   rescue ArgumentError, ValidationError => e
     raise ControllerError, "Train is not created: #{e.message}"
   end

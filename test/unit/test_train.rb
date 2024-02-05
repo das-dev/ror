@@ -10,7 +10,7 @@ class TestTrain < Minitest::Test
     @origin = Struct.new
     @destination = Struct.new
 
-    @passenger_train = Train.make_train('123-11', :passenger)
+    @passenger_train = Train.make_train(:passenger, '123-11')
   end
 
   def test_initial_train_state
@@ -22,34 +22,34 @@ class TestTrain < Minitest::Test
   end
 
   def test_train_number_validation_with_only_digits_passed
-    assert_equal true, Train.make_train('123-11', :passenger).valid?
-    assert_equal true, Train.make_train('12311', :passenger).valid?
+    assert_equal true, Train.make_train(:passenger, '123-11').valid?
+    assert_equal true, Train.make_train(:passenger, '12311').valid?
   end
 
   def test_train_number_validation_with_only_letters_passed
-    assert_equal true, Train.make_train('abc-ab', :passenger).valid?
-    assert_equal true, Train.make_train('abcab', :passenger).valid?
+    assert_equal true, Train.make_train(:passenger, 'abc-ab').valid?
+    assert_equal true, Train.make_train(:passenger, 'abcab').valid?
   end
 
   def test_train_number_validation_with_mixed_chars_passed
-    assert_equal true, Train.make_train('abc-12', :passenger).valid?
-    assert_equal true, Train.make_train('123-ab', :passenger).valid?
-    assert_equal true, Train.make_train('1ab2a', :passenger).valid?
+    assert_equal true, Train.make_train(:passenger, 'abc-12').valid?
+    assert_equal true, Train.make_train(:passenger, '123-ab').valid?
+    assert_equal true, Train.make_train(:passenger, '1ab2a').valid?
   end
 
   def test_train_number_validation_with_empty_number_failed
-    assert_raises(ValidationError) { Train.make_train('', :passenger) }
+    assert_raises(ValidationError) { Train.make_train(:passenger, '') }
   end
 
   def test_train_number_validation_wrong_length_failed
-    assert_raises(ValidationError) { Train.make_train('12', :passenger) }
-    assert_raises(ValidationError) { Train.make_train('123-111', :passenger) }
-    assert_raises(ValidationError) { Train.make_train('1ab2ab', :passenger) }
+    assert_raises(ValidationError) { Train.make_train(:passenger, '12') }
+    assert_raises(ValidationError) { Train.make_train(:passenger, '123-111') }
+    assert_raises(ValidationError) { Train.make_train(:passenger, '1ab2ab') }
   end
 
   def test_train_number_validation_wrong_chars_failed
-    assert_raises(ValidationError) { Train.make_train('123/111', :passenger) }
-    assert_raises(ValidationError) { Train.make_train('1аб2а', :passenger) }
+    assert_raises(ValidationError) { Train.make_train(:passenger, '123/111') }
+    assert_raises(ValidationError) { Train.make_train(:passenger, '1аб2а') }
   end
 
   def test_speed_up
