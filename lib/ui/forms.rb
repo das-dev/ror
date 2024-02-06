@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require_relative 'abc_menu'
-
 # rubocop:disable all
 module Forms
   def self.enter_carriage_number
