@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require_relative 'abc_menu'
+require_relative 'forms'
 
 # rubocop:disable Style/Documentation
 class ManageTrains < AbcMenu
@@ -30,16 +31,10 @@ class ManageTrains < AbcMenu
 
   def create_train
     navigation.bind('Create train form', :create_train, :manage_trains, attempts: 3) do
-      puts 'Enter train number:'
-      number = gets.chomp
+      number = Forms.enter_train_number
+      type = Forms.choose_train_type
+      manufacturer_name = Forms.enter_manufacturer_name
 
-      puts 'Choose train type:'
-      puts '1. Passenger'
-      puts '2. Cargo'
-      type = { 1 => :passenger, 2 => :cargo }[gets.chomp.to_i]
-
-      puts 'Enter manufacturer name:'
-      manufacturer_name = gets.chomp
       { number:, type:, manufacturer_name: }
     end
   end
@@ -51,8 +46,8 @@ class ManageTrains < AbcMenu
   def show_train
     navigation.bind('Show train:', :show_train, :manage_trains) do
       puts navigation.send_action(:list_trains)
-      puts 'Choose train:'
-      train_index = gets.chomp
+      train_index = Forms.choose_train
+
       { train_index: }
     end
   end
@@ -60,12 +55,10 @@ class ManageTrains < AbcMenu
   def assign_route
     navigation.bind('Set route to train', :set_route, :manage_trains) do
       puts navigation.send_action(:list_trains)
-      puts 'Enter train number from list or press Enter:'
-      train_index = gets.chomp
+      train_index = Forms.choose_train
 
       puts navigation.send_action(:list_routes)
-      puts 'Enter route number from list or press Enter:'
-      route_index = gets.chomp
+      route_index = Forms.choose_route
 
       { route_index:, train_index: }
     end
@@ -73,8 +66,8 @@ class ManageTrains < AbcMenu
 
   def find_train
     navigation.bind('Find train by number', :find_train, :manage_trains) do
-      puts 'Enter train number:'
-      number = gets.chomp
+      number = Forms.enter_train_number
+
       { number: }
     end
   end

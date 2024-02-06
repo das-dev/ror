@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require_relative 'abc_menu'
+require_relative 'forms'
 
 # rubocop:disable Style/Documentation
 class ManageCarriages < AbcMenu
@@ -30,16 +31,10 @@ class ManageCarriages < AbcMenu
 
   def create_carriage
     navigation.bind('Create carriage form', :create_carriage, :manage_carriages, attempts: 3) do
-      puts 'Enter carriage number:'
-      number = gets.chomp
+      number = Forms.enter_carriage_number
+      type = Forms.choose_carriage_type
+      manufacturer_name = Forms.enter_manufacturer_name
 
-      puts 'Choose carriage type:'
-      puts '1. Passenger'
-      puts '2. Cargo'
-      type = { 1 => :passenger, 2 => :cargo }[gets.chomp.to_i]
-
-      puts 'Enter manufacturer name:'
-      manufacturer_name = gets.chomp
       { number:, type:, manufacturer_name: }
     end
   end
@@ -51,8 +46,7 @@ class ManageCarriages < AbcMenu
   def list_carriages_in_train
     navigation.bind('List carriages in train:', :list_carriages_in_train, :manage_carriages) do
       puts navigation.send_action(:list_trains)
-      puts 'Choose train:'
-      train_index = gets.chomp
+      train_index = Forms.choose_train
 
       { train_index: }
     end
@@ -61,12 +55,11 @@ class ManageCarriages < AbcMenu
   def attach_carriage
     navigation.bind('Attach carriage to train', :add_carriage, :manage_carriages) do
       puts navigation.send_action(:list_trains)
-      puts 'Choose train:'
-      train_index = gets.chomp
+      train_index = Forms.choose_train
 
       puts navigation.send_action(:list_carriages)
-      puts 'Choose carriage:'
-      carriage_index = gets.chomp
+      carriage_index = Forms.choose_carriage
+
       { train_index:, carriage_index: }
     end
   end
@@ -74,12 +67,11 @@ class ManageCarriages < AbcMenu
   def detach_carriage
     navigation.bind('Detach carriage from train', :remove_carriage, :manage_carriages) do
       puts navigation.send_action(:list_trains)
-      puts 'Choose train:'
-      train_index = gets.chomp
+      train_index = Forms.choose_train
 
       puts navigation.send_action(:list_carriages_in_train, train_index:)
-      puts 'Choose carriage:'
-      carriage_index = gets.chomp
+      carriage_index = Forms.choose_carriage
+
       { train_index:, carriage_index: }
     end
   end

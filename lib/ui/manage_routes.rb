@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
+require_relative 'abc_menu'
+require_relative 'forms'
+
 # rubocop:disable Style/Documentation
 class ManageRoutes < AbcMenu
   def make_menu
@@ -31,12 +34,10 @@ class ManageRoutes < AbcMenu
   def create_route
     navigation.bind('Create route form', :create_route, :manage_routes) do
       puts navigation.send_action(:list_stations)
-      puts 'Choose an origin station or press Enter:'
-      origin_index = gets.chomp
+      origin_index = Forms.choose_origin_station
 
       puts navigation.send_action(:list_stations)
-      puts 'Choose a destination station or press Enter:'
-      destination_index = gets.chomp
+      destination_index = Forms.choose_destination_station
 
       { origin_index:, destination_index: }
     end
@@ -45,12 +46,10 @@ class ManageRoutes < AbcMenu
   def add_intermediate_station
     navigation.bind('Add station into a route', :add_station, :manage_routes) do
       puts navigation.send_action(:list_routes)
-      puts 'Enter route number:'
-      route_index = gets.chomp
+      route_index = Forms.choose_route
 
       puts navigation.send_action(:list_stations)
-      puts 'Enter station number:'
-      station_index = gets.chomp
+      station_index = Forms.choose_station
 
       { route_index:, station_index: }
     end
@@ -59,12 +58,10 @@ class ManageRoutes < AbcMenu
   def remove_intermediate_station
     navigation.bind('Remove station from a route', :remove_station, :manage_routes) do
       puts navigation.send_action(:list_routes)
-      puts 'Enter route number:'
-      route_index = gets.chomp
+      route_index = Forms.choose_route
 
       puts navigation.send_action(:list_stations)
-      puts 'Enter station number:'
-      station_index = gets.chomp
+      station_index = Forms.choose_station
 
       { route_index:, station_index: }
     end
