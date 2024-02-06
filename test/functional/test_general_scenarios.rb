@@ -31,7 +31,7 @@ class GeneralScenariosTest < Minitest::Test
 
     @helper.run_app
 
-    pattern = format(TestHelper::STAT_VIEW, 2, 1, 1, 0, 0, 1)
+    pattern = format(TestHelper::STAT_VIEW, 2, 0, 0, 1, 1, 1)
     assert_match(/#{pattern}/, @helper.output.string)
   end
 

@@ -1,25 +1,19 @@
 # frozen_string_literal: true
 
-# rubocop:disable Style/Documentation
-class ManageTrains
-  def initialize(navigation)
-    @navigation = navigation
-  end
+require_relative 'menu'
 
+# rubocop:disable Style/Documentation
+class ManageTrains < Menu
   def make_menu
     manage_trains
     create_train
     list_trains
     show_train
-    attach_carriage
-    detach_carriage
     assign_route
     find_train
   end
 
   private
-
-  attr_reader :navigation
 
   # приватные потому что нужен единообразный интерфейс (метод make_menu)
   def manage_trains
@@ -27,9 +21,7 @@ class ManageTrains
       menu.choice('Create train', :create_train, '1')
       menu.choice('List trains', :list_trains, '2')
       menu.choice('Show train', :show_train, '3')
-      menu.choice('Attach carriage to train', :add_carriage, '4')
-      menu.choice('Detach carriage to train', :remove_carriage, '5')
-      menu.choice('Set route to train', :set_route, '6')
+      menu.choice('Set route to train', :set_route, '4')
       menu.choice('Back to Main Menu', :main_menu, '0')
       menu.choice('Find train by number', :find_train, 'f')
       menu.choice('Quit', :exit, 'q')
@@ -62,28 +54,6 @@ class ManageTrains
       puts 'Choose train:'
       train_index = gets.chomp
       { train_index: }
-    end
-  end
-
-  def attach_carriage
-    navigation.bind('Attach carriage to train', :add_carriage, :manage_trains) do
-      puts navigation.send_action(:list_trains)
-      puts 'Choose train:'
-      train_index = gets.chomp
-      puts 'Enter carriage number:'
-      carriage_number = gets.chomp
-      { train_index:, carriage_number: }
-    end
-  end
-
-  def detach_carriage
-    navigation.bind('Detach carriage to train', :remove_carriage, :manage_trains) do
-      puts navigation.send_action(:list_trains)
-      puts 'Choose train:'
-      train_index = gets.chomp
-      puts 'Enter carriage number:'
-      carriage_number = gets.chomp
-      { train_index:, carriage_number: }
     end
   end
 

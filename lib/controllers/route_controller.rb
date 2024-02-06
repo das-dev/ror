@@ -10,8 +10,8 @@ class RouteController
   end
 
   def create_route(origin_index:, destination_index:)
-    origin = get_station(origin_index.to_i)
-    destination = get_station(destination_index.to_i)
+    origin = get_station(origin_index)
+    destination = get_station(destination_index)
 
     route = try_to_create_route(origin, destination)
 
@@ -27,8 +27,8 @@ class RouteController
   end
 
   def add_intermediate_station(route_index:, station_index:)
-    route = get_route(route_index.to_i)
-    station = get_station(station_index.to_i)
+    route = get_route(route_index)
+    station = get_station(station_index)
     raise ControllerError, 'Station is already in the route' if route.stations.include?(station)
 
     route.append_intermediate_station(station)
@@ -36,9 +36,9 @@ class RouteController
   end
 
   def remove_intermediate_station(route_index:, station_index:)
-    route = get_route(route_index.to_i)
+    route = get_route(route_index)
 
-    station = get_station(station_index.to_i)
+    station = get_station(station_index)
     raise ControllerError, 'Station is not in the route' unless route.stations.include?(station)
     raise ControllerError, 'Cannot remove an origin station' if route.origin_station == station
     raise ControllerError, 'Cannot remove a destination station' if route.destination_station == station
@@ -58,15 +58,15 @@ class RouteController
   end
 
   def get_route(route_index)
-    route = @storage.get(:routes, [])[route_index - 1]
-    raise ControllerError, "Route ##{route_index} not found" unless route && route_index.positive?
+    route = @storage.get(:routes, [])[route_index.to_i - 1]
+    raise ControllerError, "Route ##{route_index} not found" unless route && route_index.to_i.positive?
 
     route
   end
 
   def get_station(station_index)
-    station = @storage.get(:stations, [])[station_index - 1]
-    raise ControllerError, "Station ##{station_index} not found" unless station && station_index.positive?
+    station = @storage.get(:stations, [])[station_index.to_i - 1]
+    raise ControllerError, "Station ##{station_index} not found" unless station && station_index.to_i.positive?
 
     station
   end

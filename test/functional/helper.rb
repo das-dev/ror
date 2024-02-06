@@ -8,9 +8,10 @@ class TestHelper
   MAIN_MENU = <<~MAIN_MENU
     Main Menu
     1. Manage Stations
-    2. Manage Trains
-    3. Manage Routes
-    4. Move Trains
+    2. Manage Carriages
+    3. Manage Trains
+    4. Manage Routes
+    5. Move Trains
     a. About app
     s. Stat
     q. Quit
@@ -18,13 +19,12 @@ class TestHelper
   MAIN_MENU
 
   STAT_VIEW = <<~STAT_VIEW
-    Stat
-    Stations: %s
-    Cargo trains: %s
-    Passenger trains: %s
-    Cargo carriages: %s
-    Passenger carriages: %s
-    Routes: %s
+    Stations: %d
+    Cargo carriages: %d
+    Passenger carriages: %d
+    Cargo trains: %d
+    Passenger trains: %d
+    Routes: %d
   STAT_VIEW
 
   def initialize
@@ -70,37 +70,44 @@ module Scenarios
 
   def scenario_create_train(train_number:, type:, manufacturer:)
     train_type = { passenger: '1', cargo: '2' }[type]
-    ['0', '2', '1', train_number, train_type, manufacturer, ''].each do |input|
+    ['0', '3', '1', train_number, train_type, manufacturer, ''].each do |input|
       @helper.input.puts(input)
     end
   end
 
   def scenario_list_train
-    ['0', '2', '2', ''].each do |input|
+    ['0', '3', '2', ''].each do |input|
       @helper.input.puts(input)
     end
   end
 
   def scenario_show_train
-    ['0', '2', '3', '1', ''].each do |input|
+    ['0', '3', '3', '1', ''].each do |input|
       @helper.input.puts(input)
     end
   end
 
-  def scenario_add_carriage(carriage_number:)
-    ['0', '2', '4', '1', carriage_number, ''].each do |input|
+  def scenario_create_carriage(carriage_number:, type:, manufacturer:)
+    carriage_type = { passenger: '1', cargo: '2' }[type]
+    ['0', '2', '1', carriage_number, carriage_type, manufacturer, ''].each do |input|
+      @helper.input.puts(input)
+    end
+  end
+
+  def scenario_add_carriage(train_index:, carriage_index:)
+    ['0', '2', '4', train_index, carriage_index, ''].each do |input|
       @helper.input.puts(input)
     end
   end
 
   def scenario_create_route
-    ['0', '3', '1', '1', '2', ''].each do |input|
+    ['0', '4', '1', '1', '2', ''].each do |input|
       @helper.input.puts(input)
     end
   end
 
   def scenario_routes_list
-    ['0', '3', '2', ''].each do |input|
+    ['0', '4', '2', ''].each do |input|
       @helper.input.puts(input)
     end
   end

@@ -10,8 +10,12 @@ class KeyValueStorage
     @storage[key] << value
   end
 
-  def get(key, default = nil)
-    @storage[key] || default
+  def [](key)
+    @storage[key]
+  end
+
+  def get(key, default)
+    self[key] || default
   end
 end
 # rubocop:enable all

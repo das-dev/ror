@@ -16,7 +16,7 @@ class TestTrain < Minitest::Test
   def test_initial_train_state
     assert_equal '123-11', passenger_train.number
     assert_equal :passenger, passenger_train.type
-    assert_equal 0, passenger_train.carriage_count
+    assert_equal 0, passenger_train.count
     assert_equal 0, passenger_train.speed
     assert_nil passenger_train.route
   end
@@ -73,40 +73,40 @@ class TestTrain < Minitest::Test
   end
 
   def test_attach_carriage
-    passenger_train.attach_carriage(Struct.new(:type, :number).new(:passenger, '1'))
-    passenger_train.attach_carriage(Struct.new(:type, :number).new(:passenger, '2'))
-    passenger_train.attach_carriage(Struct.new(:type, :number).new(:passenger, '3'))
+    passenger_train << Struct.new(:type, :number).new(:passenger, '1')
+    passenger_train << Struct.new(:type, :number).new(:passenger, '2')
+    passenger_train << Struct.new(:type, :number).new(:passenger, '3')
 
-    assert_equal 3, passenger_train.carriage_count
+    assert_equal 3, passenger_train.count
   end
 
   def test_attach_carriage_of_wrong_type
-    passenger_train.attach_carriage(Struct.new(:type, :number).new(:passenger, '1'))
+    passenger_train << Struct.new(:type, :number).new(:passenger, '1')
 
-    assert_nil passenger_train.attach_carriage(Struct.new(:type, :number).new(:cargo, '2'))
-    assert_equal 1, passenger_train.carriage_count
+    assert_nil passenger_train << Struct.new(:type, :number).new(:cargo, '2')
+    assert_equal 1, passenger_train.count
   end
 
   def test_detach_carriage
-    passenger_train.attach_carriage(Struct.new(:type, :number).new(:passenger, '1'))
-    passenger_train.attach_carriage(Struct.new(:type, :number).new(:passenger, '2'))
-    passenger_train.attach_carriage(Struct.new(:type, :number).new(:passenger, '3'))
-    passenger_train.detach_carriage_by_number('2')
+    passenger_train << Struct.new(:type, :number).new(:passenger, '1')
+    passenger_train << to_detach = Struct.new(:type, :number).new(:passenger, '2')
+    passenger_train.detach_carriage(to_detach)
 
-    assert_equal 2, passenger_train.carriage_count
+    assert_equal 1, passenger_train.count
   end
 
   def test_detach_carriage_when_carriage_count_is_zero
-    assert_empty passenger_train.detach_carriage_by_number('1')
-    assert_equal 0, passenger_train.carriage_count
+    to_detach = Struct.new(:type, :number).new(:passenger, '2')
+    assert_nil passenger_train.detach_carriage(to_detach)
+    assert_equal 0, passenger_train.count
   end
 
   def test_carriage_change_while_moving
-    passenger_train.attach_carriage(Struct.new(:type, :number).new(:passenger, '1'))
+    passenger_train << to_detach = Struct.new(:type, :number).new(:passenger, '1')
     passenger_train.speed_up(10)
 
-    assert_nil passenger_train.attach_carriage(Struct.new(:type, :number).new(:passenger, '2'))
-    assert_nil passenger_train.detach_carriage_by_number('1')
+    assert_nil passenger_train << Struct.new(:type, :number).new(:passenger, '2')
+    assert_nil passenger_train.detach_carriage(to_detach)
   end
 
   def test_current_station_without_route

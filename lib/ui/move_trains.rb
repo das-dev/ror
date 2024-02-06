@@ -1,11 +1,9 @@
 # frozen_string_literal: true
 
-# rubocop:disable Style/Documentation
-class MoveTrains
-  def initialize(navigation)
-    @navigation = navigation
-  end
+require_relative 'menu'
 
+# rubocop:disable Style/Documentation
+class MoveTrains < Menu
   def make_menu
     move_trains
     move_forward
@@ -13,8 +11,6 @@ class MoveTrains
   end
 
   private
-
-  attr_reader :navigation
 
   # приватные потому что нужен единообразный интерфейс (метод make_menu)
   def move_trains

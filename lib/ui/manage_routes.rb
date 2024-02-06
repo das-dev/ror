@@ -1,11 +1,7 @@
 # frozen_string_literal: true
 
 # rubocop:disable Style/Documentation
-class ManageRoutes
-  def initialize(navigation)
-    @navigation = navigation
-  end
-
+class ManageRoutes < Menu
   def make_menu
     manage_routes
     create_route
@@ -15,8 +11,6 @@ class ManageRoutes
   end
 
   private
-
-  attr_reader :navigation
 
   # приватные потому что нужен единообразный интерфейс (метод make_menu)
   def manage_routes

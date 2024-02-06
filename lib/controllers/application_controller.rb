@@ -9,24 +9,27 @@ require_relative '../model/route'
 
 # rubocop:disable Style/Documentation
 class ApplicationController
+  STAT_VIEW = <<~STAT_VIEW
+    Stations: %d
+    Cargo carriages: %d
+    Passenger carriages: %d
+    Cargo trains: %d
+    Passenger trains: %d
+    Routes: %d
+  STAT_VIEW
+
   def initialize(storage)
     @storage = storage
   end
 
   def stat
-    route_count = @storage.get(:routes, []).size
-    station_count = @storage.get(:stations, []).size
-    cargo_train_count = @storage.get(:trains, []).select { |t| t.type == :cargo }.size
-    passenger_train_count = @storage.get(:trains, []).select { |t| t.type == :passenger }.size
-    cargo_carriage_count = @storage.get(:carriages, []).select { |c| c.type == :cargo }.size
-    passenger_carriage_count = @storage.get(:carriages, []).select { |c| c.type == :passenger }.size
-
-    "Stations: #{station_count}\n" \
-      "Cargo trains: #{cargo_train_count}\n" \
-      "Passenger trains: #{passenger_train_count}\n" \
-      "Cargo carriages: #{cargo_carriage_count}\n" \
-      "Passenger carriages: #{passenger_carriage_count}\n" \
-      "Routes: #{route_count}"
+    format(STAT_VIEW,
+           fetch_stations_count,
+           fetch_cargo_carriages_count,
+           fetch_passenger_carriages_count,
+           fetch_cargo_trains_count,
+           fetch_passenger_trains_count,
+           fetch_route_count)
   end
 
   def about
@@ -39,6 +42,32 @@ class ApplicationController
       /ApqIZwB/W2JxN64lNxByiwrs547FkjAOJ1nnwwW/wH2Cxl/p/o=
     ABOUT
     Zlib::Inflate.inflate(Base64.decode64(content))
+  end
+
+  private
+
+  def fetch_stations_count
+    @storage[:stations].size
+  end
+
+  def fetch_route_count
+    @storage[:routes].size
+  end
+
+  def fetch_cargo_carriages_count
+    @storage[:carriages].select { |t| t.type == :cargo }.size
+  end
+
+  def fetch_passenger_carriages_count
+    @storage[:carriages].select { |t| t.type == :passenger }.size
+  end
+
+  def fetch_cargo_trains_count
+    @storage[:trains].select { |t| t.type == :cargo }.size
+  end
+
+  def fetch_passenger_trains_count
+    @storage[:trains].select { |t| t.type == :passenger }.size
   end
 end
 # rubocop:enable all

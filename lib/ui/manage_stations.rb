@@ -1,11 +1,9 @@
 # frozen_string_literal: true
 
-# rubocop:disable Style/Documentation
-class ManageStations
-  def initialize(navigation)
-    @navigation = navigation
-  end
+require_relative 'menu'
 
+# rubocop:disable Style/Documentation
+class ManageStations < Menu
   def make_menu
     manage_stations
     create_station
@@ -14,8 +12,6 @@ class ManageStations
   end
 
   private
-
-  attr_reader :navigation
 
   # приватные потому что нужен единообразный интерфейс (метод make_menu)
   def manage_stations

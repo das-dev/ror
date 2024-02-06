@@ -35,8 +35,8 @@ class Carriage
     end
   end
 
-  def to_s
-    "##{number}"
+  def titlecase
+    to_s.sub(/./, &:upcase)
   end
 end
 # rubocop enable all
@@ -52,6 +52,10 @@ class PassengerCarriage < Carriage
     @occupied_seats = 0
     validate!
   end
+
+  def to_s
+    "passenger carriage ##{number}"
+  end
 end
 # rubocop enable all
 
@@ -65,6 +69,10 @@ class CargoCarriage < Carriage
     @volume = volume
     @occupied_volume = 0
     validate!
+  end
+
+  def to_s
+    "cargo carriage ##{number}"
   end
 end
 # rubocop enable all

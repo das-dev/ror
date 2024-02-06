@@ -23,7 +23,7 @@ class StationController
   end
 
   def list_trains_on_station(station_index:)
-    station = get_station(station_index.to_i)
+    station = get_station(station_index)
     trains = station.trains.map.with_index(1) do |train, index|
       "#{index}. #{train.titlecase}"
     end
@@ -41,8 +41,8 @@ class StationController
   end
 
   def get_station(station_index)
-    station = @storage.get(:stations, [])[station_index - 1]
-    raise ControllerError, "Station ##{station_index} not found" unless station && station_index.positive?
+    station = @storage.get(:stations, [])[station_index.to_i - 1]
+    raise ControllerError, "Station ##{station_index} not found" unless station && station_index.to_i.positive?
 
     station
   end

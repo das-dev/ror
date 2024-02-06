@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require_relative '../model/train'
-require_relative '../model/carriage'
 require_relative 'exceptions'
 
 # rubocop:disable Style/Documentation
@@ -25,30 +24,13 @@ class TrainController
   end
 
   def show_train(train_index:)
-    train = get_train(train_index.to_i)
+    train = get_train(train_index)
     train_info(train)
-  end
-
-  def attach_carriage(train_index:, carriage_number:)
-    train = get_train(train_index.to_i)
-    carriage = try_to_create_carriage(train.type, carriage_number)
-    @storage.add_to_list(:carriages, carriage)
-    raise ControllerError, 'Carriage not attached' unless train.attach_carriage(carriage)
-
-    "Carriage ##{carriage_number} is attached to #{train}"
-  end
-
-  def detach_carriage(train_index:, carriage_number:)
-    train = get_train(train_index.to_i)
-    carriage = train.detach_carriage_by_number(carriage_number)
-    raise ControllerError, 'Carriage not detached' unless carriage
-
-    "Carriage ##{carriage_number} is detached from #{train}"
   end
 
   def assign_route_to_train(route_index:, train_index:)
     route = get_route(route_index.to_i)
-    train = get_train(train_index.to_i)
+    train = get_train(train_index)
     train.assign_route(route)
     "#{train.titlecase} assigned #{route}"
   end
@@ -61,7 +43,7 @@ class TrainController
   end
 
   def move_forward(train_index:)
-    train = get_train(train_index.to_i)
+    train = get_train(train_index)
     raise ControllerError, 'Train is not on the route' unless train.route
 
     begin
@@ -74,7 +56,7 @@ class TrainController
   end
 
   def move_backward(train_index:)
-    train = get_train(train_index.to_i)
+    train = get_train(train_index)
     raise ControllerError, 'Train is not on the route' unless train.route
 
     begin
@@ -90,12 +72,6 @@ class TrainController
 
   # приватные хелперы
 
-  def try_to_create_carriage(type, carriage_number)
-    Carriage.make_carriage(type, number: carriage_number)
-  rescue ValidationError => e
-    raise ControllerError, "Carriage is not created: #{e.message}"
-  end
-
   def try_to_create_train(number, type)
     Train.make_train(type, number)
   rescue ArgumentError, ValidationError => e
@@ -103,8 +79,8 @@ class TrainController
   end
 
   def get_train(train_index)
-    train = @storage.get(:trains, [])[train_index - 1]
-    raise ControllerError, "Train ##{train_index} not found" unless train && train_index.positive?
+    train = @storage.get(:trains, [])[train_index.to_i - 1]
+    raise ControllerError, "Train ##{train_index} not found" unless train && train_index.to_i.positive?
 
     train
   end
@@ -130,7 +106,7 @@ class TrainController
     on_factory = "is at the factory #{train.manufacturer_name}"
     route_info = train.route ? on_route : on_factory
     station_info = train.route ? "at #{train.current_station}\n" : ''
-    carriages_info = "with #{train.carriage_count} carriages"
+    carriages_info = "with #{train.count} carriages"
 
     "#{train.titlecase} #{route_info}\n" \
       "#{station_info}" \

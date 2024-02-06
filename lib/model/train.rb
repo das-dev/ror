@@ -11,6 +11,7 @@ class Train
   include ManufacturerInfo
   include InstanceCounter
   include Validation
+  include Enumerable
 
   NUMBER_FORMAT = /^[\da-zA-Z]{3}-?[\da-zA-Z]{2}$/
 
@@ -40,10 +41,6 @@ class Train
     end
   end
 
-  def carriage_count
-    carriages.size
-  end
-
   def assign_route(new_route)
     self.route = new_route
     self.current_station_index = 0
@@ -59,15 +56,8 @@ class Train
     self.speed = new_speed.negative? ? 0 : new_speed
   end
 
-  def attach_carriage(carriage)
-    return nil if speed.positive? || carriage.type != type
-
-    carriages << carriage
-    carriage
-  end
-
-  def detach_carriage_by_number(carriage_number)
-    detach_carriage_by_number!(carriage_number) unless speed.positive?
+  def detach_carriage(carriage)
+    detach_carriage!(carriage) unless speed.positive?
   end
 
   def move_forward
@@ -102,6 +92,20 @@ class Train
     next_station! unless current_station_index >= stations_on_current_route.size - 1
   end
 
+  def <<(carriage)
+    return nil if speed.positive? || carriage.type != type
+
+    carriages << carriage
+  end
+
+  def [](index)
+    carriages[index]
+  end
+
+  def each(&block)
+    carriages.each(&block)
+  end
+
   def titlecase
     to_s.to_s.sub(/./, &:upcase)
   end
@@ -113,8 +117,8 @@ class Train
 
   # приватный т.к. никому для удаления вагонов
   # должны соблюдаться условия
-  def detach_carriage_by_number!(carriage_number)
-    carriages.delete_if { |carriage| carriage.number == carriage_number }
+  def detach_carriage!(carriage)
+    carriages.delete(carriage)
   end
 
   # приватный т.к. никому не нужен снаружи

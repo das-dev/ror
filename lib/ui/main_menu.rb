@@ -1,11 +1,9 @@
 # frozen_string_literal: true
 
-# rubocop:disable Style/Documentation
-class MainMenu
-  def initialize(navigation)
-    @navigation = navigation
-  end
+require_relative 'menu'
 
+# rubocop:disable Style/Documentation
+class MainMenu < Menu
   def make_menu
     main_menu
     about
@@ -14,15 +12,14 @@ class MainMenu
 
   private
 
-  attr_reader :navigation
-
   # приватные потому что нужен единообразный интерфейс (метод make_menu)
   def main_menu
     navigation.make('Main Menu', :main_menu) do |menu|
       menu.choice 'Manage Stations', :manage_stations, '1'
-      menu.choice 'Manage Trains', :manage_trains, '2'
-      menu.choice 'Manage Routes', :manage_routes, '3'
-      menu.choice 'Move Trains', :move_trains, '4'
+      menu.choice 'Manage Carriages', :manage_carriages, '2'
+      menu.choice 'Manage Trains', :manage_trains, '3'
+      menu.choice 'Manage Routes', :manage_routes, '4'
+      menu.choice 'Move Trains', :move_trains, '5'
       menu.choice 'About app', :about, 'a'
       menu.choice 'Stat', :stat, 's'
       menu.choice 'Quit', :exit, 'q'
