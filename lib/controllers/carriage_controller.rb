@@ -9,11 +9,13 @@ class CarriageController
     @storage = storage
   end
 
-  def create_carriage(number:, type:, manufacturer_name:)
-    carriage = try_to_create_carriage(number, type)
-    @storage.add_to_list(:carriages, carriage)
+  def create_carriage(number:, type:, manufacturer_name:, extra_params: {})
+    carriage = try_to_create_carriage(type, number, extra_params)
     carriage.manufacturer_name = manufacturer_name
-    "#{carriage.titlecase} is created"
+    check_carriage_existence(carriage)
+    @storage.add_to_list(:carriages, carriage)
+
+    "Created #{carriage}"
   end
 
   def list_carriages
@@ -54,10 +56,19 @@ class CarriageController
 
   # приватные хелперы
 
-  def try_to_create_carriage(carriage_number, type)
-    Carriage.make_carriage(type, number: carriage_number)
+  def try_to_create_carriage(type, carriage_number, raw_extra_params)
+    extra_params = process_extra_params(type, **raw_extra_params)
+    Carriage.make_carriage(type, number: carriage_number, **extra_params)
   rescue ValidationError => e
     raise ControllerError, "Carriage is not created: #{e.message}"
+  end
+
+  def check_carriage_existence(carriage)
+    carriages = @storage.get(:carriages, [])
+    already_exists = carriages.any? do |c|
+      c.number == carriage.number && c.type == carriage.type
+    end
+    raise ControllerError, "#{carriage.short_titlecase} already exists" if already_exists
   end
 
   def get_carriage(carriage_index)
@@ -79,6 +90,19 @@ class CarriageController
     raise ControllerError, "Train ##{train_index} not found" unless train && train_index.to_i.positive?
 
     train
+  end
+
+  def process_extra_params(type, seats: nil, volume: nil)
+    case type
+    when :passenger
+      { seats: seats.to_i } if seats
+    when :cargo
+      { volume: volume.to_i } if volume
+    when nil
+      raise ControllerError, 'Carriage type is not specified'
+    else
+      raise ControllerError, "Unknown carriage type: #{type}"
+    end
   end
 end
 # rubocop:enable all

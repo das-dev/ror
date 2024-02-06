@@ -36,7 +36,7 @@ class TrainsManagementTest < Minitest::Test
 
   def test_add_carriage
     scenario_create_train(train_number: '001-01', type: :passenger, manufacturer: 'GoldenWagon')
-    scenario_create_carriage(carriage_number: '100', type: :passenger, manufacturer: 'GoldenWagon')
+    scenario_create_passenger_carriage(carriage_number: '100', manufacturer: 'GoldenWagon', seats: '50')
     scenario_add_carriage(train_index: '1', carriage_index: '1')
     scenario_show_train
     scenario_quit

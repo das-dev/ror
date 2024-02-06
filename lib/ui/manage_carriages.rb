@@ -33,8 +33,9 @@ class ManageCarriages < AbcMenu
       number = enter_carriage_number
       type = choose_carriage_type
       manufacturer_name = enter_manufacturer_name
+      extra_params = enter_carriage_extra_params(type)
 
-      { number:, type:, manufacturer_name: }
+      { number:, type:, manufacturer_name:, extra_params: }
     end
   end
 

@@ -53,8 +53,21 @@ class PassengerCarriage < Carriage
     validate!
   end
 
+  def validate!
+    super
+    raise ValidationError, 'Total seats must be positive' unless seats.positive?
+  end
+
+  def free_seats
+    seats - occupied_seats
+  end
+
+  def short_titlecase
+    "Passenger carriage ##{number}"
+  end
+
   def to_s
-    "passenger carriage ##{number}"
+    "passenger carriage ##{number}. Free seats: #{free_seats}, occupied seats: #{occupied_seats}"
   end
 end
 # rubocop enable all
@@ -71,8 +84,21 @@ class CargoCarriage < Carriage
     validate!
   end
 
+  def validate!
+    super
+    raise ValidationError, 'Total volume must be positive' unless volume.positive?
+  end
+
+  def free_volume
+    volume - occupied_volume
+  end
+
+  def short_titlecase
+    "Cargo carriage ##{number}"
+  end
+
   def to_s
-    "cargo carriage ##{number}"
+    "cargo carriage ##{number}. Free volume: #{free_volume}, occupied volume: #{occupied_volume}"
   end
 end
 # rubocop enable all

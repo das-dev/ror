@@ -7,6 +7,19 @@ module Forms
     gets.chomp
   end
 
+  def enter_carriage_extra_params(type)
+    case type
+    when :passenger
+      puts 'Enter total seats:'
+      { seats: gets.chomp }
+    when :cargo
+      puts 'Enter total volume:'
+      { volume: gets.chomp }
+    else
+      {}
+    end
+  end
+
   def choose_carriage_type
     puts 'Choose carriage type:'
     puts '1. Passenger'

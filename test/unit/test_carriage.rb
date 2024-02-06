@@ -7,8 +7,8 @@ class TestCarriage < Minitest::Test
   attr_reader :cargo_carriage, :passenger_carriage
 
   def setup
-    @passenger_carriage = Carriage.make_carriage(:passenger, number: '123-P', seats: 0)
-    @cargo_carriage = Carriage.make_carriage(:cargo, number: '123-C', volume: 0)
+    @passenger_carriage = Carriage.make_carriage(:passenger, number: '123-P', seats: 50)
+    @cargo_carriage = Carriage.make_carriage(:cargo, number: '123-C', volume: 20)
   end
 
   def test_carriage_initial_state
@@ -20,14 +20,14 @@ class TestCarriage < Minitest::Test
   end
 
   def test_valid_number_format
-    carriage = Carriage.make_carriage(:passenger, number: '123P', seats: 0)
+    carriage = Carriage.make_carriage(:passenger, number: '123P', seats: 30)
 
     assert_equal true, carriage.valid?
   end
 
   def test_invalid_number_format
     assert_raises(ValidationError) do
-      Carriage.make_carriage(:cargo, number: '123_P', volume: 0)
+      Carriage.make_carriage(:cargo, number: '123_P', volume: 20)
     end
   end
 

@@ -87,9 +87,8 @@ module Scenarios
     end
   end
 
-  def scenario_create_carriage(carriage_number:, type:, manufacturer:)
-    carriage_type = { passenger: '1', cargo: '2' }[type]
-    ['0', '2', '1', carriage_number, carriage_type, manufacturer, ''].each do |input|
+  def scenario_create_passenger_carriage(carriage_number:, manufacturer:, seats:)
+    ['0', '2', '1', carriage_number, '1', manufacturer, seats, ''].each do |input|
       @helper.input.puts(input)
     end
   end
