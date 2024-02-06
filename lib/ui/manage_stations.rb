@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require_relative 'abc_menu'
-require_relative 'forms'
 
 # rubocop:disable Style/Documentation
 class ManageStations < AbcMenu
@@ -27,7 +26,7 @@ class ManageStations < AbcMenu
 
   def create_station
     navigation.bind('Create station form', :create_station, :manage_stations, attempts: 3) do
-      name = Forms.enter_station_name
+      name = enter_station_name
 
       { name: }
     end
@@ -40,7 +39,7 @@ class ManageStations < AbcMenu
   def list_trains_on_station
     navigation.bind('Select station:', :list_trains_on_station, :manage_stations) do
       puts navigation.send_action(:list_stations)
-      station_index = Forms.choose_station
+      station_index = choose_station
       { station_index: }
     end
   end

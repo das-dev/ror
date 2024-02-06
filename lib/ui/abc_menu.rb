@@ -1,7 +1,11 @@
 # frozen_string_literal: true
 
+require_relative 'forms'
+
 # rubocop:disable Style/Documentation
 class AbcMenu
+  include Forms
+
   def initialize(navigation)
     @navigation = navigation
   end

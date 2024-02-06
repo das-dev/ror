@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require_relative 'abc_menu'
-require_relative 'forms'
 
 # rubocop:disable Style/Documentation
 class ManageRoutes < AbcMenu
@@ -34,10 +33,10 @@ class ManageRoutes < AbcMenu
   def create_route
     navigation.bind('Create route form', :create_route, :manage_routes) do
       puts navigation.send_action(:list_stations)
-      origin_index = Forms.choose_origin_station
+      origin_index = choose_origin_station
 
       puts navigation.send_action(:list_stations)
-      destination_index = Forms.choose_destination_station
+      destination_index = choose_destination_station
 
       { origin_index:, destination_index: }
     end
@@ -46,10 +45,10 @@ class ManageRoutes < AbcMenu
   def add_intermediate_station
     navigation.bind('Add station into a route', :add_station, :manage_routes) do
       puts navigation.send_action(:list_routes)
-      route_index = Forms.choose_route
+      route_index = choose_route
 
       puts navigation.send_action(:list_stations)
-      station_index = Forms.choose_station
+      station_index = choose_station
 
       { route_index:, station_index: }
     end
@@ -58,10 +57,10 @@ class ManageRoutes < AbcMenu
   def remove_intermediate_station
     navigation.bind('Remove station from a route', :remove_station, :manage_routes) do
       puts navigation.send_action(:list_routes)
-      route_index = Forms.choose_route
+      route_index = choose_route
 
       puts navigation.send_action(:list_stations)
-      station_index = Forms.choose_station
+      station_index = choose_station
 
       { route_index:, station_index: }
     end

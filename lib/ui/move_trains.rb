@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require_relative 'abc_menu'
-require_relative 'forms'
 
 # rubocop:disable Style/Documentation
 class MoveTrains < AbcMenu
@@ -26,7 +25,7 @@ class MoveTrains < AbcMenu
   def move_forward
     navigation.bind('Move train forward on route', :move_forward, :move_trains) do
       puts navigation.send_action(:list_trains)
-      train_index = Forms.choose_train
+      train_index = choose_train
 
       { train_index: }
     end
@@ -35,7 +34,7 @@ class MoveTrains < AbcMenu
   def move_backward
     navigation.bind('Move train backward on route', :move_backward, :move_trains) do
       puts navigation.send_action(:list_trains)
-      train_index = Forms.choose_train
+      train_index = choose_train
 
       { train_index: }
     end

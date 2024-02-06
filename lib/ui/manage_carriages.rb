@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require_relative 'abc_menu'
-require_relative 'forms'
 
 # rubocop:disable Style/Documentation
 class ManageCarriages < AbcMenu
@@ -31,9 +30,9 @@ class ManageCarriages < AbcMenu
 
   def create_carriage
     navigation.bind('Create carriage form', :create_carriage, :manage_carriages, attempts: 3) do
-      number = Forms.enter_carriage_number
-      type = Forms.choose_carriage_type
-      manufacturer_name = Forms.enter_manufacturer_name
+      number = enter_carriage_number
+      type = choose_carriage_type
+      manufacturer_name = enter_manufacturer_name
 
       { number:, type:, manufacturer_name: }
     end
@@ -46,7 +45,7 @@ class ManageCarriages < AbcMenu
   def list_carriages_in_train
     navigation.bind('List carriages in train:', :list_carriages_in_train, :manage_carriages) do
       puts navigation.send_action(:list_trains)
-      train_index = Forms.choose_train
+      train_index = choose_train
 
       { train_index: }
     end
@@ -55,10 +54,10 @@ class ManageCarriages < AbcMenu
   def attach_carriage
     navigation.bind('Attach carriage to train', :add_carriage, :manage_carriages) do
       puts navigation.send_action(:list_trains)
-      train_index = Forms.choose_train
+      train_index = choose_train
 
       puts navigation.send_action(:list_carriages)
-      carriage_index = Forms.choose_carriage
+      carriage_index = choose_carriage
 
       { train_index:, carriage_index: }
     end
@@ -67,10 +66,10 @@ class ManageCarriages < AbcMenu
   def detach_carriage
     navigation.bind('Detach carriage from train', :remove_carriage, :manage_carriages) do
       puts navigation.send_action(:list_trains)
-      train_index = Forms.choose_train
+      train_index = choose_train
 
       puts navigation.send_action(:list_carriages_in_train, train_index:)
-      carriage_index = Forms.choose_carriage
+      carriage_index = choose_carriage
 
       { train_index:, carriage_index: }
     end
