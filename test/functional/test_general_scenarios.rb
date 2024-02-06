@@ -21,8 +21,8 @@ class GeneralScenariosTest < Minitest::Test
   end
 
   def test_stat
-    scenario_create_station(station_name: 'Station1')
-    scenario_create_station(station_name: 'Station2')
+    scenario_create_station(station_name: 'Station 1')
+    scenario_create_station(station_name: 'Station 2')
     scenario_create_train(train_number: '001-00', type: :passenger, manufacturer: 'Manufacturer1')
     scenario_create_train(train_number: '002-00', type: :cargo, manufacturer: 'Manufacturer1')
     scenario_create_route
@@ -34,4 +34,22 @@ class GeneralScenariosTest < Minitest::Test
     pattern = format(TestHelper::STAT_VIEW, 2, 1, 1, 0, 0, 1)
     assert_match(/#{pattern}/, @helper.output.string)
   end
+
+  # def test_train_movement_on_route
+  #   scenario_create_station(station_name: 'Origin')
+  #   scenario_create_station(station_name: 'Destination')
+  #   scenario_create_train(train_number: '001-00', type: :passenger, manufacturer: 'Manufacturer1')
+  #   scenario_create_train(train_number: '001-01', type: :cargo, manufacturer: 'Manufacturer1')
+  #   scenario_create_route
+  #   scenario_set_route_to_train(train_number: '001-00')
+  #   scenario_set_route_to_train(train_number: '001-01')
+  #   scenario_train_move_on_route(train_number: '001-00', [:forward, :forward, :forward, :forward])
+  #   scenario_list_trains_on_station(station_name: 'Origin')
+  #   scenario_list_trains_on_station(station_name: 'Destination')
+  #   scenario_quit
+  #
+  #   @helper.run_app
+  #
+  #   assert_match(/Train 001-00 moved to station: Station2\n/, @helper.output.string)
+  # end
 end

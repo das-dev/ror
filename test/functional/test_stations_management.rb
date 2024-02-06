@@ -20,10 +20,10 @@ class StationsManagementTest < Minitest::Test
 
     @helper.run_app
 
-    assert_match(/Station "origin" is created\n/, @helper.output.string)
-    assert_match(/1. Station "origin"\n/, @helper.output.string)
+    assert_match(/Station "Origin" is created\n/, @helper.output.string)
+    assert_match(/1. Station "Origin"\n/, @helper.output.string)
 
-    assert_match(/Station "destination" is created\n/, @helper.output.string)
-    assert_match(/2. Station "destination"\n/, @helper.output.string)
+    assert_match(/Station "Destination" is created\n/, @helper.output.string)
+    assert_match(/2. Station "Destination"\n/, @helper.output.string)
   end
 end

@@ -12,12 +12,12 @@ class StationController
   def create_station(name:)
     station = try_to_create_station(name)
     @storage.add_to_list(:stations, station)
-    "#{station.to_s.capitalize} is created"
+    "#{station.titlecase} is created"
   end
 
   def list_stations
     stations = @storage.get(:stations, []).map.with_index(1) do |station, index|
-      "#{index}. #{station.to_s.capitalize}"
+      "#{index}. #{station.titlecase}"
     end
     stations.empty? ? 'No stations' : stations.join("\n")
   end
@@ -25,7 +25,7 @@ class StationController
   def list_trains_on_station(station_index:)
     station = get_station(station_index.to_i)
     trains = station.trains.map.with_index(1) do |train, index|
-      "#{index}. #{train.to_s.capitalize}"
+      "#{index}. #{train.titlecase}"
     end
     trains.empty? ? 'No trains on station' : trains.join("\n")
   end

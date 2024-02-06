@@ -21,7 +21,7 @@ class RoutesManagementTest < Minitest::Test
 
     @helper.run_app
 
-    assert_match(/Route: origin -> destination is created\n/, @helper.output.string)
-    assert_match(/1. Route: origin -> destination\n/, @helper.output.string)
+    assert_match(/Route: Origin -> Destination is created\n/, @helper.output.string)
+    assert_match(/1. Route: Origin -> Destination\n/, @helper.output.string)
   end
 end

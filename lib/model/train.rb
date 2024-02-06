@@ -102,6 +102,10 @@ class Train
     next_station! unless current_station_index >= stations_on_current_route.size - 1
   end
 
+  def titlecase
+    to_s.to_s.sub(/./, &:upcase)
+  end
+
   private
 
   # приватный т.к. никому не нужен

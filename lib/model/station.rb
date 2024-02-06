@@ -11,7 +11,7 @@ class Station
   include InstanceCounter
   include Validation
 
-  NAME_FORMAT = /^[a-zA-Z0-9-]+$/
+  NAME_FORMAT = /^([a-zA-Z0-9-]+\s*)+$/
 
   def initialize(name)
     @name = name
@@ -37,6 +37,10 @@ class Station
     trains.each_with_object(Hash.new(0)) do |train, types|
       types[train.type] += 1
     end
+  end
+
+  def titlecase
+    to_s.to_s.sub(/./, &:upcase)
   end
 
   def to_s
