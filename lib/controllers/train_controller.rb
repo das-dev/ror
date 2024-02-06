@@ -20,7 +20,7 @@ class TrainController
     trains = @storage.get(:trains, []).map.with_index(1) do |train, index|
       "#{index}. #{train.titlecase}"
     end
-    trains.empty? ? 'No trains' : trains.join("\n")
+    trains.empty? ? 'No trains' : trains * "\n"
   end
 
   def show_train(train_index:)

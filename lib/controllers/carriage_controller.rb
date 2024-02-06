@@ -20,7 +20,7 @@ class CarriageController
     carriages = @storage.get(:carriages, []).map.with_index(1) do |carriage, index|
       "#{index}. #{carriage.titlecase}"
     end
-    carriages.empty? ? 'No carriages' : carriages.join("\n")
+    carriages.empty? ? 'No carriages' : carriages * "\n"
   end
 
   def list_carriages_in_train(train_index:)
@@ -29,7 +29,7 @@ class CarriageController
       "#{index}. #{c.titlecase}"
     end
 
-    carriages.empty? ? 'No carriages in train' : carriages.join("\n")
+    carriages.empty? ? 'No carriages in train' : carriages * "\n"
   end
 
   def attach_carriage(train_index:, carriage_index:)

@@ -19,7 +19,7 @@ class StationController
     stations = @storage.get(:stations, []).map.with_index(1) do |station, index|
       "#{index}. #{station.titlecase}"
     end
-    stations.empty? ? 'No stations' : stations.join("\n")
+    stations.empty? ? 'No stations' : stations * "\n"
   end
 
   def list_trains_on_station(station_index:)
@@ -27,7 +27,7 @@ class StationController
     trains = station.trains.map.with_index(1) do |train, index|
       "#{index}. #{train.titlecase}"
     end
-    trains.empty? ? 'No trains on station' : trains.join("\n")
+    trains.empty? ? 'No trains on station' : trains * "\n"
   end
 
   private

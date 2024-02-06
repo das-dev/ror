@@ -23,7 +23,7 @@ class RouteController
     routes = @storage.get(:routes, []).map.with_index(1) do |route, index|
       "#{index}. #{route.titlecase}"
     end
-    routes.empty? ? 'No routes' : routes.join("\n")
+    routes.empty? ? 'No routes' : routes * "\n"
   end
 
   def add_intermediate_station(route_index:, station_index:)
