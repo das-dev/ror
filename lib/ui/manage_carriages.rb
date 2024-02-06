@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-require_relative 'menu'
+require_relative 'abc_menu'
 
 # rubocop:disable Style/Documentation
-class ManageCarriages < Menu
+class ManageCarriages < AbcMenu
   def make_menu
     manage_carriages
     create_carriage
@@ -23,7 +23,7 @@ class ManageCarriages < Menu
       menu.choice('List carriages in train', :list_carriages_in_train, '3')
       menu.choice('Attach carriage to train', :add_carriage, '4')
       menu.choice('Detach carriage from train', :remove_carriage, '5')
-      menu.choice('Back to Main Menu', :main_menu, '0')
+      menu.choice('Back to Main AbcMenu', :main_menu, '0')
       menu.choice('Quit', :exit, 'q')
     end
   end

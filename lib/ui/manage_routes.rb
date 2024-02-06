@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # rubocop:disable Style/Documentation
-class ManageRoutes < Menu
+class ManageRoutes < AbcMenu
   def make_menu
     manage_routes
     create_route
@@ -19,7 +19,7 @@ class ManageRoutes < Menu
       menu.choice('List routes', :list_routes, '2')
       menu.choice('Add station into a route', :add_station, '3')
       menu.choice('Remove station from a route', :remove_station, '4')
-      menu.choice('Back to Main Menu', :main_menu, '0')
+      menu.choice('Back to Main AbcMenu', :main_menu, '0')
       menu.choice('Quit', :exit, 'q')
     end
   end

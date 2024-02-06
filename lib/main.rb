@@ -48,7 +48,7 @@ class Application
   # приватный потому что снаружи нужен только run
   def make_menu
     MainMenu.new(navigation).make_menu
-    Menu.subclasses.each do |klass|
+    AbcMenu.subclasses.each do |klass|
       klass.new(navigation).make_menu
     end
   end

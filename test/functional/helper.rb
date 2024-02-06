@@ -6,7 +6,7 @@ class TestHelper
   attr_reader :input, :output
 
   MAIN_MENU = <<~MAIN_MENU
-    Main Menu
+    Main AbcMenu
     1. Manage Stations
     2. Manage Carriages
     3. Manage Trains

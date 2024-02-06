@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-require_relative 'menu'
+require_relative 'abc_menu'
 
 # rubocop:disable Style/Documentation
-class ManageStations < Menu
+class ManageStations < AbcMenu
   def make_menu
     manage_stations
     create_station
@@ -19,7 +19,7 @@ class ManageStations < Menu
       menu.choice('Create station', :create_station, '1')
       menu.choice('List stations', :list_stations, '2')
       menu.choice('List trains on station', :list_trains_on_station, '3')
-      menu.choice('Back to Main Menu', :main_menu, '0')
+      menu.choice('Back to Main AbcMenu', :main_menu, '0')
       menu.choice('Quit', :exit, 'q')
     end
   end

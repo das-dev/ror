@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # rubocop:disable Style/Documentation
-class Menu
+class AbcMenu
   def initialize(navigation)
     @navigation = navigation
   end
