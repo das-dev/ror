@@ -50,6 +50,14 @@ class Carriage
   def verbose_type
     raise NotImplementedError
   end
+
+  def cargo?
+    type == :cargo
+  end
+
+  def passenger?
+    type == :passenger
+  end
 end
 # rubocop enable all
 
@@ -88,6 +96,10 @@ class PassengerCarriage < Carriage
     "Carriage ##{number}, #{verbose_type}, #{free_seats} " \
       "free seats, #{occupied_seats} occupied seats"
   end
+
+  private
+
+  attr_writer :occupied_seats
 end
 # rubocop enable all
 
@@ -126,5 +138,9 @@ class CargoCarriage < Carriage
     "Carriage ##{number}, #{verbose_type}, #{free_volume} " \
       "free volume, #{occupied_volume} occupied volume"
   end
+
+  private
+
+  attr_writer :occupied_volume
 end
 # rubocop enable all

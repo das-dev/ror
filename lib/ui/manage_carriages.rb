@@ -11,11 +11,13 @@ class ManageCarriages < AbcMenu
     list_carriages_in_train
     attach_carriage
     detach_carriage
+    occupy_carriage_seat
+    occupy_carriage_volume
   end
 
   private
 
-  # приватные потому что нужен единообразный интерфейс (метод make_menu)
+  # rubocop:disable Metrics/MethodLength
   def manage_carriages
     navigation.make('Manage Carriages', :manage_carriages) do |menu|
       menu.choice('Create carriage', :create_carriage, '1')
@@ -23,10 +25,13 @@ class ManageCarriages < AbcMenu
       menu.choice('List carriages in train', :list_carriages_in_train, '3')
       menu.choice('Attach carriage to train', :add_carriage, '4')
       menu.choice('Detach carriage from train', :remove_carriage, '5')
+      menu.choice('Occupy carriage seat', :occupy_carriage_seat, '6')
+      menu.choice('Occupy carriage volume', :occupy_carriage_volume, '7')
       menu.choice('Back to Main Menu', :main_menu, '0')
       menu.choice('Quit', :exit, 'q')
     end
   end
+  # rubocop:enable Metrics/MethodLength
 
   def create_carriage
     navigation.bind('Create carriage form', :create_carriage, :manage_carriages, attempts: 3) do
@@ -73,6 +78,32 @@ class ManageCarriages < AbcMenu
       carriage_index = choose_carriage
 
       { train_index:, carriage_index: }
+    end
+  end
+
+  def occupy_carriage_seat
+    navigation.bind('Occupy carriage seat', :occupy_carriage_seat, :manage_carriages) do
+      puts navigation.send_action(:list_trains)
+      train_index = choose_train
+
+      puts navigation.send_action(:list_carriages_in_train, train_index:)
+      carriage_index = choose_carriage
+
+      { train_index:, carriage_index: }
+    end
+  end
+
+  def occupy_carriage_volume
+    navigation.bind('Occupy carriage volume', :occupy_carriage_volume, :manage_carriages) do
+      puts navigation.send_action(:list_trains)
+      train_index = choose_train
+
+      puts navigation.send_action(:list_carriages_in_train, train_index:)
+      carriage_index = choose_carriage
+
+      volume = enter_occupied_volume
+
+      { train_index:, carriage_index:, volume: }
     end
   end
 end

@@ -52,6 +52,24 @@ class CarriageController
     "Carriage ##{carriage.number} is detached from #{train}"
   end
 
+  def occupy_carriage_seat(train_index:, carriage_index:)
+    train = get_train(train_index)
+    carriage = get_carriage_in_train(train, carriage_index)
+    raise ControllerError, 'Carriage is not a passenger one' unless carriage.passenger?
+
+    carriage.occupy_seat
+    "Seat in carriage ##{carriage.number} is occupied"
+  end
+
+  def occupy_carriage_volume(train_index:, carriage_index:, volume:)
+    train = get_train(train_index)
+    carriage = get_carriage_in_train(train, carriage_index)
+    raise ControllerError, 'Carriage is not a cargo one' unless carriage.cargo?
+
+    carriage.occupy_volume(volume.to_i)
+    "Volume in carriage ##{carriage.number} is occupied"
+  end
+
   private
 
   # приватные хелперы

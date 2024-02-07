@@ -49,6 +49,11 @@ module Forms
     gets.chomp
   end
 
+  def enter_occupied_volume
+    puts 'Occupy volume:'
+    gets.chomp
+  end
+
   def choose_train
     puts 'Choose train:'
     gets.chomp

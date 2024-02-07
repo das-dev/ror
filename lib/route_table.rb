@@ -67,7 +67,9 @@ class RouteTable
       list_carriages: carriage_controller.method(:list_carriages),
       add_carriage: carriage_controller.method(:attach_carriage),
       remove_carriage: carriage_controller.method(:detach_carriage),
-      list_carriages_in_train: carriage_controller.method(:list_carriages_in_train)
+      list_carriages_in_train: carriage_controller.method(:list_carriages_in_train),
+      occupy_carriage_seat: carriage_controller.method(:occupy_carriage_seat),
+      occupy_carriage_volume: carriage_controller.method(:occupy_carriage_volume)
     }
   end
 
