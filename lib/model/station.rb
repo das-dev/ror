@@ -10,6 +10,7 @@ class Station
 
   include InstanceCounter
   include Validation
+  include Enumerable
 
   NAME_FORMAT = /^([a-zA-Z0-9-]+\s*)+$/
 
@@ -25,10 +26,6 @@ class Station
     raise ValidationError, 'Station has invalid format' if name !~ NAME_FORMAT
   end
 
-  def add_train(train)
-    add_train!(train) unless train?(train)
-  end
-
   def send_train(train)
     send_train!(train) if train?(train)
   end
@@ -37,6 +34,14 @@ class Station
     trains.each_with_object(Hash.new(0)) do |train, types|
       types[train.type] += 1
     end
+  end
+
+  def each_train(&block)
+    trains.each(&block)
+  end
+
+  def <<(train)
+    trains << train unless train?(train)
   end
 
   def titlecase
@@ -53,12 +58,6 @@ class Station
     # Клиентский код не должен менять список поездов
     # без соблюдения конкретныз условий
     trains.delete(train)
-  end
-
-  def add_train!(train)
-    # Клиентский код не должен менять список поездов
-    # без соблюдения конкретныз условий
-    trains << train
   end
 
   def train?(train)

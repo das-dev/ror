@@ -44,7 +44,7 @@ class Train
   def assign_route(new_route)
     self.route = new_route
     self.current_station_index = 0
-    current_station.add_train(self)
+    current_station << self
   end
 
   def speed_up(speed_diff)
@@ -66,7 +66,7 @@ class Train
     return nil unless current_station
 
     current_station.send_train(self)
-    next_station.add_train(self)
+    next_station << self
     self.current_station_index += 1
   end
 
@@ -76,7 +76,7 @@ class Train
     return nil unless current_station
 
     current_station.send_train(self)
-    previous_station.add_train(self)
+    previous_station << self
     self.current_station_index -= 1
   end
 

@@ -62,6 +62,12 @@ class PassengerCarriage < Carriage
     seats - occupied_seats
   end
 
+  def occupy_seat
+    raise ValidationError, 'No free seats' if free_seats.zero?
+
+    self.occupied_seats += 1
+  end
+
   def short_titlecase
     "Passenger carriage ##{number}"
   end
@@ -91,6 +97,12 @@ class CargoCarriage < Carriage
 
   def free_volume
     volume - occupied_volume
+  end
+
+  def occupy_volume(amount)
+    raise ValidationError, 'No free volume' if free_volume < amount
+
+    self.occupied_volume += amount
   end
 
   def short_titlecase

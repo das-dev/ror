@@ -29,8 +29,8 @@ class TestStation < Minitest::Test
   def test_add_train
     train = Object.new
 
-    station.add_train(train)
-    station.add_train(train)
+    station << train
+    station << train
 
     assert_equal [train], station.trains
   end
@@ -38,7 +38,7 @@ class TestStation < Minitest::Test
   def test_send_train
     train = Object.new
 
-    station.add_train(train)
+    station << train
 
     station.send_train(train)
     station.send_train(train)
@@ -54,23 +54,23 @@ class TestStation < Minitest::Test
     train = Minitest::Mock.new
     train.expect(:type, :passenger)
 
-    station.add_train(train)
+    station << train
     station.train_types_stat
 
     train.verify
   end
 
   def test_train_types_stat_with_same_trains
-    station.add_train(Struct.new(:type).new(:passenger))
-    station.add_train(Struct.new(:type).new(:passenger))
-    station.add_train(Struct.new(:type).new(:passenger))
+    station << Struct.new(:type).new(:passenger)
+    station << Struct.new(:type).new(:passenger)
+    station << Struct.new(:type).new(:passenger)
 
     assert_equal({ passenger: 3 }, station.train_types_stat)
   end
 
   def test_train_types_stat_with_different_trains
-    station.add_train(Struct.new(:type).new(:passenger))
-    station.add_train(Struct.new(:type).new(:cargo))
+    station << Struct.new(:type).new(:passenger)
+    station << Struct.new(:type).new(:cargo)
 
     assert_equal({ passenger: 1, cargo: 1 }, station.train_types_stat)
   end
