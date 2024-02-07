@@ -101,12 +101,19 @@ class TrainController
     route
   end
 
+  def carriages_info(train)
+    carriages = train.map.with_index(1) do |carriage, index|
+      "  #{index}. #{carriage.titlecase}"
+    end
+    carriages.empty? ? 'No carriages' : carriages * "\n"
+  end
+
   def train_info(train)
     on_route = "is on #{train.route}"
     on_factory = "is at the factory #{train.manufacturer_name}"
     route_info = train.route ? on_route : on_factory
     station_info = train.route ? "at #{train.current_station}\n" : ''
-    carriages_info = "with #{train.count} carriages"
+    carriages_info = carriages_info(train)
 
     "#{train.titlecase} #{route_info}\n" \
       "#{station_info}" \

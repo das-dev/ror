@@ -73,43 +73,49 @@ class TestTrain < Minitest::Test
   end
 
   def test_attach_carriage
-    passenger_train << Struct.new(:type, :number).new(:passenger, '1')
-    passenger_train << Struct.new(:type, :number).new(:passenger, '2')
-    passenger_train << Struct.new(:type, :number).new(:passenger, '3')
+    passenger_train << FakeCarriage.new(:passenger, '1')
+    passenger_train << FakeCarriage.new(:passenger, '2')
+    passenger_train << FakeCarriage.new(:passenger, '3')
 
     assert_equal 3, passenger_train.count
   end
 
   def test_attach_carriage_of_wrong_type
-    passenger_train << Struct.new(:type, :number).new(:passenger, '1')
+    passenger_train << FakeCarriage.new(:passenger, '1')
 
-    assert_nil passenger_train << Struct.new(:type, :number).new(:cargo, '2')
+    assert_nil passenger_train << FakeCarriage.new(:cargo, '2')
     assert_equal 1, passenger_train.count
   end
 
   def test_detach_carriage
-    passenger_train << Struct.new(:type, :number).new(:passenger, '1')
-    passenger_train << to_detach = Struct.new(:type, :number).new(:passenger, '2')
+    passenger_train << FakeCarriage.new(:passenger, '1')
+    passenger_train << to_detach = FakeCarriage.new(:passenger, '2')
     passenger_train.detach_carriage(to_detach)
 
     assert_equal 1, passenger_train.count
   end
 
   def test_detach_carriage_when_carriage_count_is_zero
-    to_detach = Struct.new(:type, :number).new(:passenger, '2')
+    to_detach = FakeCarriage.new(:passenger, '2')
     assert_nil passenger_train.detach_carriage(to_detach)
     assert_equal 0, passenger_train.count
   end
 
   def test_carriage_change_while_moving
-    passenger_train << to_detach = Struct.new(:type, :number).new(:passenger, '1')
+    passenger_train << to_detach = FakeCarriage.new(:passenger, '1')
     passenger_train.speed_up(10)
 
-    assert_nil passenger_train << Struct.new(:type, :number).new(:passenger, '2')
+    assert_nil passenger_train << FakeCarriage.new(:passenger, '2')
     assert_nil passenger_train.detach_carriage(to_detach)
   end
 
   def test_current_station_without_route
     assert_nil passenger_train.current_station
+  end
+
+  FakeCarriage = Struct.new(:type, :number) do
+    def ==(other)
+      number == other.number && type == other.type
+    end
   end
 end

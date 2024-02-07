@@ -35,6 +35,10 @@ class Carriage
     end
   end
 
+  def ==(other)
+    number == other.number && type == other.type
+  end
+
   def titlecase
     to_s.sub(/./, &:upcase)
   end

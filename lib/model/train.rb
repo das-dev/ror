@@ -5,6 +5,7 @@ require_relative '../helpers/instance_counter'
 require_relative '../helpers/validation'
 
 # rubocop:disable Style/Documentation
+# rubocop:disable Metrics/ClassLength
 class Train
   attr_reader :type, :speed, :route, :number
 
@@ -93,7 +94,7 @@ class Train
   end
 
   def <<(carriage)
-    return nil if speed.positive? || carriage.type != type
+    return nil unless can_attach_carriage?(carriage)
 
     carriages << carriage
   end
@@ -119,6 +120,14 @@ class Train
   # должны соблюдаться условия
   def detach_carriage!(carriage)
     carriages.delete(carriage)
+  end
+
+  def can_attach_carriage?(carriage)
+    speed.zero? && carriage.type == type && !carriage?(carriage)
+  end
+
+  def carriage?(carriage)
+    carriages.include?(carriage)
   end
 
   # приватный т.к. никому не нужен снаружи

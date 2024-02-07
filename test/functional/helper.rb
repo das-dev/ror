@@ -93,6 +93,12 @@ module Scenarios
     end
   end
 
+  def scenario_create_cargo_carriage(carriage_number:, manufacturer:, volume:)
+    ['0', '2', '1', carriage_number, '2', manufacturer, volume, ''].each do |input|
+      @helper.input.puts(input)
+    end
+  end
+
   def scenario_add_carriage(train_index:, carriage_index:)
     ['0', '2', '4', train_index, carriage_index, ''].each do |input|
       @helper.input.puts(input)

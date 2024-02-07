@@ -23,8 +23,8 @@ class GeneralScenariosTest < Minitest::Test
   def test_stat
     scenario_create_station(station_name: 'Station 1')
     scenario_create_station(station_name: 'Station 2')
-    scenario_create_train(train_number: '001-00', type: :passenger, manufacturer: 'Manufacturer1')
-    scenario_create_train(train_number: '002-00', type: :cargo, manufacturer: 'Manufacturer1')
+    scenario_create_train(train_number: '001-00', type: :passenger, manufacturer: 'Manufacturer 1')
+    scenario_create_train(train_number: '002-00', type: :cargo, manufacturer: 'Manufacturer 1')
     scenario_create_route
     scenario_stat
     scenario_quit

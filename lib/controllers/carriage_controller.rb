@@ -64,10 +64,7 @@ class CarriageController
   end
 
   def check_carriage_existence(carriage)
-    carriages = @storage.get(:carriages, [])
-    already_exists = carriages.any? do |c|
-      c.number == carriage.number && c.type == carriage.type
-    end
+    already_exists = @storage.get(:carriages, []).any? { |c| c == carriage }
     raise ControllerError, "#{carriage.short_titlecase} already exists" if already_exists
   end
 
