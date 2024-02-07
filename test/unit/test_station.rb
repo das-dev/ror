@@ -23,7 +23,7 @@ class TestStation < Minitest::Test
   end
 
   def test_empty_station
-    assert_equal [], station.trains
+    assert_equal [], station.to_a
   end
 
   def test_add_train
@@ -32,7 +32,7 @@ class TestStation < Minitest::Test
     station << train
     station << train
 
-    assert_equal [train], station.trains
+    assert_equal [train], station.to_a
   end
 
   def test_send_train
@@ -43,7 +43,7 @@ class TestStation < Minitest::Test
     station.send_train(train)
     station.send_train(train)
 
-    assert_equal [], station.trains
+    assert_equal [], station.to_a
   end
 
   def test_train_types_stat_with_empty_station

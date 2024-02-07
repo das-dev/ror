@@ -6,7 +6,7 @@ require_relative 'exceptions'
 
 # rubocop:disable Style/Documentation
 class Station
-  attr_reader :trains, :name
+  attr_reader :name
 
   include InstanceCounter
   include Validation
@@ -36,7 +36,7 @@ class Station
     end
   end
 
-  def each_train(&block)
+  def each(&block)
     trains.each(&block)
   end
 
@@ -44,15 +44,13 @@ class Station
     trains << train unless train?(train)
   end
 
-  def titlecase
-    to_s.to_s.sub(/./, &:upcase)
-  end
-
   def to_s
-    "station \"#{name}\""
+    "Station \"#{name}\""
   end
 
   private
+
+  attr_reader :trains
 
   def send_train!(train)
     # Клиентский код не должен менять список поездов

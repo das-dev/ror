@@ -35,13 +35,12 @@ class Route
     [origin_station, *intermediate_stations, destination_station]
   end
 
-  def titlecase
-    to_s.to_s.sub(/./, &:upcase)
+  def direction
+    stations.map(&:name) * ' -> '
   end
 
   def to_s
-    route = stations.map(&:name) * ' -> '
-    "route: #{route}"
+    "Route: #{direction}"
   end
 
   private

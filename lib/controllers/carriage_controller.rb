@@ -20,15 +20,15 @@ class CarriageController
 
   def list_carriages
     carriages = @storage.get(:carriages, []).map.with_index(1) do |carriage, index|
-      "#{index}. #{carriage.titlecase}"
+      "#{index}. #{carriage.description}"
     end
     carriages.empty? ? 'No carriages' : carriages * "\n"
   end
 
   def list_carriages_in_train(train_index:)
     train = get_train(train_index)
-    carriages = train.map.with_index(1) do |c, index|
-      "#{index}. #{c.titlecase}"
+    carriages = train.map.with_index(1) do |carriage, index|
+      "#{index}. #{carriage.description}"
     end
 
     carriages.empty? ? 'No carriages in train' : carriages * "\n"
@@ -65,7 +65,7 @@ class CarriageController
 
   def check_carriage_existence(carriage)
     already_exists = @storage.get(:carriages, []).any? { |c| c == carriage }
-    raise ControllerError, "#{carriage.short_titlecase} already exists" if already_exists
+    raise ControllerError, "#{carriage.short_description} already exists" if already_exists
   end
 
   def get_carriage(carriage_index)

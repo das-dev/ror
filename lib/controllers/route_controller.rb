@@ -16,12 +16,12 @@ class RouteController
     route = try_to_create_route(origin, destination)
 
     @storage.add_to_list(:routes, route)
-    "#{route.titlecase} is created"
+    "#{route} is created"
   end
 
   def list_routes
     routes = @storage.get(:routes, []).map.with_index(1) do |route, index|
-      "#{index}. #{route.titlecase}"
+      "#{index}. #{route}"
     end
     routes.empty? ? 'No routes' : routes * "\n"
   end
@@ -32,7 +32,7 @@ class RouteController
     raise ControllerError, 'Station is already in the route' if route.stations.include?(station)
 
     route.append_intermediate_station(station)
-    "#{station.titlecase} is added to #{route}"
+    "#{station} is added to #{route}"
   end
 
   def remove_intermediate_station(route_index:, station_index:)
@@ -44,7 +44,7 @@ class RouteController
     raise ControllerError, 'Cannot remove a destination station' if route.destination_station == station
 
     route.remove_intermediate_station(station)
-    "#{station.titlecase} is removed from #{route}"
+    "#{station} is removed from #{route}"
   end
 
   private

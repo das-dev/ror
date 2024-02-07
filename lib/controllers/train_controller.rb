@@ -13,12 +13,12 @@ class TrainController
     train = try_to_create_train(number, type)
     @storage.add_to_list(:trains, train)
     train.manufacturer_name = manufacturer_name
-    "#{train.titlecase} is created"
+    "#{train.verbose_type.capitalize} train ##{train.number} is created"
   end
 
   def list_trains
     trains = @storage.get(:trains, []).map.with_index(1) do |train, index|
-      "#{index}. #{train.titlecase}"
+      "#{index}. #{train.description}"
     end
     trains.empty? ? 'No trains' : trains * "\n"
   end
@@ -32,7 +32,7 @@ class TrainController
     route = get_route(route_index.to_i)
     train = get_train(train_index)
     train.assign_route(route)
-    "#{train.titlecase} assigned #{route}"
+    "Train ##{train.number} is on #{route}"
   end
 
   def find_train_by_number(number:)
@@ -52,7 +52,7 @@ class TrainController
       raise ControllerError, 'Train is at the end of the route'
     end
 
-    "#{train.titlecase} moved forward"
+    "Train ##{train.number} moved forward"
   end
 
   def move_backward(train_index:)
@@ -65,7 +65,7 @@ class TrainController
       raise ControllerError, 'Train is at the start of the route'
     end
 
-    "#{train.titlecase} moved backward"
+    "Train ##{train.number} moved backward"
   end
 
   private
@@ -103,7 +103,7 @@ class TrainController
 
   def carriages_info(train)
     carriages = train.map.with_index(1) do |carriage, index|
-      "  #{index}. #{carriage.titlecase}"
+      "  #{index}. #{carriage.description}"
     end
     carriages.empty? ? 'No carriages' : carriages * "\n"
   end
@@ -115,7 +115,7 @@ class TrainController
     station_info = train.route ? "at #{train.current_station}\n" : ''
     carriages_info = carriages_info(train)
 
-    "#{train.titlecase} #{route_info}\n" \
+    "#{train.verbose_type.capitalize} train ##{train.number} #{route_info}\n" \
       "#{station_info}" \
       "#{carriages_info}"
   end

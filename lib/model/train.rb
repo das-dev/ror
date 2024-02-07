@@ -27,7 +27,7 @@ class Train
 
   def validate!
     raise ValidationError, 'Number can not be empty' if number.empty?
-    raise ValidationError, 'Number should be at least 3 symbols' if number.to_s.length < 3
+    raise ValidationError, 'Number should be at least 3 symbols' if number.length < 3
     raise ValidationError, 'Number has invalid format' if number !~ NUMBER_FORMAT
   end
 
@@ -107,8 +107,8 @@ class Train
     carriages.each(&block)
   end
 
-  def titlecase
-    to_s.to_s.sub(/./, &:upcase)
+  def description
+    "Train ##{number}, #{verbose_type}, #{count} carriages"
   end
 
   private
@@ -166,8 +166,8 @@ class PassengerTrain < Train
     super(number)
   end
 
-  def to_s
-    "passenger train ##{number}"
+  def verbose_type
+    'passenger'
   end
 end
 
@@ -177,8 +177,8 @@ class CargoTrain < Train
     super(number)
   end
 
-  def to_s
-    "cargo train ##{number}"
+  def verbose_type
+    'cargo'
   end
 end
 # rubocop:enable all

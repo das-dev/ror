@@ -38,10 +38,6 @@ class Carriage
   def ==(other)
     number == other.number && type == other.type
   end
-
-  def titlecase
-    to_s.sub(/./, &:upcase)
-  end
 end
 # rubocop enable all
 
@@ -72,12 +68,13 @@ class PassengerCarriage < Carriage
     self.occupied_seats += 1
   end
 
-  def short_titlecase
-    "Passenger carriage ##{number}"
+  def verbose_type
+    'passenger'
   end
 
-  def to_s
-    "passenger carriage ##{number}. Free seats: #{free_seats}, occupied seats: #{occupied_seats}"
+  def description
+    "Carriage ##{number}, #{verbose_type}, #{free_seats} " \
+      "free seats, #{occupied_seats} occupied seats"
   end
 end
 # rubocop enable all
@@ -109,12 +106,17 @@ class CargoCarriage < Carriage
     self.occupied_volume += amount
   end
 
-  def short_titlecase
-    "Cargo carriage ##{number}"
+  def verbose_type
+    'cargo'
   end
 
-  def to_s
-    "cargo carriage ##{number}. Free volume: #{free_volume}, occupied volume: #{occupied_volume}"
+  def short_description
+    "#{verbose_type.capitalize} carriage ##{number}"
+  end
+
+  def description
+    "Carriage ##{number}, #{verbose_type}, #{free_volume} " \
+      "free volume, #{occupied_volume} occupied volume"
   end
 end
 # rubocop enable all

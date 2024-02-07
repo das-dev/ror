@@ -21,7 +21,7 @@ class TrainsManagementTest < Minitest::Test
     @helper.run_app
 
     assert_match(/Passenger train #001-01 is created\n/, @helper.output.string)
-    assert_match(/1. Passenger train #001-01\n/, @helper.output.string)
+    assert_match(/1. Train #001-01, passenger, 0 carriages\n/, @helper.output.string)
   end
 
   def test_show_train
@@ -54,8 +54,8 @@ class TrainsManagementTest < Minitest::Test
 
     expected = <<~EXPECTED
       Passenger train #001-01 is at the factory Golden Wagon
-        1. Passenger carriage #100. Free seats: 50, occupied seats: 0
-        2. Passenger carriage #101. Free seats: 50, occupied seats: 0
+        1. Carriage #100, passenger, 50 free seats, 0 occupied seats
+        2. Carriage #101, passenger, 50 free seats, 0 occupied seats
     EXPECTED
     assert_match(/#{expected}/, @helper.output.string)
   end
