@@ -36,8 +36,8 @@ class Station
     end
   end
 
-  def each(&block)
-    trains.each(&block)
+  def each(&)
+    trains.each(&)
   end
 
   def <<(train)

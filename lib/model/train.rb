@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require_relative '../helpers/manufacturer_info'
 require_relative '../helpers/instance_counter'
+require_relative '../helpers/manufacturer_info'
 require_relative '../helpers/validation'
 
 # rubocop:disable Style/Documentation
@@ -16,6 +16,17 @@ class Train
 
   NUMBER_FORMAT = /^[\da-zA-Z]{3}-?[\da-zA-Z]{2}$/
 
+  def self.make_train(type, number)
+    case type
+    when :passenger
+      PassengerTrain.new(number)
+    when :cargo
+      CargoTrain.new(number)
+    else
+      raise ArgumentError, "Unknown train type: #{type}"
+    end
+  end
+
   def initialize(number)
     @number = number
     @speed = 0
@@ -29,17 +40,6 @@ class Train
     raise ValidationError, 'Number can not be empty' if number.empty?
     raise ValidationError, 'Number should be at least 3 symbols' if number.length < 3
     raise ValidationError, 'Number has invalid format' if number !~ NUMBER_FORMAT
-  end
-
-  def self.make_train(type, number)
-    case type
-    when :passenger
-      PassengerTrain.new(number)
-    when :cargo
-      CargoTrain.new(number)
-    else
-      raise ArgumentError, "Unknown train type: #{type}"
-    end
   end
 
   def assign_route(new_route)
@@ -103,8 +103,8 @@ class Train
     carriages[index]
   end
 
-  def each(&block)
-    carriages.each(&block)
+  def each(&)
+    carriages.each(&)
   end
 
   def verbose_type

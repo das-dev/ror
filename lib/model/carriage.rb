@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require_relative '../helpers/manufacturer_info'
 require_relative '../helpers/instance_counter'
+require_relative '../helpers/manufacturer_info'
 require_relative '../helpers/validation'
 require_relative 'exceptions'
 
@@ -15,6 +15,17 @@ class Carriage
 
   NUMBER_FORMAT = /^[a-zA-Z0-9-]+$/
 
+  def self.make_carriage(type, *, **)
+    case type
+    when :passenger
+      PassengerCarriage.new(*, **)
+    when :cargo
+      CargoCarriage.new(*, **)
+    else
+      raise ArgumentError, "Unknown carriage type: #{type}"
+    end
+  end
+
   def initialize(number)
     @number = number
   end
@@ -22,17 +33,6 @@ class Carriage
   def validate!
     raise ValidationError, 'Number can not be empty' if number.empty?
     raise ValidationError, 'Invalid number format' if number !~ NUMBER_FORMAT
-  end
-
-  def self.make_carriage(type, *args, **kwargs)
-    case type
-    when :passenger
-      PassengerCarriage.new(*args, **kwargs)
-    when :cargo
-      CargoCarriage.new(*args, **kwargs)
-    else
-      raise ArgumentError, "Unknown carriage type: #{type}"
-    end
   end
 
   def ==(other)

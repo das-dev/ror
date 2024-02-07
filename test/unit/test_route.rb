@@ -4,8 +4,7 @@ require 'minitest/autorun'
 require_relative '../../lib/model/route'
 
 class TestRoute < Minitest::Test
-  attr_reader :route, :origin, :destination,
-              :intermediate1, :intermediate2, :intermediate3
+  attr_reader :route, :origin, :destination, :intermediate1, :intermediate2, :intermediate3
 
   def setup
     @origin = Struct.new(:name).new('origin')

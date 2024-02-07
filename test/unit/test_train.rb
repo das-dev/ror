@@ -6,6 +6,12 @@ require_relative '../../lib/model/train'
 class TestTrain < Minitest::Test
   attr_reader :origin, :destination, :reverse_route_train, :passenger_train, :route
 
+  FakeCarriage = Struct.new(:type, :number) do
+    def ==(other)
+      number == other.number && type == other.type
+    end
+  end
+
   def setup
     @origin = Struct.new
     @destination = Struct.new
@@ -111,11 +117,5 @@ class TestTrain < Minitest::Test
 
   def test_current_station_without_route
     assert_nil passenger_train.current_station
-  end
-
-  FakeCarriage = Struct.new(:type, :number) do
-    def ==(other)
-      number == other.number && type == other.type
-    end
   end
 end

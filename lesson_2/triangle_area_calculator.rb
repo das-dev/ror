@@ -30,7 +30,7 @@ end
 
 def make_output_message(triangle)
   "Площадь треугольника с высотой #{triangle.height} " \
-  "и основанием #{triangle.base} равна #{triangle.area}"
+    "и основанием #{triangle.base} равна #{triangle.area}"
 end
 
 def main

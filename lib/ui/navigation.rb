@@ -4,6 +4,12 @@ require_relative '../controllers/exceptions'
 
 # rubocop:disable Style/Documentation
 class Navigation
+  Menu = Struct.new(:choices) do
+    def choice(title, key, id, &block)
+      handler = block_given? ? block : -> {}
+      choices[id] = Struct.new(:title, :key, :handler).new(title, key, handler)
+    end
+  end
   def initialize(router, initial_state)
     @transitions = {}
     @router = router
@@ -81,13 +87,6 @@ class Navigation
       puts "#{id}. #{choice.title}"
     end
     puts 'Choose an option:'
-  end
-
-  Menu = Struct.new(:choices) do
-    def choice(title, key, id, &block)
-      handler = block_given? ? block : -> {}
-      choices[id] = Struct.new(:title, :key, :handler).new(title, key, handler)
-    end
   end
 end
 # rubocop:enable all

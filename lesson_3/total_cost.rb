@@ -43,7 +43,7 @@ def valid_order_item?(order_item)
 end
 
 def prepare_order_to_display(order)
-  order.map do |order_item|
+  order.to_h do |order_item|
     [
       order_item[:name],
       {
@@ -52,7 +52,7 @@ def prepare_order_to_display(order)
         total_cost: order_item[:price] * order_item[:quantity]
       }
     ]
-  end.to_h
+  end
 end
 
 def calc_total_cost(order)

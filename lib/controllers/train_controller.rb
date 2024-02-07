@@ -80,7 +80,9 @@ class TrainController
 
   def get_train(train_index)
     train = @storage.get(:trains, [])[train_index.to_i - 1]
-    raise ControllerError, "Train ##{train_index} not found" unless train && train_index.to_i.positive?
+    unless train && train_index.to_i.positive?
+      raise ControllerError, "Train ##{train_index} not found"
+    end
 
     train
   end

@@ -90,21 +90,27 @@ class CarriageController
 
   def get_carriage(carriage_index)
     carriage = @storage.get(:carriages, [])[carriage_index.to_i - 1]
-    raise ControllerError, "Carriage ##{carriage_index} not found" unless carriage && carriage_index.to_i.positive?
+    unless carriage && carriage_index.to_i.positive?
+      raise ControllerError, "Carriage ##{carriage_index} not found"
+    end
 
     carriage
   end
 
   def get_carriage_in_train(train, carriage_index)
     carriage = train[carriage_index.to_i - 1]
-    raise ControllerError, "Carriage ##{carriage_index} not found" unless carriage && carriage_index.to_i.positive?
+    unless carriage && carriage_index.to_i.positive?
+      raise ControllerError, "Carriage ##{carriage_index} not found"
+    end
 
     carriage
   end
 
   def get_train(train_index)
     train = @storage.get(:trains, [])[train_index.to_i - 1]
-    raise ControllerError, "Train ##{train_index} not found" unless train && train_index.to_i.positive?
+    unless train && train_index.to_i.positive?
+      raise ControllerError, "Train ##{train_index} not found"
+    end
 
     train
   end

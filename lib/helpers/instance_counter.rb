@@ -7,7 +7,7 @@ module InstanceCounter
   end
 
   module ClassMethods
-    def new(*args, **kwargs, &block)
+    def new(*args, **kwargs, &)
       obj = super
       register_instance
       obj

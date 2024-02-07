@@ -42,7 +42,9 @@ class StationController
 
   def get_station(station_index)
     station = @storage.get(:stations, [])[station_index.to_i - 1]
-    raise ControllerError, "Station ##{station_index} not found" unless station && station_index.to_i.positive?
+    unless station && station_index.to_i.positive?
+      raise ControllerError, "Station ##{station_index} not found"
+    end
 
     station
   end

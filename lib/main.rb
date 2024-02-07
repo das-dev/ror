@@ -2,19 +2,19 @@
 
 require_relative 'route_table'
 
-require_relative 'ui/navigation'
 require_relative 'ui/main_menu'
+require_relative 'ui/manage_carriages'
+require_relative 'ui/manage_routes'
 require_relative 'ui/manage_stations'
 require_relative 'ui/manage_trains'
-require_relative 'ui/manage_routes'
 require_relative 'ui/move_trains'
-require_relative 'ui/manage_carriages'
+require_relative 'ui/navigation'
 
+require_relative 'controllers/application_controller'
+require_relative 'controllers/carriage_controller'
+require_relative 'controllers/route_controller'
 require_relative 'controllers/station_controller'
 require_relative 'controllers/train_controller'
-require_relative 'controllers/route_controller'
-require_relative 'controllers/carriage_controller'
-require_relative 'controllers/application_controller'
 
 require_relative 'storage/key_value_storage'
 

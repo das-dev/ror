@@ -3,9 +3,9 @@
 require 'base64'
 require 'zlib'
 
+require_relative '../model/route'
 require_relative '../model/station'
 require_relative '../model/train'
-require_relative '../model/route'
 
 # rubocop:disable Style/Documentation
 class ApplicationController

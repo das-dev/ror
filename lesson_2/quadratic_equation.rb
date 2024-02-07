@@ -11,15 +11,13 @@ def request_coefficients
 end
 
 def valid_coefficients?(coefficients)
-  if coefficients.size != 3
-    puts 'Недостаточно коэффициентов'
-  else
-    true
-  end
+  return true if coefficients.size == 3
+
+  puts 'Недостаточно коэффициентов'
 end
 
 def calc_discriminant(coefficients)
-  coefficients.b**2 - 4 * coefficients.a * coefficients.c
+  (coefficients.b**2) - (4 * coefficients.a * coefficients.c)
 end
 
 def make_output_message(discriminant, coefficients)

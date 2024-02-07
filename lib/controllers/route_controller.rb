@@ -41,7 +41,9 @@ class RouteController
     station = get_station(station_index)
     raise ControllerError, 'Station is not in the route' unless route.stations.include?(station)
     raise ControllerError, 'Cannot remove an origin station' if route.origin_station == station
-    raise ControllerError, 'Cannot remove a destination station' if route.destination_station == station
+    if route.destination_station == station
+      raise ControllerError, 'Cannot remove a destination station'
+    end
 
     route.remove_intermediate_station(station)
     "#{station} is removed from #{route}"
@@ -59,14 +61,18 @@ class RouteController
 
   def get_route(route_index)
     route = @storage.get(:routes, [])[route_index.to_i - 1]
-    raise ControllerError, "Route ##{route_index} not found" unless route && route_index.to_i.positive?
+    unless route && route_index.to_i.positive?
+      raise ControllerError, "Route ##{route_index} not found"
+    end
 
     route
   end
 
   def get_station(station_index)
     station = @storage.get(:stations, [])[station_index.to_i - 1]
-    raise ControllerError, "Station ##{station_index} not found" unless station && station_index.to_i.positive?
+    unless station && station_index.to_i.positive?
+      raise ControllerError, "Station ##{station_index} not found"
+    end
 
     station
   end
