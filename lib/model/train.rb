@@ -107,8 +107,20 @@ class Train
     carriages.each(&block)
   end
 
+  def verbose_type
+    raise NotImplementedError
+  end
+
   def description
     "Train ##{number}, #{verbose_type}, #{count} carriages"
+  end
+
+  def short_description
+    "#{verbose_type.capitalize} train ##{number}"
+  end
+
+  def to_s
+    short_description
   end
 
   private

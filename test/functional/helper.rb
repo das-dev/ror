@@ -6,7 +6,7 @@ class TestHelper
   attr_reader :input, :output
 
   MAIN_MENU = <<~MAIN_MENU
-    Main AbcMenu
+    Main Menu
     1. Manage Stations
     2. Manage Carriages
     3. Manage Trains
@@ -99,6 +99,12 @@ module Scenarios
     end
   end
 
+  def scenario_list_carriages
+    ['0', '2', '2', ''].each do |input|
+      @helper.input.puts(input)
+    end
+  end
+
   def scenario_add_carriage(train_index:, carriage_index:)
     ['0', '2', '4', train_index, carriage_index, ''].each do |input|
       @helper.input.puts(input)
@@ -113,6 +119,28 @@ module Scenarios
 
   def scenario_routes_list
     ['0', '4', '2', ''].each do |input|
+      @helper.input.puts(input)
+    end
+  end
+
+  def scenario_set_route_to_train(train_index:, route_index:)
+    ['0', '3', '4', train_index, route_index, ''].each do |input|
+      @helper.input.puts(input)
+    end
+  end
+
+  def scenario_train_move_on_route(train_index:, moves:)
+    moves.each do |move|
+      @helper.input.puts('0')
+      @helper.input.puts('5')
+      @helper.input.puts(move)
+      @helper.input.puts(train_index)
+      @helper.input.puts('')
+    end
+  end
+
+  def scenario_list_trains_on_station(station_index:)
+    ['0', '1', '3', station_index, ''].each do |input|
       @helper.input.puts(input)
     end
   end

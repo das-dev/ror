@@ -14,7 +14,7 @@ class MainMenu < AbcMenu
 
   # приватные потому что нужен единообразный интерфейс (метод make_menu)
   def main_menu
-    navigation.make('Main AbcMenu', :main_menu) do |menu|
+    navigation.make('Main Menu', :main_menu) do |menu|
       menu.choice 'Manage Stations', :manage_stations, '1'
       menu.choice 'Manage Carriages', :manage_carriages, '2'
       menu.choice 'Manage Trains', :manage_trains, '3'

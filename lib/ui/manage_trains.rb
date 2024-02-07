@@ -22,7 +22,7 @@ class ManageTrains < AbcMenu
       menu.choice('List trains', :list_trains, '2')
       menu.choice('Show train', :show_train, '3')
       menu.choice('Set route to train', :set_route, '4')
-      menu.choice('Back to Main AbcMenu', :main_menu, '0')
+      menu.choice('Back to Main Menu', :main_menu, '0')
       menu.choice('Find train by number', :find_train, 'f')
       menu.choice('Quit', :exit, 'q')
     end

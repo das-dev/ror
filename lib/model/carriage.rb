@@ -38,6 +38,18 @@ class Carriage
   def ==(other)
     number == other.number && type == other.type
   end
+
+  def to_s
+    short_description
+  end
+
+  def short_description
+    "#{verbose_type.capitalize} carriage ##{number}"
+  end
+
+  def verbose_type
+    raise NotImplementedError
+  end
 end
 # rubocop enable all
 
@@ -108,10 +120,6 @@ class CargoCarriage < Carriage
 
   def verbose_type
     'cargo'
-  end
-
-  def short_description
-    "#{verbose_type.capitalize} carriage ##{number}"
   end
 
   def description

@@ -17,7 +17,7 @@ class MoveTrains < AbcMenu
     navigation.make('Move Trains', :move_trains) do |menu|
       menu.choice('Move train forward on route', :move_forward, '1')
       menu.choice('Move train backward on route', :move_backward, '2')
-      menu.choice('Back to Main AbcMenu', :main_menu, '0')
+      menu.choice('Back to Main Menu', :main_menu, '0')
       menu.choice('Quit', :exit, 'q')
     end
   end
