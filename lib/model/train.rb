@@ -7,14 +7,17 @@ require_relative "../helpers/validation"
 # TODO: refactor this class: too many methods
 # rubocop:disable Metrics/ClassLength
 class Train
-  attr_reader :type, :speed, :route, :number
-
   include ManufacturerInfo
   include InstanceCounter
   include Validation
   include Enumerable
 
+  class NoNextStationError < StandardError; end
+  class NoPreviousStationError < StandardError; end
+
   NUMBER_FORMAT = /^[\da-zA-Z]{3}-?[\da-zA-Z]{2}$/
+
+  attr_reader :type, :speed, :route, :number
 
   def self.make_train(type, number)
     case type
@@ -123,6 +126,12 @@ class Train
     short_description
   end
 
+  protected
+
+  # protected потому что нужно вызывать через self
+  attr_accessor :current_station_index
+  attr_writer :speed, :route
+
   private
 
   # приватный т.к. никому не нужен
@@ -161,15 +170,6 @@ class Train
   def current_station!
     stations_on_current_route[current_station_index]
   end
-
-  protected
-
-  # protected потому что нужно вызывать через self
-  attr_accessor :current_station_index
-  attr_writer :speed, :route
-
-  class NoNextStationError < StandardError; end
-  class NoPreviousStationError < StandardError; end
 end
 
 class PassengerTrain < Train

@@ -5,13 +5,13 @@ require_relative "../helpers/validation"
 require_relative "exceptions"
 
 class Station
-  attr_reader :name
-
   include InstanceCounter
   include Validation
   include Enumerable
 
   NAME_FORMAT = /^([a-zA-Z0-9-]+\s*)+$/
+
+  attr_reader :name
 
   def initialize(name)
     @name = name

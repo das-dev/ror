@@ -6,11 +6,11 @@ require_relative "../helpers/validation"
 require_relative "exceptions"
 
 class Carriage
-  attr_reader :number
-
   include ManufacturerInfo
   include InstanceCounter
   include Validation
+
+  attr_reader :number
 
   NUMBER_FORMAT = /^[a-zA-Z0-9-]+$/
 

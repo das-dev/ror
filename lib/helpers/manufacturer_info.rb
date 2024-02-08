@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 module ManufacturerInfo
-  attr_reader :manufacturer_name
-
   NAME_FORMAT = /^[a-zA-Z0-9\- ]+$/
+
+  attr_reader :manufacturer_name
 
   def manufacturer_name=(name)
     raise ValidationError, "Manufacturer name can not be empty" if name.empty?

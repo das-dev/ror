@@ -5,10 +5,10 @@ require_relative "../helpers/validation"
 require_relative "exceptions"
 
 class Route
-  attr_reader :origin_station, :destination_station
-
   include InstanceCounter
   include Validation
+
+  attr_reader :origin_station, :destination_station
 
   def initialize(origin_station, destination_station)
     @origin_station = origin_station
