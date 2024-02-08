@@ -1,17 +1,17 @@
 # frozen_string_literal: true
 
-require 'minitest/autorun'
-require_relative '../../lib/model/route'
+require "minitest/autorun"
+require_relative "../../lib/model/route"
 
 class TestRoute < Minitest::Test
   attr_reader :route, :origin, :destination, :intermediate1, :intermediate2, :intermediate3
 
   def setup
-    @origin = Struct.new(:name).new('origin')
-    @intermediate1 = Struct.new(:name).new('intermediate1')
-    @intermediate2 = Struct.new(:name).new('intermediate2')
-    @intermediate3 = Struct.new(:name).new('intermediate3')
-    @destination = Struct.new(:name).new('destination')
+    @origin = Struct.new(:name).new("origin")
+    @intermediate1 = Struct.new(:name).new("intermediate1")
+    @intermediate2 = Struct.new(:name).new("intermediate2")
+    @intermediate3 = Struct.new(:name).new("intermediate3")
+    @destination = Struct.new(:name).new("destination")
 
     @route = Route.new(@origin, @destination)
   end

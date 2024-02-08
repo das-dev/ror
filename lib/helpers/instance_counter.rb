@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-# rubocop:disable Style/Documentation
 module InstanceCounter
   def self.included(base)
     base.extend(ClassMethods)
@@ -26,4 +25,3 @@ module InstanceCounter
     end
   end
 end
-# rubocop:enable all

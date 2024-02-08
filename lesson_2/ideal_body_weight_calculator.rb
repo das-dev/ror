@@ -3,10 +3,10 @@
 User = Data.define(:name, :height)
 
 def make_user
-  puts 'Введите ваше имя:'
+  puts "Введите ваше имя:"
   user_name = gets.chomp.strip
 
-  puts 'Введите ваш рост в сантиметрах:'
+  puts "Введите ваш рост в сантиметрах:"
   actual_height = gets.chomp.to_i
 
   User.new(user_name, actual_height)
@@ -18,7 +18,7 @@ end
 
 def make_output_message(ideal_body_weight, user)
   message = "#{user.name}, ваш идеальный вес #{ideal_body_weight} кг."
-  ideal_body_weight.negative? ? 'Ваш идеальный вес уже оптимальный' : message
+  ideal_body_weight.negative? ? "Ваш идеальный вес уже оптимальный" : message
 end
 
 def main

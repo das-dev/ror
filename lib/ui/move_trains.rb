@@ -1,8 +1,7 @@
 # frozen_string_literal: true
 
-require_relative 'abc_menu'
+require_relative "abc_menu"
 
-# rubocop:disable Style/Documentation
 class MoveTrains < AbcMenu
   def make_menu
     move_trains
@@ -14,16 +13,16 @@ class MoveTrains < AbcMenu
 
   # приватные потому что нужен единообразный интерфейс (метод make_menu)
   def move_trains
-    navigation.make('Move Trains', :move_trains) do |menu|
-      menu.choice('Move train forward on route', :move_forward, '1')
-      menu.choice('Move train backward on route', :move_backward, '2')
-      menu.choice('Back to Main Menu', :main_menu, '0')
-      menu.choice('Quit', :exit, 'q')
+    navigation.make("Move Trains", :move_trains) do |menu|
+      menu.choice("Move train forward on route", :move_forward, "1")
+      menu.choice("Move train backward on route", :move_backward, "2")
+      menu.choice("Back to Main Menu", :main_menu, "0")
+      menu.choice("Quit", :exit, "q")
     end
   end
 
   def move_forward
-    navigation.bind('Move train forward on route', :move_forward, :move_trains) do
+    navigation.bind("Move train forward on route", :move_forward, :move_trains) do
       puts navigation.send_action(:list_trains)
       train_index = choose_train
 
@@ -32,7 +31,7 @@ class MoveTrains < AbcMenu
   end
 
   def move_backward
-    navigation.bind('Move train backward on route', :move_backward, :move_trains) do
+    navigation.bind("Move train backward on route", :move_backward, :move_trains) do
       puts navigation.send_action(:list_trains)
       train_index = choose_train
 
@@ -40,4 +39,3 @@ class MoveTrains < AbcMenu
     end
   end
 end
-# rubocop:enable all

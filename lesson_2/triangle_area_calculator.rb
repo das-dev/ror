@@ -3,12 +3,12 @@
 Triangle = Struct.new(:base, :height, :area)
 
 def make_triangle
-  prompt = 'Введите основание треугольника:'
-  error_message = 'Основание треугольника должно быть больше нуля.'
+  prompt = "Введите основание треугольника:"
+  error_message = "Основание треугольника должно быть больше нуля."
   triangle_base = request_positive_value(prompt, error_message)
 
-  prompt = 'Введите высоту треугольника:'
-  error_message = 'Высота треугольника должна быть больше нуля.'
+  prompt = "Введите высоту треугольника:"
+  error_message = "Высота треугольника должна быть больше нуля."
   triangle_height = request_positive_value(prompt, error_message)
 
   Triangle.new(triangle_base, triangle_height)

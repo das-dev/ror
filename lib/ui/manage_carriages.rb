@@ -1,8 +1,7 @@
 # frozen_string_literal: true
 
-require_relative 'abc_menu'
+require_relative "abc_menu"
 
-# rubocop:disable Style/Documentation
 class ManageCarriages < AbcMenu
   def make_menu
     manage_carriages
@@ -19,22 +18,22 @@ class ManageCarriages < AbcMenu
 
   # rubocop:disable Metrics/MethodLength
   def manage_carriages
-    navigation.make('Manage Carriages', :manage_carriages) do |menu|
-      menu.choice('Create carriage', :create_carriage, '1')
-      menu.choice('List carriages', :list_carriages, '2')
-      menu.choice('List carriages in train', :list_carriages_in_train, '3')
-      menu.choice('Attach carriage to train', :add_carriage, '4')
-      menu.choice('Detach carriage from train', :remove_carriage, '5')
-      menu.choice('Occupy carriage seat', :occupy_carriage_seat, '6')
-      menu.choice('Occupy carriage volume', :occupy_carriage_volume, '7')
-      menu.choice('Back to Main Menu', :main_menu, '0')
-      menu.choice('Quit', :exit, 'q')
+    navigation.make("Manage Carriages", :manage_carriages) do |menu|
+      menu.choice("Create carriage", :create_carriage, "1")
+      menu.choice("List carriages", :list_carriages, "2")
+      menu.choice("List carriages in train", :list_carriages_in_train, "3")
+      menu.choice("Attach carriage to train", :add_carriage, "4")
+      menu.choice("Detach carriage from train", :remove_carriage, "5")
+      menu.choice("Occupy carriage seat", :occupy_carriage_seat, "6")
+      menu.choice("Occupy carriage volume", :occupy_carriage_volume, "7")
+      menu.choice("Back to Main Menu", :main_menu, "0")
+      menu.choice("Quit", :exit, "q")
     end
   end
   # rubocop:enable Metrics/MethodLength
 
   def create_carriage
-    navigation.bind('Create carriage form', :create_carriage, :manage_carriages, attempts: 3) do
+    navigation.bind("Create carriage form", :create_carriage, :manage_carriages, attempts: 3) do
       number = enter_carriage_number
       type = choose_carriage_type
       manufacturer_name = enter_manufacturer_name
@@ -45,11 +44,11 @@ class ManageCarriages < AbcMenu
   end
 
   def list_carriages
-    navigation.bind('List carriages:', :list_carriages, :manage_carriages)
+    navigation.bind("List carriages:", :list_carriages, :manage_carriages)
   end
 
   def list_carriages_in_train
-    navigation.bind('List carriages in train:', :list_carriages_in_train, :manage_carriages) do
+    navigation.bind("List carriages in train:", :list_carriages_in_train, :manage_carriages) do
       puts navigation.send_action(:list_trains)
       train_index = choose_train
 
@@ -58,7 +57,7 @@ class ManageCarriages < AbcMenu
   end
 
   def attach_carriage
-    navigation.bind('Attach carriage to train', :add_carriage, :manage_carriages) do
+    navigation.bind("Attach carriage to train", :add_carriage, :manage_carriages) do
       puts navigation.send_action(:list_trains)
       train_index = choose_train
 
@@ -70,7 +69,7 @@ class ManageCarriages < AbcMenu
   end
 
   def detach_carriage
-    navigation.bind('Detach carriage from train', :remove_carriage, :manage_carriages) do
+    navigation.bind("Detach carriage from train", :remove_carriage, :manage_carriages) do
       puts navigation.send_action(:list_trains)
       train_index = choose_train
 
@@ -82,7 +81,7 @@ class ManageCarriages < AbcMenu
   end
 
   def occupy_carriage_seat
-    navigation.bind('Occupy carriage seat', :occupy_carriage_seat, :manage_carriages) do
+    navigation.bind("Occupy carriage seat", :occupy_carriage_seat, :manage_carriages) do
       puts navigation.send_action(:list_trains)
       train_index = choose_train
 
@@ -94,7 +93,7 @@ class ManageCarriages < AbcMenu
   end
 
   def occupy_carriage_volume
-    navigation.bind('Occupy carriage volume', :occupy_carriage_volume, :manage_carriages) do
+    navigation.bind("Occupy carriage volume", :occupy_carriage_volume, :manage_carriages) do
       puts navigation.send_action(:list_trains)
       train_index = choose_train
 
@@ -107,4 +106,3 @@ class ManageCarriages < AbcMenu
     end
   end
 end
-# rubocop:enable all

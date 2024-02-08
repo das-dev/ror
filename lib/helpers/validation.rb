@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-# rubocop:disable Style/Documentation
 module Validation
   def valid?
     validate!
@@ -10,7 +9,6 @@ module Validation
   end
 
   def validate!
-    raise 'Validation method should be defined in the class'
+    raise "Validation method should be defined in the class"
   end
 end
-# rubocop:enable all

@@ -4,7 +4,7 @@ def request_order_data
   order = []
   loop do
     name = request_name
-    break if name == 'стоп'
+    break if name == "стоп"
 
     price = request_price
     quantity = request_quantity
@@ -16,27 +16,27 @@ def request_order_data
 end
 
 def request_name
-  puts 'Введите название товара:'
+  puts "Введите название товара:"
   gets.chomp
 end
 
 def request_price
-  puts 'Введите цену товара:'
+  puts "Введите цену товара:"
   gets.chomp.to_f
 end
 
 def request_quantity
-  puts 'Введите количество товара:'
+  puts "Введите количество товара:"
   gets.chomp.to_f
 end
 
 def valid_order_item?(order_item)
   if order_item[:name].empty?
-    puts 'Название товара не может быть пустым.'
+    puts "Название товара не может быть пустым."
   elsif order_item[:price].negative?
-    puts 'Цена товара не может быть отрицательной.'
+    puts "Цена товара не может быть отрицательной."
   elsif order_item[:quantity].negative?
-    puts 'Количество товара не может быть отрицательным.'
+    puts "Количество товара не может быть отрицательным."
   else
     true
   end
@@ -60,7 +60,7 @@ def calc_total_cost(order)
 end
 
 def make_output_message(order, total_cost)
-  puts 'Ваш заказ:'
+  puts "Ваш заказ:"
   order.each.with_index(1) do |(name, item), i|
     puts make_order_row(name, item, i)
   end

@@ -1,19 +1,19 @@
 # frozen_string_literal: true
 
-require 'minitest/autorun'
-require_relative '../../lib/model/train'
+require "minitest/autorun"
+require_relative "../../lib/model/train"
 
 class TestTrainOnRoute < Minitest::Test
   attr_reader :origin, :destination, :reverse_route_train, :train, :route
 
   def setup
-    @origin = Station.new('origin')
-    @destination = Station.new('destination')
+    @origin = Station.new("origin")
+    @destination = Station.new("destination")
 
     @route = Route.new(origin, destination)
     @reverse_route_train = Route.new(destination, origin)
 
-    @train = Train.make_train(:passenger, '123-11')
+    @train = Train.make_train(:passenger, "123-11")
     @train.assign_route(@route)
   end
 

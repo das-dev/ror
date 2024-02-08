@@ -4,7 +4,7 @@ QuadraticCoefficients = Struct.new(:a, :b, :c)
 
 def request_coefficients
   loop do
-    puts 'Введите три коэффициента (a, b и c) квадратного уравнения через пробел:'
+    puts "Введите три коэффициента (a, b и c) квадратного уравнения через пробел:"
     coefficients = gets.chomp.strip.split.map(&:to_f)
     return QuadraticCoefficients.new(*coefficients) if valid_coefficients?(coefficients)
   end
@@ -13,7 +13,7 @@ end
 def valid_coefficients?(coefficients)
   return true if coefficients.size == 3
 
-  puts 'Недостаточно коэффициентов'
+  puts "Недостаточно коэффициентов"
 end
 
 def calc_discriminant(coefficients)
@@ -30,7 +30,7 @@ def verbose_roots(discriminant, coefficients)
   elsif discriminant.zero?
     "Корень: #{calculate_single_root(coefficients)}"
   else
-    'Нет корней'
+    "Нет корней"
   end
 end
 

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-LATIN_ALPHABET = ('a'..'z')
+LATIN_ALPHABET = ("a".."z")
 LATIN_VOWELS = %w[a e i o u].freeze
 
 def find_vowels

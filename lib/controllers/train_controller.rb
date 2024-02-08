@@ -1,9 +1,8 @@
 # frozen_string_literal: true
 
-require_relative '../model/train'
-require_relative 'exceptions'
+require_relative "../model/train"
+require_relative "exceptions"
 
-# rubocop:disable Style/Documentation
 class TrainController
   def initialize(storage)
     @storage = storage
@@ -20,7 +19,7 @@ class TrainController
     trains = @storage.get(:trains, []).map.with_index(1) do |train, index|
       "#{index}. #{train.description}"
     end
-    trains.empty? ? 'No trains' : trains * "\n"
+    trains.empty? ? "No trains" : trains * "\n"
   end
 
   def show_train(train_index:)
@@ -37,19 +36,19 @@ class TrainController
 
   def find_train_by_number(number:)
     train = get_train_by_number(number)
-    raise ControllerError, 'Train not found' unless train
+    raise ControllerError, "Train not found" unless train
 
     train_info(train)
   end
 
   def move_forward(train_index:)
     train = get_train(train_index)
-    raise ControllerError, 'Train is not on the route' unless train.route
+    raise ControllerError, "Train is not on the route" unless train.route
 
     begin
       train.move_forward
     rescue Train::NoNextStationError
-      raise ControllerError, 'Train is at the end of the route'
+      raise ControllerError, "Train is at the end of the route"
     end
 
     "Train ##{train.number} moved forward"
@@ -57,12 +56,12 @@ class TrainController
 
   def move_backward(train_index:)
     train = get_train(train_index)
-    raise ControllerError, 'Train is not on the route' unless train.route
+    raise ControllerError, "Train is not on the route" unless train.route
 
     begin
       train.move_backward
     rescue Train::NoPreviousStationError
-      raise ControllerError, 'Train is at the start of the route'
+      raise ControllerError, "Train is at the start of the route"
     end
 
     "Train ##{train.number} moved backward"
@@ -91,7 +90,7 @@ class TrainController
     train = @storage.get(:trains, []).find do |t|
       t.number == number
     end
-    raise ControllerError, 'Train not found' unless train
+    raise ControllerError, "Train not found" unless train
 
     train
   end
@@ -107,14 +106,14 @@ class TrainController
     carriages = train.map.with_index(1) do |carriage, index|
       "  #{index}. #{carriage.description}"
     end
-    carriages.empty? ? 'No carriages' : carriages * "\n"
+    carriages.empty? ? "No carriages" : carriages * "\n"
   end
 
   def train_info(train)
     on_route = "is on #{train.route}"
     on_factory = "is at the factory #{train.manufacturer_name}"
     route_info = train.route ? on_route : on_factory
-    station_info = train.route ? "at #{train.current_station}\n" : ''
+    station_info = train.route ? "at #{train.current_station}\n" : ""
     carriages_info = carriages_info(train)
 
     "#{train.verbose_type.capitalize} train ##{train.number} #{route_info}\n" \
@@ -122,4 +121,3 @@ class TrainController
       "#{carriages_info}"
   end
 end
-# rubocop:enable all

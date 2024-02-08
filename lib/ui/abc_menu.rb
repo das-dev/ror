@@ -1,8 +1,7 @@
 # frozen_string_literal: true
 
-require_relative 'forms'
+require_relative "forms"
 
-# rubocop:disable Style/Documentation
 class AbcMenu
   include Forms
 
@@ -18,4 +17,3 @@ class AbcMenu
 
   attr_reader :navigation
 end
-# rubocop:enable all

@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-require_relative '../helpers/instance_counter'
-require_relative '../helpers/manufacturer_info'
-require_relative '../helpers/validation'
+require_relative "../helpers/instance_counter"
+require_relative "../helpers/manufacturer_info"
+require_relative "../helpers/validation"
 
-# rubocop:disable Style/Documentation
+# TODO: refactor this class: too many methods
 # rubocop:disable Metrics/ClassLength
 class Train
   attr_reader :type, :speed, :route, :number
@@ -37,9 +37,9 @@ class Train
   end
 
   def validate!
-    raise ValidationError, 'Number can not be empty' if number.empty?
-    raise ValidationError, 'Number should be at least 3 symbols' if number.length < 3
-    raise ValidationError, 'Number has invalid format' if number !~ NUMBER_FORMAT
+    raise ValidationError, "Number can not be empty" if number.empty?
+    raise ValidationError, "Number should be at least 3 symbols" if number.length < 3
+    raise ValidationError, "Number has invalid format" if number !~ NUMBER_FORMAT
   end
 
   def assign_route(new_route)
@@ -179,7 +179,7 @@ class PassengerTrain < Train
   end
 
   def verbose_type
-    'passenger'
+    "passenger"
   end
 end
 
@@ -190,7 +190,7 @@ class CargoTrain < Train
   end
 
   def verbose_type
-    'cargo'
+    "cargo"
   end
 end
 # rubocop:enable all

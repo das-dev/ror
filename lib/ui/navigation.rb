@@ -1,8 +1,7 @@
 # frozen_string_literal: true
 
-require_relative '../controllers/exceptions'
+require_relative "../controllers/exceptions"
 
-# rubocop:disable Style/Documentation
 class Navigation
   Menu = Struct.new(:choices) do
     def choice(title, key, id, &block)
@@ -63,7 +62,7 @@ class Navigation
 
   # снаружи не нужен
   def clear_screen
-    system 'clear'
+    system "clear"
   end
 
   def try_to_send_action(key, form, attempts_left = 0)
@@ -73,7 +72,7 @@ class Navigation
     puts e.message
     retry unless (attempts_left -= 1).negative?
   ensure
-    puts 'Press Enter to continue...'
+    puts "Press Enter to continue..."
     gets
   end
 
@@ -86,7 +85,6 @@ class Navigation
     transitions[state][:choices].each do |id, choice|
       puts "#{id}. #{choice.title}"
     end
-    puts 'Choose an option:'
+    puts "Choose an option:"
   end
 end
-# rubocop:enable all

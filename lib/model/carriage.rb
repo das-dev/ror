@@ -1,11 +1,10 @@
 # frozen_string_literal: true
 
-require_relative '../helpers/instance_counter'
-require_relative '../helpers/manufacturer_info'
-require_relative '../helpers/validation'
-require_relative 'exceptions'
+require_relative "../helpers/instance_counter"
+require_relative "../helpers/manufacturer_info"
+require_relative "../helpers/validation"
+require_relative "exceptions"
 
-# rubocop disable Style/Documentation
 class Carriage
   attr_reader :number
 
@@ -31,8 +30,8 @@ class Carriage
   end
 
   def validate!
-    raise ValidationError, 'Number can not be empty' if number.empty?
-    raise ValidationError, 'Invalid number format' if number !~ NUMBER_FORMAT
+    raise ValidationError, "Number can not be empty" if number.empty?
+    raise ValidationError, "Invalid number format" if number !~ NUMBER_FORMAT
   end
 
   def ==(other)
@@ -59,9 +58,7 @@ class Carriage
     type == :passenger
   end
 end
-# rubocop enable all
 
-# rubocop disable Style/Documentation
 class PassengerCarriage < Carriage
   attr_reader :type, :seats, :occupied_seats
 
@@ -75,7 +72,7 @@ class PassengerCarriage < Carriage
 
   def validate!
     super
-    raise ValidationError, 'Total seats must be positive' unless seats.positive?
+    raise ValidationError, "Total seats must be positive" unless seats.positive?
   end
 
   def free_seats
@@ -83,13 +80,13 @@ class PassengerCarriage < Carriage
   end
 
   def occupy_seat
-    raise ValidationError, 'No free seats' if free_seats.zero?
+    raise ValidationError, "No free seats" if free_seats.zero?
 
     self.occupied_seats += 1
   end
 
   def verbose_type
-    'passenger'
+    "passenger"
   end
 
   def description
@@ -101,9 +98,7 @@ class PassengerCarriage < Carriage
 
   attr_writer :occupied_seats
 end
-# rubocop enable all
 
-# rubocop disable Style/Documentation
 class CargoCarriage < Carriage
   attr_reader :type, :volume, :occupied_volume
 
@@ -117,7 +112,7 @@ class CargoCarriage < Carriage
 
   def validate!
     super
-    raise ValidationError, 'Total volume must be positive' unless volume.positive?
+    raise ValidationError, "Total volume must be positive" unless volume.positive?
   end
 
   def free_volume
@@ -125,13 +120,13 @@ class CargoCarriage < Carriage
   end
 
   def occupy_volume(amount)
-    raise ValidationError, 'No free volume' if free_volume < amount
+    raise ValidationError, "No free volume" if free_volume < amount
 
     self.occupied_volume += amount
   end
 
   def verbose_type
-    'cargo'
+    "cargo"
   end
 
   def description
@@ -143,4 +138,3 @@ class CargoCarriage < Carriage
 
   attr_writer :occupied_volume
 end
-# rubocop enable all

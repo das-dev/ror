@@ -1,9 +1,8 @@
 # frozen_string_literal: true
 
-require_relative '../model/route'
-require_relative 'exceptions'
+require_relative "../model/route"
+require_relative "exceptions"
 
-# rubocop:disable Style/Documentation
 class RouteController
   def initialize(storage)
     @storage = storage
@@ -23,13 +22,13 @@ class RouteController
     routes = @storage.get(:routes, []).map.with_index(1) do |route, index|
       "#{index}. #{route}"
     end
-    routes.empty? ? 'No routes' : routes * "\n"
+    routes.empty? ? "No routes" : routes * "\n"
   end
 
   def add_intermediate_station(route_index:, station_index:)
     route = get_route(route_index)
     station = get_station(station_index)
-    raise ControllerError, 'Station is already in the route' if route.stations.include?(station)
+    raise ControllerError, "Station is already in the route" if route.stations.include?(station)
 
     route.append_intermediate_station(station)
     "#{station} is added to #{route}"
@@ -39,10 +38,10 @@ class RouteController
     route = get_route(route_index)
 
     station = get_station(station_index)
-    raise ControllerError, 'Station is not in the route' unless route.stations.include?(station)
-    raise ControllerError, 'Cannot remove an origin station' if route.origin_station == station
+    raise ControllerError, "Station is not in the route" unless route.stations.include?(station)
+    raise ControllerError, "Cannot remove an origin station" if route.origin_station == station
     if route.destination_station == station
-      raise ControllerError, 'Cannot remove a destination station'
+      raise ControllerError, "Cannot remove a destination station"
     end
 
     route.remove_intermediate_station(station)
@@ -77,4 +76,3 @@ class RouteController
     station
   end
 end
-# rubocop:enable all

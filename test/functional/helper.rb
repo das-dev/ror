@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'stringio'
+require "stringio"
 
 class TestHelper
   attr_reader :input, :output
@@ -51,102 +51,112 @@ end
 
 module Scenarios
   def scenario_stat
-    ['0', 's', ''].each do |input|
+    ["0", "s", ""].each do |input|
       @helper.input.puts(input)
     end
   end
 
   def scenario_create_station(station_name:)
-    ['0', '1', '1', station_name, ''].each do |input|
+    ["0", "1", "1", station_name, ""].each do |input|
       @helper.input.puts(input)
     end
   end
 
   def scenario_list_station
-    ['0', '1', '2', ''].each do |input|
+    ["0", "1", "2", ""].each do |input|
       @helper.input.puts(input)
     end
   end
 
   def scenario_create_train(train_number:, type:, manufacturer:)
-    train_type = { passenger: '1', cargo: '2' }[type]
-    ['0', '3', '1', train_number, train_type, manufacturer, ''].each do |input|
+    train_type = { passenger: "1", cargo: "2" }[type]
+    ["0", "3", "1", train_number, train_type, manufacturer, ""].each do |input|
       @helper.input.puts(input)
     end
   end
 
   def scenario_list_train
-    ['0', '3', '2', ''].each do |input|
+    ["0", "3", "2", ""].each do |input|
       @helper.input.puts(input)
     end
   end
 
   def scenario_show_train
-    ['0', '3', '3', '1', ''].each do |input|
+    ["0", "3", "3", "1", ""].each do |input|
       @helper.input.puts(input)
     end
   end
 
   def scenario_create_passenger_carriage(carriage_number:, manufacturer:, seats:)
-    ['0', '2', '1', carriage_number, '1', manufacturer, seats, ''].each do |input|
+    ["0", "2", "1", carriage_number, "1", manufacturer, seats, ""].each do |input|
       @helper.input.puts(input)
     end
   end
 
   def scenario_create_cargo_carriage(carriage_number:, manufacturer:, volume:)
-    ['0', '2', '1', carriage_number, '2', manufacturer, volume, ''].each do |input|
+    ["0", "2", "1", carriage_number, "2", manufacturer, volume, ""].each do |input|
       @helper.input.puts(input)
     end
   end
 
   def scenario_list_carriages
-    ['0', '2', '2', ''].each do |input|
+    ["0", "2", "2", ""].each do |input|
       @helper.input.puts(input)
     end
   end
 
   def scenario_add_carriage(train_index:, carriage_index:)
-    ['0', '2', '4', train_index, carriage_index, ''].each do |input|
+    ["0", "2", "4", train_index, carriage_index, ""].each do |input|
       @helper.input.puts(input)
     end
   end
 
-  def scenario_create_route
-    ['0', '4', '1', '1', '2', ''].each do |input|
+  def scenario_create_route(from:, to:)
+    scenario_create_station(station_name: from)
+    scenario_create_station(station_name: to)
+    ["0", "4", "1", "1", "2", ""].each do |input|
       @helper.input.puts(input)
     end
   end
 
   def scenario_routes_list
-    ['0', '4', '2', ''].each do |input|
+    ["0", "4", "2", ""].each do |input|
       @helper.input.puts(input)
     end
   end
 
   def scenario_set_route_to_train(train_index:, route_index:)
-    ['0', '3', '4', train_index, route_index, ''].each do |input|
+    ["0", "3", "4", train_index, route_index, ""].each do |input|
       @helper.input.puts(input)
     end
   end
 
   def scenario_train_move_on_route(train_index:, moves:)
     moves.each do |move|
-      @helper.input.puts('0')
-      @helper.input.puts('5')
+      @helper.input.puts("0")
+      @helper.input.puts("5")
       @helper.input.puts(move)
       @helper.input.puts(train_index)
-      @helper.input.puts('')
+      @helper.input.puts("")
     end
   end
 
   def scenario_list_trains_on_station(station_index:)
-    ['0', '1', '3', station_index, ''].each do |input|
+    ["0", "1", "3", station_index, ""].each do |input|
       @helper.input.puts(input)
     end
   end
 
+  def meta_scenario_create_route_with_trains
+    scenario_create_train(train_number: "001-00", type: :passenger, manufacturer: "Manufacturer 1")
+    scenario_create_train(train_number: "001-01", type: :cargo, manufacturer: "Manufacturer 1")
+    scenario_create_route(from: "Origin", to: "Destination")
+    scenario_set_route_to_train(train_index: "1", route_index: "1")
+    scenario_set_route_to_train(train_index: "2", route_index: "1")
+  end
+
   def scenario_quit
-    @helper.input.puts 'q'
+    @helper.input.puts "q"
     @helper.input.rewind
   end
 end

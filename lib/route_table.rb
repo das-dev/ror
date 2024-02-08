@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-# rubocop:disable Style/Documentation
 class RouteTable
   def initialize(station_controller, carriage_controller,
                  train_controller, route_controller,
@@ -14,7 +13,7 @@ class RouteTable
 
   def send_action(action, **params)
     handler = resolve_action(action)
-    return 'Unknown action' if handler.nil?
+    return "Unknown action" if handler.nil?
 
     handler.call(**params)
   end
@@ -89,4 +88,3 @@ class RouteTable
     }
   end
 end
-# rubocop:enable all

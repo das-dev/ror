@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-# rubocop:disable Style/Documentation
 class KeyValueStorage
   def initialize
     @storage = Hash.new { |hsh, key| hsh[key] = [] }
@@ -18,4 +17,3 @@ class KeyValueStorage
     self[key] || default
   end
 end
-# rubocop:enable all

@@ -1,13 +1,12 @@
 # frozen_string_literal: true
 
-require 'base64'
-require 'zlib'
+require "base64"
+require "zlib"
 
-require_relative '../model/route'
-require_relative '../model/station'
-require_relative '../model/train'
+require_relative "../model/route"
+require_relative "../model/station"
+require_relative "../model/train"
 
-# rubocop:disable Style/Documentation
 class ApplicationController
   STAT_VIEW = <<~STAT_VIEW
     Stations: %d
@@ -70,4 +69,3 @@ class ApplicationController
     @storage[:trains].select { |t| t.type == :passenger }.size
   end
 end
-# rubocop:enable all

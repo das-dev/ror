@@ -1,9 +1,8 @@
 # frozen_string_literal: true
 
-require_relative '../model/station'
-require_relative 'exceptions'
+require_relative "../model/station"
+require_relative "exceptions"
 
-# rubocop:disable Style/Documentation
 class StationController
   def initialize(storage)
     @storage = storage
@@ -19,7 +18,7 @@ class StationController
     stations = @storage.get(:stations, []).map.with_index(1) do |station, index|
       "#{index}. #{station}"
     end
-    stations.empty? ? 'No stations' : stations * "\n"
+    stations.empty? ? "No stations" : stations * "\n"
   end
 
   def list_trains_on_station(station_index:)
@@ -27,7 +26,7 @@ class StationController
     trains = station.each.map.with_index(1) do |train, index|
       "#{index}. #{train.description}"
     end
-    trains.empty? ? 'No trains on station' : trains * "\n"
+    trains.empty? ? "No trains on station" : trains * "\n"
   end
 
   private
@@ -49,4 +48,3 @@ class StationController
     station
   end
 end
-# rubocop:enable all

@@ -1,9 +1,8 @@
 # frozen_string_literal: true
 
-require_relative '../model/carriage'
-require_relative 'exceptions'
+require_relative "../model/carriage"
+require_relative "exceptions"
 
-# rubocop:disable Style/Documentation
 class CarriageController
   def initialize(storage)
     @storage = storage
@@ -21,7 +20,7 @@ class CarriageController
     carriages = @storage.get(:carriages, []).map.with_index(1) do |carriage, index|
       "#{index}. #{carriage.description}"
     end
-    carriages.empty? ? 'No carriages' : carriages * "\n"
+    carriages.empty? ? "No carriages" : carriages * "\n"
   end
 
   def list_carriages_in_train(train_index:)
@@ -30,7 +29,7 @@ class CarriageController
       "#{index}. #{carriage.description}"
     end
 
-    carriage_list = carriages.empty? ? 'No carriages in train' : carriages * "\n"
+    carriage_list = carriages.empty? ? "No carriages in train" : carriages * "\n"
     "Carriages in #{train.verbose_type} train ##{train.number}:\n#{carriage_list}"
   end
 
@@ -38,7 +37,7 @@ class CarriageController
     train = get_train(train_index)
     carriage = get_carriage(carriage_index)
 
-    raise ControllerError, 'Carriage not attached' unless train << carriage
+    raise ControllerError, "Carriage not attached" unless train << carriage
 
     "Carriage ##{carriage.number} is attached to #{train.verbose_type} train ##{train.number}"
   end
@@ -47,7 +46,7 @@ class CarriageController
     train = get_train(train_index)
     carriage = get_carriage_in_train(train, carriage_index)
     carriage = train.detach_carriage(carriage)
-    raise ControllerError, 'Carriage not detached' unless carriage
+    raise ControllerError, "Carriage not detached" unless carriage
 
     "Carriage ##{carriage.number} is detached from #{train}"
   end
@@ -55,7 +54,7 @@ class CarriageController
   def occupy_carriage_seat(train_index:, carriage_index:)
     train = get_train(train_index)
     carriage = get_carriage_in_train(train, carriage_index)
-    raise ControllerError, 'Carriage is not a passenger one' unless carriage.passenger?
+    raise ControllerError, "Carriage is not a passenger one" unless carriage.passenger?
 
     carriage.occupy_seat
     "Seat in carriage ##{carriage.number} is occupied"
@@ -64,7 +63,7 @@ class CarriageController
   def occupy_carriage_volume(train_index:, carriage_index:, volume:)
     train = get_train(train_index)
     carriage = get_carriage_in_train(train, carriage_index)
-    raise ControllerError, 'Carriage is not a cargo one' unless carriage.cargo?
+    raise ControllerError, "Carriage is not a cargo one" unless carriage.cargo?
 
     carriage.occupy_volume(volume.to_i)
     "Volume in carriage ##{carriage.number} is occupied"
@@ -122,10 +121,9 @@ class CarriageController
     when :cargo
       { volume: volume.to_i } if volume
     when nil
-      raise ControllerError, 'Carriage type is not specified'
+      raise ControllerError, "Carriage type is not specified"
     else
       raise ControllerError, "Unknown carriage type: #{type}"
     end
   end
 end
-# rubocop:enable all

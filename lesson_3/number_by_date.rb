@@ -14,11 +14,11 @@ end
 
 def request_date
   loop do
-    puts 'Введите число, месяц и год через пробел:'
+    puts "Введите число, месяц и год через пробел:"
     date = gets.chomp.split.map(&:to_i)
     return date if valid_date?(date)
 
-    puts 'Неверный формат даты'
+    puts "Неверный формат даты"
   end
 end
 
@@ -35,25 +35,25 @@ end
 def valid_length?(date)
   return true if date.size == 3
 
-  puts 'Дата должна состоять из трех чисел.'
+  puts "Дата должна состоять из трех чисел."
 end
 
 def all_positive?(date)
   return true if date.all?(&:positive?)
 
-  puts 'Все числа должны быть больше нуля.'
+  puts "Все числа должны быть больше нуля."
 end
 
 def valid_month?(month)
   return true if month <= 12
 
-  puts 'Месяц не может быть больше 12.'
+  puts "Месяц не может быть больше 12."
 end
 
 def valid_day?(day)
   return true if day <= 31
 
-  puts 'Число не может быть больше 31.'
+  puts "Число не может быть больше 31."
 end
 
 def main

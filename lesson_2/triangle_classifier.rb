@@ -2,7 +2,7 @@
 
 def request_sides
   loop do
-    puts 'Введите стороны прямоугльного треугольника через пробел:'
+    puts "Введите стороны прямоугльного треугольника через пробел:"
     sides = gets.chomp.strip.split.map(&:to_f)
     return sides if valid_sides?(sides)
   end
@@ -10,9 +10,9 @@ end
 
 def valid_sides?(sides)
   if sides.size != 3
-    puts 'Треугольник должен иметь три стороны.'
+    puts "Треугольник должен иметь три стороны."
   elsif !sides.all?(&:positive?)
-    puts 'Длины сторон должны быть положительными.'
+    puts "Длины сторон должны быть положительными."
   else
     true
   end
@@ -32,10 +32,10 @@ end
 
 def verbose_properties(triangle_properties)
   case triangle_properties
-  in { equilateral: true } then 'равносторонний'
-  in { rectangular: true } then 'прямоугольный'
-  in { isosceles: true } then 'равнобедренный'
-  else 'не равносторонний, не равнобедренный и не прямоугольный'
+  in { equilateral: true } then "равносторонний"
+  in { rectangular: true } then "прямоугольный"
+  in { isosceles: true } then "равнобедренный"
+  else "не равносторонний, не равнобедренный и не прямоугольный"
   end
 end
 

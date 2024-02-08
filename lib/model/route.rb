@@ -1,10 +1,9 @@
 # frozen_string_literal: true
 
-require_relative '../helpers/instance_counter'
-require_relative '../helpers/validation'
-require_relative 'exceptions'
+require_relative "../helpers/instance_counter"
+require_relative "../helpers/validation"
+require_relative "exceptions"
 
-# rubocop:disable Style/Documentation
 class Route
   attr_reader :origin_station, :destination_station
 
@@ -19,7 +18,7 @@ class Route
   end
 
   def validate!
-    same_stations_error = 'Origin and destination stations should be different'
+    same_stations_error = "Origin and destination stations should be different"
     raise ValidationError, same_stations_error if origin_station == destination_station
   end
 
@@ -36,7 +35,7 @@ class Route
   end
 
   def direction
-    stations.map(&:name) * ' -> '
+    stations.map(&:name) * " -> "
   end
 
   def to_s
@@ -65,4 +64,3 @@ class Route
     intermediate_stations.delete(station)
   end
 end
-# rubocop:enable all

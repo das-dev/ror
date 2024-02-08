@@ -1,29 +1,29 @@
 # frozen_string_literal: true
 
-require 'minitest/autorun'
-require_relative '../../lib/model/station'
+require "minitest/autorun"
+require_relative "../../lib/model/station"
 
 class TestStation < Minitest::Test
   attr_reader :station
 
   def setup
-    @station = Station.new('Station')
+    @station = Station.new("Station")
   end
 
   def test_station_name_validation_with_empty_number_failed
-    assert_raises(ValidationError) { Station.new('') }
+    assert_raises(ValidationError) { Station.new("") }
   end
 
   def test_station_name_validation_wrong_length_failed
-    assert_raises(ValidationError) { Station.new('AB') }
+    assert_raises(ValidationError) { Station.new("AB") }
   end
 
   def test_name_station
-    assert_equal 'Station', station.name
+    assert_equal "Station", station.name
   end
 
   def test_empty_station
-    assert_equal [], station.to_a
+    assert_empty station.to_a
   end
 
   def test_add_train
@@ -43,11 +43,11 @@ class TestStation < Minitest::Test
     station.send_train(train)
     station.send_train(train)
 
-    assert_equal [], station.to_a
+    assert_empty station.to_a
   end
 
   def test_train_types_stat_with_empty_station
-    assert_equal({}, station.train_types_stat)
+    assert_empty(station.train_types_stat)
   end
 
   def test_train_types_stat_use_train_type

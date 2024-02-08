@@ -1,38 +1,11 @@
-# This is the configuration used to check the rubocop source code.
+require: rubocop-minitest
+
 AllCops:
   NewCops: enable
   Exclude:
-    - 'vendor/**/*'
-    - 'spec/fixtures/**/*'
-    - 'tmp/**/*'
     - '.git/**/*'
-    - 'bin/*'
   TargetRubyVersion: 3.3
-  SuggestExtensions: false
-
-Naming/PredicateName:
-  # Method define macros for dynamically generated method.
-  MethodDefinitionMacros:
-    - define_method
-    - define_singleton_method
-    - def_node_matcher
-    - def_node_search
-
-Style/AccessorGrouping:
-  Exclude:
-    - lib/rubocop/formatter/base_formatter.rb
-    - lib/rubocop/cop/offense.rb
-
-Style/FormatStringToken:
-  # Because we parse a lot of source codes from strings. Percent arrays
-  # look like unannotated format string tokens to this cop.
-  Exclude:
-    - spec/**/*
-
-Style/IpAddresses:
-  # The test for this cop includes strings that would cause offenses
-  Exclude:
-    - spec/rubocop/cop/style/ip_addresses_spec.rb
+  SuggestExtensions: true
 
 Layout/EndOfLine:
   EnforcedStyle: lf
@@ -46,52 +19,15 @@ Layout/RedundantLineBreak:
 Layout/TrailingWhitespace:
   AllowInHeredoc: false
 
-Lint/AmbiguousBlockAssociation:
-  Exclude:
-    - 'spec/**/*.rb'
-
-Layout/HashAlignment:
-  EnforcedHashRocketStyle:
-    - key
-    - table
-  EnforcedColonStyle:
-    - key
-    - table
-
 Layout/LineLength:
   Max: 100
   AllowedPatterns:
     - !ruby/regexp /\A +(it|describe|context|shared_examples|include_examples|it_behaves_like) ["']/
 
-Lint/InterpolationCheck:
-  Exclude:
-    - 'spec/**/*.rb'
-
-Lint/UselessAccessModifier:
-  MethodCreatingMethods:
-    - 'def_matcher'
-    - 'def_node_matcher'
-
-Lint/EmptyFile:
-  Exclude:
-    # This file is intentionally empty to catch rubocop cops failing on empty files.
-    - spec/rubocop/intentionally_empty_file.rb
-
 Metrics/BlockLength:
   Exclude:
-    - 'Rakefile'
+    - '**/Rakefile'
     - '**/*.rake'
-    - 'spec/**/*.rb'
-    - '**/*.gemspec'
-
-Metrics/ClassLength:
-  Exclude:
-    - lib/rubocop/config_obsoletion.rb
-    - lib/rubocop/options.rb
-
-Metrics/ModuleLength:
-  Exclude:
-    - 'spec/**/*.rb'
 
 Naming/InclusiveLanguage:
   Enabled: true
@@ -115,13 +51,12 @@ Naming/InclusiveLanguage:
     'does not registers':
       Suggestions:
         - does not register
-  Exclude:
-    - lib/rubocop/cop/naming/inclusive_language.rb
-    - lib/rubocop/cop/mixin/auto_corrector.rb
-    - spec/rubocop/cop/naming/inclusive_language_spec.rb
-
-Gemspec/DependencyVersion:
-  Enabled: true
 
 Style/RequireOrder:
   Enabled: true
+
+Style/StringLiterals:
+  EnforcedStyle: double_quotes
+
+Style/Documentation:
+  Enabled: false
