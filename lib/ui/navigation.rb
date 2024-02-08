@@ -9,6 +9,7 @@ class Navigation
       choices[id] = Struct.new(:title, :key, :handler).new(title, key, handler)
     end
   end
+
   def initialize(router, initial_state)
     @transitions = {}
     @router = router

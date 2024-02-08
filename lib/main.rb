@@ -20,15 +20,9 @@ require_relative "storage/key_value_storage"
 
 class Application
   def initialize
-    storage = KeyValueStorage.new
-    route = make_route_table(
-      StationController.new(storage),
-      CarriageController.new(storage),
-      TrainController.new(storage),
-      RouteController.new(storage),
-      ApplicationController.new(storage)
-    )
-    @navigation = Navigation.new(route, :main_menu)
+    @storage = KeyValueStorage.new
+    @route = make_route_table
+    @navigation = Navigation.new(@route, :main_menu)
   end
 
   def run
@@ -42,7 +36,7 @@ class Application
 
   private
 
-  attr_reader :navigation
+  attr_reader :navigation, :storage
 
   # приватный потому что снаружи нужен только run
   def make_menu
@@ -52,8 +46,14 @@ class Application
     end
   end
 
-  def make_route_table(*controllers)
-    RouteTable.new(*controllers)
+  def make_route_table
+    RouteTable.new do |table|
+      table.register_controller(station_controller: StationController.new(storage))
+      table.register_controller(carriage_controller: CarriageController.new(storage))
+      table.register_controller(train_controller: TrainController.new(storage))
+      table.register_controller(route_controller: RouteController.new(storage))
+      table.register_controller(application_controller: ApplicationController.new(storage))
+    end
   end
 end
 

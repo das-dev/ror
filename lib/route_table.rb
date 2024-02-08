@@ -1,90 +1,77 @@
 # frozen_string_literal: true
 
 class RouteTable
-  def initialize(station_controller, carriage_controller,
-                 train_controller, route_controller,
-                 application_controller)
-    @station_controller = station_controller
-    @route_controller = route_controller
-    @train_controller = train_controller
-    @carriage_controller = carriage_controller
-    @application_controller = application_controller
+  def initialize
+    @controllers = {}
+    @actions = {}
+    yield(self) if block_given?
+    make_table
+  end
+
+  def register_controller(**controller_options)
+    @controllers.merge!(controller_options)
+  end
+
+  def register_action(controller, action, handler)
+    @actions[action] = controller.method(handler)
   end
 
   def send_action(action, **params)
     handler = resolve_action(action)
-    return "Unknown action" if handler.nil?
+    return "Unknown action: #{action.inspect}" if handler.nil?
 
     handler.call(**params)
   end
 
   private
 
-  # private потому что не часть интерфейса
-  attr_reader :station_controller, :route_controller, :train_controller,
-              :carriage_controller, :application_controller
+  def make_table
+    @controllers.each_pair do |controller_name, controller|
+      send("table_#{controller_name}", controller)
+    end
+  end
 
   # private ибо хелпер
   def resolve_action(action)
-    table_station_management_controller[action] ||
-      table_train_management_controller[action] ||
-      table_train_movement_controller[action]   ||
-      table_route_management_controller[action] ||
-      table_carriage_management_controller[action] ||
-      table_app_controller[action]
+    @actions[action]
   end
 
   # private ибо нечего снаружи лезть напрямую в таблицы
-  def table_station_management_controller
-    {
-      create_station: station_controller.method(:create_station),
-      list_stations: station_controller.method(:list_stations),
-      list_trains_on_station: station_controller.method(:list_trains_on_station)
-    }
+  def table_station_controller(controller)
+    register_action(controller, :create_station, :create_station)
+    register_action(controller, :list_stations, :list_stations)
+    register_action(controller, :list_trains_on_station, :list_trains_on_station)
   end
 
-  def table_train_management_controller
-    {
-      create_train: train_controller.method(:create_train),
-      list_trains: train_controller.method(:list_trains),
-      show_train: train_controller.method(:show_train),
-      set_route: train_controller.method(:assign_route_to_train),
-      find_train: train_controller.method(:find_train_by_number)
-    }
+  def table_train_controller(controller)
+    register_action(controller, :create_train, :create_train)
+    register_action(controller, :list_trains, :list_trains)
+    register_action(controller, :show_train, :show_train)
+    register_action(controller, :set_route, :assign_route_to_train)
+    register_action(controller, :find_train, :find_train_by_number)
+    register_action(controller, :move_forward, :move_forward)
+    register_action(controller, :move_backward, :move_backward)
   end
 
-  def table_train_movement_controller
-    {
-      move_forward: train_controller.method(:move_forward),
-      move_backward: train_controller.method(:move_backward)
-    }
+  def table_carriage_controller(controller)
+    register_action(controller, :create_carriage, :create_carriage)
+    register_action(controller, :list_carriages, :list_carriages)
+    register_action(controller, :add_carriage, :attach_carriage)
+    register_action(controller, :remove_carriage, :detach_carriage)
+    register_action(controller, :list_carriages_in_train, :list_carriages_in_train)
+    register_action(controller, :occupy_carriage_seat, :occupy_carriage_seat)
+    register_action(controller, :occupy_carriage_volume, :occupy_carriage_volume)
   end
 
-  def table_carriage_management_controller
-    {
-      create_carriage: carriage_controller.method(:create_carriage),
-      list_carriages: carriage_controller.method(:list_carriages),
-      add_carriage: carriage_controller.method(:attach_carriage),
-      remove_carriage: carriage_controller.method(:detach_carriage),
-      list_carriages_in_train: carriage_controller.method(:list_carriages_in_train),
-      occupy_carriage_seat: carriage_controller.method(:occupy_carriage_seat),
-      occupy_carriage_volume: carriage_controller.method(:occupy_carriage_volume)
-    }
+  def table_route_controller(controller)
+    register_action(controller, :create_route, :create_route)
+    register_action(controller, :list_routes, :list_routes)
+    register_action(controller, :add_station, :add_intermediate_station)
+    register_action(controller, :remove_station, :remove_intermediate_station)
   end
 
-  def table_route_management_controller
-    {
-      create_route: route_controller.method(:create_route),
-      list_routes: route_controller.method(:list_routes),
-      add_station: route_controller.method(:add_intermediate_station),
-      remove_station: route_controller.method(:remove_intermediate_station)
-    }
-  end
-
-  def table_app_controller
-    {
-      about: application_controller.method(:about),
-      stat: application_controller.method(:stat)
-    }
+  def table_application_controller(controller)
+    register_action(controller, :about, :about)
+    register_action(controller, :stat, :stat)
   end
 end
