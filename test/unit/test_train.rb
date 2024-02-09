@@ -44,18 +44,18 @@ class TestTrain < Minitest::Test
   end
 
   def test_train_number_validation_with_empty_number_failed
-    assert_raises(ValidationError) { Train.make_train(:passenger, "") }
+    assert_raises(Validation::ValidationError) { Train.make_train(:passenger, "") }
   end
 
   def test_train_number_validation_wrong_length_failed
-    assert_raises(ValidationError) { Train.make_train(:passenger, "12") }
-    assert_raises(ValidationError) { Train.make_train(:passenger, "123-111") }
-    assert_raises(ValidationError) { Train.make_train(:passenger, "1ab2ab") }
+    assert_raises(Validation::ValidationError) { Train.make_train(:passenger, "12") }
+    assert_raises(Validation::ValidationError) { Train.make_train(:passenger, "123-111") }
+    assert_raises(Validation::ValidationError) { Train.make_train(:passenger, "1ab2ab") }
   end
 
   def test_train_number_validation_wrong_chars_failed
-    assert_raises(ValidationError) { Train.make_train(:passenger, "123/111") }
-    assert_raises(ValidationError) { Train.make_train(:passenger, "1аб2а") }
+    assert_raises(Validation::ValidationError) { Train.make_train(:passenger, "123/111") }
+    assert_raises(Validation::ValidationError) { Train.make_train(:passenger, "1аб2а") }
   end
 
   def test_speed_up

@@ -78,7 +78,7 @@ class CarriageController
     carriage = Carriage.make_carriage(type, number: carriage_number, **extra_params)
     carriage.manufacturer_name = manufacturer_name
     carriage
-  rescue ValidationError => e
+  rescue Validation::ValidationError => e
     raise ControllerError, "Carriage is not created: #{e.message}"
   end
 

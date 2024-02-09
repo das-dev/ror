@@ -26,13 +26,13 @@ class TestCarriage < Minitest::Test
   end
 
   def test_invalid_number_format
-    assert_raises(ValidationError) do
+    assert_raises(Validation::ValidationError) do
       Carriage.make_carriage(:cargo, number: "123_P", volume: 20)
     end
   end
 
   def test_empty_number
-    assert_raises(ValidationError) do
+    assert_raises(Validation::ValidationError) do
       Carriage.make_carriage(:cargo, number: "", volume: 0)
     end
   end

@@ -3,7 +3,6 @@
 require_relative "../helpers/instance_counter"
 require_relative "../helpers/manufacturer_info"
 require_relative "../helpers/validation"
-require_relative "exceptions"
 
 class Carriage
   include ManufacturerInfo
@@ -27,11 +26,6 @@ class Carriage
 
   def initialize(number)
     @number = number
-  end
-
-  def validate!
-    raise ValidationError, "Number can not be empty" if number.empty?
-    raise ValidationError, "Invalid number format" if number !~ NUMBER_FORMAT
   end
 
   def ==(other)
@@ -62,17 +56,16 @@ end
 class PassengerCarriage < Carriage
   attr_reader :type, :seats, :occupied_seats
 
+  validate :number, :presence
+  validate :number, :format, NUMBER_FORMAT
+  validate :seats, :is, :positive
+
   def initialize(number:, seats: 0)
     super(number)
     @type = :passenger
     @seats = seats
     @occupied_seats = 0
     validate!
-  end
-
-  def validate!
-    super
-    raise ValidationError, "Total seats must be positive" unless seats.positive?
   end
 
   def free_seats
@@ -102,17 +95,16 @@ end
 class CargoCarriage < Carriage
   attr_reader :type, :volume, :occupied_volume
 
+  validate :number, :presence
+  validate :number, :format, NUMBER_FORMAT
+  validate :volume, :is, :positive
+
   def initialize(number:, volume: 0)
     super(number)
     @type = :cargo
     @volume = volume
     @occupied_volume = 0
     validate!
-  end
-
-  def validate!
-    super
-    raise ValidationError, "Total volume must be positive" unless volume.positive?
   end
 
   def free_volume

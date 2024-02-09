@@ -39,12 +39,6 @@ class Train
     validate!
   end
 
-  def validate!
-    raise ValidationError, "Number can not be empty" if number.empty?
-    raise ValidationError, "Number should be at least 3 symbols" if number.length < 3
-    raise ValidationError, "Number has invalid format" if number !~ NUMBER_FORMAT
-  end
-
   def assign_route(new_route)
     self.route = new_route
     self.current_station_index = 0
@@ -173,6 +167,9 @@ class Train
 end
 
 class PassengerTrain < Train
+  validate :number, :presence
+  validate :number, :format, NUMBER_FORMAT
+
   def initialize(number)
     @type = :passenger
     super(number)
@@ -184,6 +181,9 @@ class PassengerTrain < Train
 end
 
 class CargoTrain < Train
+  validate :number, :presence
+  validate :number, :format, NUMBER_FORMAT
+
   def initialize(number)
     @type = :cargo
     super(number)

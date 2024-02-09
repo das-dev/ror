@@ -73,7 +73,7 @@ class TrainController
 
   def try_to_create_train(number, type)
     Train.make_train(type, number)
-  rescue ArgumentError, ValidationError => e
+  rescue ArgumentError, Validation::ValidationError => e
     raise ControllerError, "Train is not created: #{e.message}"
   end
 

@@ -2,27 +2,21 @@
 
 require_relative "../helpers/instance_counter"
 require_relative "../helpers/validation"
-require_relative "exceptions"
 
 class Station
   include InstanceCounter
   include Validation
   include Enumerable
 
-  NAME_FORMAT = /^([a-zA-Z0-9-]+\s*)+$/
-
   attr_reader :name
+
+  validate :name, :presence
+  validate :name, :format, /^([a-zA-Z0-9-]{3,}\s*)+$/
 
   def initialize(name)
     @name = name
     @trains = []
     validate!
-  end
-
-  def validate!
-    raise ValidationError, "Station name can not be empty" if name.empty?
-    raise ValidationError, "Station name should be at least 3 symbols" if name.length < 3
-    raise ValidationError, "Station has invalid format" if name !~ NAME_FORMAT
   end
 
   def send_train(train)
