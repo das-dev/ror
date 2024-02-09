@@ -10,8 +10,6 @@ class Route
   include Validation
   extend Accessors
 
-  attr_reader :origin_station, :destination_station
-
   strong_attr_accessor :origin_station, Station
   strong_attr_accessor :destination_station, Station
 
