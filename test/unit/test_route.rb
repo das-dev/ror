@@ -55,12 +55,19 @@ class TestRoute < Minitest::Test
     assert_equal [origin, destination], route.stations
   end
 
-  def remove_intermediate_station_without_effect
+  def test_remove_intermediate_station_without_effect
     route.remove_intermediate_station(origin)
     route.remove_intermediate_station(intermediate1)
     route.remove_intermediate_station(intermediate1)
 
     assert_equal [origin, destination], route.stations
+  end
+
+  def test_change_station_on_fly
+    route.origin_station = Station.new("new origin")
+
+    assert_equal "new origin", route.origin_station.name
+    assert_raises(TypeError) { route.origin_station = Struct.new(:name).new("new origin") }
   end
 
   private

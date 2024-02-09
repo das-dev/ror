@@ -1,13 +1,19 @@
 # frozen_string_literal: true
 
+require_relative "../helpers/accessors"
 require_relative "../helpers/instance_counter"
 require_relative "../helpers/validation"
+require_relative "station"
 
 class Route
   include InstanceCounter
   include Validation
+  extend Accessors
 
   attr_reader :origin_station, :destination_station
+
+  strong_attr_accessor :origin_station, Station
+  strong_attr_accessor :destination_station, Station
 
   validate :origin_station, :not_equal, :destination_station
 
