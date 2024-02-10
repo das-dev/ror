@@ -36,7 +36,7 @@ end
 module Validators
   def self.make_validators(name, type, *rest)
     {
-      not_equal: ->(instance) { make_not_equal_validator(instance, name, *rest) },
+      not_equal: ->(instance) { make_comparison_validator(instance, name, :!=, *rest) },
       presence: ->(instance) { make_presence_validator(instance, name, *rest) },
       format: ->(instance) { make_format_validator(instance, name, *rest) },
       type: ->(instance) { make_type_validator(instance, name, *rest) },
@@ -64,8 +64,8 @@ module Validators
     ["Field #{name} must be #{predicate}", condition]
   end
 
-  def self.make_not_equal_validator(instance, name, other_name, *)
-    condition = value(instance, name) == value(instance, other_name)
+  def self.make_comparison_validator(instance, name, operator, other_name, *)
+    condition = !value(instance, name).send(operator, value(instance, other_name))
     ["Fields #{name} and #{other_name} must be different", condition]
   end
 
