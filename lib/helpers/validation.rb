@@ -70,7 +70,7 @@ module Validators
   end
 
   def self.make_not_equal_validator(instance, name, other_name, *)
-    make_comparison_validator(instance, name, :!=, other_name)
+    make_comparison_validator(instance, name, :!=, other_name, *)
   end
 
   def self.value(instance, name)
