@@ -34,14 +34,14 @@ module Validation
 end
 
 module Validators
+  VALIDATORS = %i[comparison not_equal presence format type is].freeze
+
   def self.make_validators(name, type, *rest)
-    {
-      not_equal: ->(instance) { make_comparison_validator(instance, name, :!=, *rest) },
-      presence: ->(instance) { make_presence_validator(instance, name, *rest) },
-      format: ->(instance) { make_format_validator(instance, name, *rest) },
-      type: ->(instance) { make_type_validator(instance, name, *rest) },
-      is: ->(instance) { make_is_validator(instance, name, *rest) }
-    }[type] || ->(_) { ["", false] }
+    VALIDATORS.each_with_object({}) do |validator, hash|
+      hash[validator] = proc do |instance|
+        method("make_#{validator}_validator").call(instance, name, *rest)
+      end
+    end[type] || ->(_) { ["", false] }
   end
 
   def self.make_presence_validator(instance, name, *)
@@ -67,6 +67,10 @@ module Validators
   def self.make_comparison_validator(instance, name, operator, other_name, *)
     condition = !value(instance, name).send(operator, value(instance, other_name))
     ["Fields #{name} and #{other_name} must be different", condition]
+  end
+
+  def self.make_not_equal_validator(instance, name, other_name, *)
+    make_comparison_validator(instance, name, :!=, other_name)
   end
 
   def self.value(instance, name)
