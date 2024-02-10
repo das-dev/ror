@@ -49,33 +49,43 @@ module Validators
 
   def self.make_presence_validator(instance, name, **options)
     verbose_name = options[:verbose_name] || name
-    ["#{verbose_name.to_s.capitalize} cannot be a nil or empty string",
-     value(instance, name).nil? || value(instance, name).empty?]
+    error_message = "#{verbose_name.to_s.capitalize} cannot be a nil or empty string"
+    condition = value(instance, name).nil? || value(instance, name).empty?
+
+    [error_message, condition]
   end
 
   def self.make_format_validator(instance, name, pattern, **options)
     verbose_name = options[:verbose_name] || name
-    ["Invalid #{verbose_name} format",
-     value(instance, name) !~ pattern]
+    error_message = "Invalid #{verbose_name} format"
+    condition = value(instance, name) !~ pattern
+
+    [error_message, condition]
   end
 
   def self.make_type_validator(instance, name, type, **options)
     verbose_name = options[:verbose_name] || name
-    ["#{verbose_name.to_s.capitalize} must be a #{type}",
-     !value(instance, name).is_a?(type)]
+    error_message = "#{verbose_name.to_s.capitalize} must be a #{type}"
+    condition = !value(instance, name).is_a?(type)
+
+    [error_message, condition]
   end
 
   def self.make_is_validator(instance, name, predicate, **options)
     verbose_name = options[:verbose_name] || name
-    ["#{verbose_name.to_s.capitalize} must be #{predicate}",
-     !value(instance, name).send("#{predicate}?")]
+    error_message = "#{verbose_name.to_s.capitalize} must be #{predicate}"
+    condition = !value(instance, name).send("#{predicate}?")
+
+    [error_message, condition]
   end
 
   def self.make_comparison_validator(instance, name, operator, other_name, **options)
     verbose_name = options[:verbose_name] || name
     verbose_other_name = options[:verbose_other_name] || other_name
-    ["#{verbose_name.to_s.capitalize} and #{verbose_other_name} must be different",
-     !value(instance, name).send(operator, value(instance, other_name))]
+    error_message = "#{verbose_name.to_s.capitalize} and #{verbose_other_name} must be different"
+    condition = !value(instance, name).send(operator, value(instance, other_name))
+
+    [error_message, condition]
   end
 
   def self.make_not_equal_validator(instance, name, other_name, **)
