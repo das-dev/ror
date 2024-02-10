@@ -58,7 +58,7 @@ module Validators
 
   def self.make_type_validator(instance, name, type, **options)
     verbose_name = options[:verbose_name] || name
-    ["#{verbose_name.to_s.capitalize} cannot be a nil or empty string",
+    ["#{verbose_name.to_s.capitalize} must be a #{type}",
      !value(instance, name).is_a?(type)]
   end
 
