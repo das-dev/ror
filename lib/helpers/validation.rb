@@ -10,7 +10,7 @@ module Validation
 
   module ClassMethods
     def validate(name, type, *, **)
-      validators << Validators.make_validators(name, type, *, **)
+      validators << Validators.make_validator(name, type, *, **)
     end
 
     def validators
@@ -34,14 +34,15 @@ module Validation
 end
 
 module Validators
-  VALIDATORS = %i[comparison not_equal presence format type is].freeze
+  STUB = ->(_) { ["", false] }
+  VALIDATORS_NAMES = %i[comparison not_equal presence format type is].freeze
 
-  def self.make_validators(name, type, *args, **options)
-    VALIDATORS.each_with_object({}) do |validator, hash|
-      hash[validator] = proc do |instance|
-        method("make_#{validator}_validator").call(instance, name, *args, **options)
-      end
-    end[type] || ->(_) { ["", false] }
+  def self.make_validator(name, type, *args, **options)
+    return STUB unless VALIDATORS_NAMES.include?(type)
+
+    lambda do |instance|
+      method("make_#{type}_validator").call(instance, name, *args, **options)
+    end
   end
 
   def self.make_presence_validator(instance, name, **options)
