@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
 module Validation
-  class ValidationError < RuntimeError
-  end
+  class ValidationError < RuntimeError; end
 
   def self.included(base)
     base.extend ClassMethods
+    base.send :include, InstanceMethods
   end
 
   module ClassMethods
@@ -18,18 +18,20 @@ module Validation
     end
   end
 
-  def validate!
-    self.class.validators.each do |validator|
-      error_message, condition = validator.call(self)
-      raise ValidationError, error_message if condition
+  module InstanceMethods
+    def validate!
+      self.class.validators.each do |validator|
+        error_message, condition = validator.call(self)
+        raise ValidationError, error_message if condition
+      end
     end
-  end
 
-  def valid?
-    validate!
-    true
-  rescue ValidationError
-    false
+    def valid?
+      validate!
+      true
+    rescue ValidationError
+      false
+    end
   end
 end
 
