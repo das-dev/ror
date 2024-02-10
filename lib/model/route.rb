@@ -13,7 +13,8 @@ class Route
   strong_attr_accessor :origin_station, Station
   strong_attr_accessor :destination_station, Station
 
-  validate :origin_station, :not_equal, :destination_station
+  validate :origin_station, :not_equal, :destination_station,
+           verbose_name: "origin station", verbose_other_name: "destination station"
 
   def initialize(origin_station, destination_station)
     @origin_station = origin_station

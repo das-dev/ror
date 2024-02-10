@@ -58,7 +58,7 @@ class PassengerCarriage < Carriage
 
   validate :number, :presence
   validate :number, :format, NUMBER_FORMAT
-  validate :seats, :is, :positive
+  validate :seats, :is, :positive, verbose_name: "total seats number"
 
   def initialize(number:, seats: 0)
     super(number)
@@ -97,7 +97,7 @@ class CargoCarriage < Carriage
 
   validate :number, :presence
   validate :number, :format, NUMBER_FORMAT
-  validate :volume, :is, :positive
+  validate :volume, :is, :positive, verbose_name: "total volume value"
 
   def initialize(number:, volume: 0)
     super(number)
